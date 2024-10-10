@@ -1,5 +1,7 @@
+.env
+.osp
+.idea
+app/Config/Database.php
 files/
 writable/
 updates/
-app/Config/Database.php
-.env
