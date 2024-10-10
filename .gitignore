@@ -2,3 +2,4 @@ files/
 writable/
 updates/
 app/Config/Database.php
+.env
