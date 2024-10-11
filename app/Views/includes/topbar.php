@@ -39,6 +39,12 @@
                     show_clients_of_this_client_contact($login_user);
                 }
                 ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">
+                        DEV Branch
+                    </a>
+                </li>
             </ul>
 
             <div class="d-flex w-auto">
@@ -104,7 +110,7 @@
                         <div class="dropdown-menu dropdown-menu-end notification-dropdown w400">
                             <div class="dropdown-details card bg-white m0">
                                 <div class="list-group">
-                                    <span class="list-group-item inline-loader p10"></span>                          
+                                    <span class="list-group-item inline-loader p10"></span>
                                 </div>
                             </div>
                             <div class="card-footer text-center mt-2">
@@ -119,7 +125,7 @@
                             <div class="dropdown-menu dropdown-menu-end w300">
                                 <div class="dropdown-details card bg-white m0">
                                     <div class="list-group">
-                                        <span class="list-group-item inline-loader p10"></span>                          
+                                        <span class="list-group-item inline-loader p10"></span>
                                     </div>
                                 </div>
                                 <div class="card-footer text-center">
@@ -150,7 +156,7 @@
 
                             <?php if (get_setting("show_theme_color_changer") === "yes") { ?>
 
-                                <li class="dropdown-divider"></li>    
+                                <li class="dropdown-divider"></li>
                                 <li class="pl10 ms-2 mt10 theme-changer">
                                     <?php echo get_custom_theme_color_list(); ?>
                                 </li>
@@ -214,7 +220,7 @@
         notificationOptions.notificationType = "web";
         notificationOptions.pushNotification = "<?php echo get_setting("enable_push_notification") && $login_user->enable_web_notification && !get_setting('user_' . $login_user->id . '_disable_push_notification') ? true : false ?>";
 
-        checkNotifications(notificationOptions); //start checking notification after starting the message checking 
+        checkNotifications(notificationOptions); //start checking notification after starting the message checking
 
         if (isMobile()) {
             //for mobile devices, load the notifications list with the page load
