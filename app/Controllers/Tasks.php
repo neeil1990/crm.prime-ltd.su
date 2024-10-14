@@ -74,7 +74,7 @@ class Tasks extends Security_Controller {
     }
 
     private function _client_can_create_tasks($context, $project_id) {
-        //check settings for client's project permission. Client can cteate task only in own projects. 
+        //check settings for client's project permission. Client can cteate task only in own projects.
         if ($context == "project" && get_setting("client_can_create_tasks")) {
             if ($project_id) {
                 //check if it's client's project
@@ -92,7 +92,7 @@ class Tasks extends Security_Controller {
 
         $memory_index = $context_id ? $context_id : "any_clients";
 
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $can_edit = get_array_value($this->can_edit_client_memory, $memory_index);
         if (is_null($can_edit)) {
             $can_edit = $this->can_edit_clients($context_id);
@@ -107,7 +107,7 @@ class Tasks extends Security_Controller {
 
         $memory_index = $context_id ? $context_id : "any_leads";
 
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $can_edit = get_array_value($this->can_access_lead_memory, $memory_index);
         if (is_null($can_edit)) {
             $can_edit = $this->can_access_this_lead($context_id);
@@ -122,7 +122,7 @@ class Tasks extends Security_Controller {
 
         $memory_index = $context_id ? $context_id : "any_estimates";
 
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $can_edit = get_array_value($this->can_access_estimate_memory, $memory_index);
         if (is_null($can_edit)) {
             $can_edit = $this->can_access_this_estimate($context_id);
@@ -137,7 +137,7 @@ class Tasks extends Security_Controller {
 
         $memory_index = $context_id ? $context_id : "any_subscriptions";
 
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $can_edit = get_array_value($this->can_edit_subscription_memory, $memory_index);
         if (is_null($can_edit)) {
             $can_edit = $this->can_edit_subscriptions($context_id);
@@ -153,7 +153,7 @@ class Tasks extends Security_Controller {
         if ($this->login_user->user_type === "staff") {
             $memory_index = $context_id ? $context_id : "any_tickets";
 
-            //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+            //this method will be used a lot in loop. To reduce db call, save the value in memory.
             $can_edit = get_array_value($this->can_edit_ticket_memory, $memory_index);
             if (is_null($can_edit)) {
                 $can_edit = $this->can_access_tickets($context_id);
@@ -179,7 +179,7 @@ class Tasks extends Security_Controller {
         }
 
         if (!$_context && count($this->_get_accessible_contexts("create"))) {
-            return true; //calling to show modal or button. Allow it if has access in any context. 
+            return true; //calling to show modal or button. Allow it if has access in any context.
         }
 
         $permissions = $this->login_user->permissions;
@@ -187,11 +187,11 @@ class Tasks extends Security_Controller {
         if ($context == "project" && $this->has_all_projects_restricted_role()) {
             return false;
         } else if ($context == "project" && $this->can_manage_all_projects()) {
-            return true; // user has permission to create task in all projects 
+            return true; // user has permission to create task in all projects
         } else if ($context == "project" && $this->_user_has_project_task_creation_permission() && $context_id && $this->_is_user_a_project_member($context_id)) {
             return true; // in a project, user must be a project member with task creation permission to create tasks
         } else if ($context == "project" && $this->_user_has_project_task_creation_permission() && !$context_id) {
-            return true; // don't have any project id yet. helpful when calling it from global task creation modal. 
+            return true; // don't have any project id yet. helpful when calling it from global task creation modal.
         } else if ($context == "client" && $this->_can_edit_clients($context_id)) {
             return true;  //we're using client edit permission for creating clients or client tasks . this function will check both for a specific client or without any client
         } else if ($context == "lead" && $this->_can_access_this_lead($context_id)) {
@@ -216,7 +216,7 @@ class Tasks extends Security_Controller {
     }
 
     private function _is_clients_project($project_id) {
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $is_client_project = get_array_value($this->project_client_memory, $project_id);
         if (is_null($is_client_project)) {
             $project_info = $this->Projects_model->get_one($project_id);
@@ -230,7 +230,7 @@ class Tasks extends Security_Controller {
 
     private function _is_user_a_project_member($project_id) {
 
-        //this method will be used a lot in loop. To reduce db call, save the value in memory. 
+        //this method will be used a lot in loop. To reduce db call, save the value in memory.
         $is_member = get_array_value($this->project_member_memory, $project_id);
         if (is_null($is_member)) {
             $is_member = $this->Project_members_model->is_user_a_project_member($project_id, $this->login_user->id);
@@ -253,7 +253,7 @@ class Tasks extends Security_Controller {
         }
 
         if ($project_id && $this->can_manage_all_projects()) {
-            return true; // user has permission to edit task in all projects 
+            return true; // user has permission to edit task in all projects
         } else if ($project_id && $this->_user_has_project_task_edit_permission() && $this->_is_user_a_project_member($project_id)) {
             return true; // in a project, user must be a project member with task creation permission to create tasks
         }
@@ -274,7 +274,7 @@ class Tasks extends Security_Controller {
         }
 
         if ($project_id && $this->can_manage_all_projects()) {
-            return true; // user has permission to edit task in all projects 
+            return true; // user has permission to edit task in all projects
         } else if ($project_id && $this->_user_has_project_task_comment_permission() && $this->_is_user_a_project_member($project_id)) {
             return true; // in a project, user must be a project member with task creation permission to create tasks
         } else if (!$project_id) {
@@ -295,7 +295,7 @@ class Tasks extends Security_Controller {
         if ($task_info->project_id && $this->_can_edit_project_tasks($task_info->project_id)) {
             return true;
         } else if ($task_info->client_id && $this->_can_edit_clients($task_info->client_id)) {
-            //we're using client edit permission for editing clients or client tasks 
+            //we're using client edit permission for editing clients or client tasks
             //this function will check both for a specific client or without any client
             return true;
         } else if ($task_info->lead_id && $this->_can_access_this_lead($task_info->lead_id)) {
@@ -338,8 +338,13 @@ class Tasks extends Security_Controller {
             $context_id = $context_data["id"];
         }
 
+        $collaborators_array = explode(',', $task_info->collaborators);
+        if (!in_array($this->login_user->id, $collaborators_array)) {
+            return false;
+        }
+
         if ($this->login_user->user_type != "staff") {
-            //check settings for client's project permission. Client can view task only in own projects. 
+            //check settings for client's project permission. Client can view task only in own projects.
             if ($context == "project" && get_setting("client_can_view_tasks") && $this->_is_clients_project($context_id) && $this->can_client_access("project", false)) {
                 return true;
             }
@@ -353,7 +358,7 @@ class Tasks extends Security_Controller {
         if ($context == "project" && $this->has_all_projects_restricted_role()) {
             return false;
         } else if ($context == "project" && $this->can_manage_all_projects()) {
-            return true; // user has permission to view task in all projects 
+            return true; // user has permission to view task in all projects
         } else if ($context == "project" && $context_id && !get_array_value($this->login_user->permissions, "show_assigned_tasks_only") && $this->_is_user_a_project_member($context_id)) {
             return true; // in a project, all team members who has access to project can view tasks who doesn't have any other restriction
         } else if ($context == "project" && $task_info && get_array_value($this->login_user->permissions, "show_assigned_tasks_only") == "1") {
@@ -363,15 +368,15 @@ class Tasks extends Security_Controller {
                 return true;
             }
         } else if ($context == "project" && !$context_id && !$task_info && get_array_value($this->login_user->permissions, "show_assigned_tasks_only") == "1") {
-            //task is specified and user has permission to view only assigned tasks. 
+            //task is specified and user has permission to view only assigned tasks.
             //in global tasks list view, we have to allow this but check the specific tasks in query
             return true;
         } else if ($context == "project" && !$task_info && get_array_value($this->login_user->permissions, "show_assigned_tasks_only") == "1") {
-            //task is specified and user has permission to view only assigned tasks. 
+            //task is specified and user has permission to view only assigned tasks.
             //in tasks list view, we have to allow this but check the specific tasks in query
             return $this->_is_user_a_project_member($context_id);
         } else if ($context == "project" && !$task_info && !$context_id && !get_array_value($this->login_user->permissions, "do_not_show_projects") == "1") {
-            //user can see project tasks on golbal tasks list. 
+            //user can see project tasks on golbal tasks list.
             return true;
         } else if ($context == "client" && $this->can_view_clients($context_id)) {
             return true;
@@ -409,7 +414,7 @@ class Tasks extends Security_Controller {
         }
 
         if ($project_id && $this->can_manage_all_projects()) {
-            return true; // user has permission to edit task in all projects 
+            return true; // user has permission to edit task in all projects
         } else if ($project_id && $this->_user_has_project_task_delete_permission() && $this->_is_user_a_project_member($project_id)) {
             return true; // in a project, user must be a project member with task creation permission to create tasks
         }
@@ -428,7 +433,7 @@ class Tasks extends Security_Controller {
         if ($task_info->project_id && $this->_can_delete_project_tasks($task_info->project_id)) {
             return true;
         } else if ($task_info->client_id && $this->_can_edit_clients($task_info->client_id)) {
-            //we're using client edit permission for editing clients or client tasks 
+            //we're using client edit permission for editing clients or client tasks
             //this function will check both for a specific client or without any client
             return true;
         } else if ($task_info->lead_id && $this->_can_access_this_lead($task_info->lead_id)) {
@@ -575,7 +580,7 @@ class Tasks extends Security_Controller {
             if ($value) {
                 $selected_context = get_array_value($obj, "context");
                 $selected_context_id = $value;
-                $view_data["show_contexts_dropdown"] = false; //don't show context dropdown if any context is selected. 
+                $view_data["show_contexts_dropdown"] = false; //don't show context dropdown if any context is selected.
             }
         }
 
@@ -586,7 +591,7 @@ class Tasks extends Security_Controller {
         }
 
         if ($model_info->context) {
-            $selected_context = $model_info->context; //has highest priority 
+            $selected_context = $model_info->context; //has highest priority
             $context_id_key = $model_info->context . "_id";
             $selected_context_id = $model_info->{$context_id_key};
         }
@@ -600,7 +605,7 @@ class Tasks extends Security_Controller {
                 app_redirect("forbidden");
             }
             $contexts = array($model_info->context); //context can't be edited dureing edit. So, pass only the saved context
-            $view_data["show_contexts_dropdown"] = false; //don't show context when editing 
+            $view_data["show_contexts_dropdown"] = false; //don't show context when editing
         } else {
             //Going to create new task. Check if the user has access in any context
             if (!$this->can_create_tasks()) {
@@ -700,7 +705,7 @@ class Tasks extends Security_Controller {
             $statuses_dropdown[] = array("id" => $status->id, "text" => $status->key_name ? app_lang($status->key_name) : $status->title);
         }
 
-        //task points dropdown 
+        //task points dropdown
         $task_points = array();
         $task_point_range = get_setting("task_point_range");
         $task_point_start = 1;
@@ -717,7 +722,7 @@ class Tasks extends Security_Controller {
         }
 
 
-        //properties dropdown 
+        //properties dropdown
         $priorities = $this->Task_priority_model->get_details()->getResult();
         $priorities_dropdown = array(array("id" => "", "text" => "-"));
         foreach ($priorities as $priority) {
@@ -1137,7 +1142,7 @@ class Tasks extends Security_Controller {
                 }
             }
 
-            //save next recurring date 
+            //save next recurring date
             if ($next_recurring_date) {
                 $recurring_task_data = array(
                     "next_recurring_date" => $next_recurring_date
@@ -1712,7 +1717,7 @@ class Tasks extends Security_Controller {
 
         $view_data['project_id'] = $model_info->project_id;
 
-        $view_data['can_create_tasks'] = $this->can_create_tasks($model_info->context); //for sub task cration. context should be same. 
+        $view_data['can_create_tasks'] = $this->can_create_tasks($model_info->context); //for sub task cration. context should be same.
 
         $view_data['parent_task_title'] = $this->Tasks_model->get_one($model_info->parent_task_id)->title;
 
@@ -1805,7 +1810,7 @@ class Tasks extends Security_Controller {
         }
 
         //the dependency task could be resided in both place
-        //so, we've to search on both        
+        //so, we've to search on both
         $dependency_tasks_of_own = $task_info->$type;
         if ($type == "blocked_by") {
             $dependency_tasks_of_others = $this->Tasks_model->get_one($dependency_task_id)->blocking;
@@ -2867,7 +2872,7 @@ class Tasks extends Security_Controller {
         $options = array_merge($options, $this->_prepare_query_parameters_for_accessible_contexts($contexts));
 
         if (count($contexts) == 0) {
-            //don't show anything 
+            //don't show anything
             $options["context"] = "noting";
         }
 
@@ -2875,7 +2880,7 @@ class Tasks extends Security_Controller {
         $column_id = $this->request->getPost('kanban_column_id');
 
         if ($column_id) {
-            //load only signle column data. load more.. 
+            //load only signle column data. load more..
             $options["get_after_max_sort"] = $max_sort;
             $options["status_id"] = $column_id;
             $options["limit"] = 100;
@@ -2941,7 +2946,7 @@ class Tasks extends Security_Controller {
         $permissions = array();
         foreach ($tasks as $task_info) {
             if (get_array_value($tasks_edit_permissions, $task_info->id)) {
-                $permissions[$task_info->id] = true; //to reduce load, check already checking data. If user has permission to edit, he/she can update the status also. 
+                $permissions[$task_info->id] = true; //to reduce load, check already checking data. If user has permission to edit, he/she can update the status also.
             } else {
                 $permissions[$task_info->id] = $this->_can_edit_task_status($task_info);
             }
@@ -2982,7 +2987,7 @@ class Tasks extends Security_Controller {
         $column_id = $this->request->getPost('kanban_column_id');
 
         if ($column_id) {
-            //load only signle column data. load more.. 
+            //load only signle column data. load more..
             $options["get_after_max_sort"] = $max_sort;
             $options["status_id"] = $column_id;
             $options["limit"] = 100;
@@ -3402,7 +3407,7 @@ class Tasks extends Security_Controller {
         $options = array_merge($options, $this->_prepare_query_parameters_for_accessible_contexts($contexts));
 
         if (count($contexts) == 0) {
-            //don't show anything 
+            //don't show anything
             $options["context"] = "noting";
         }
 
@@ -3585,7 +3590,7 @@ class Tasks extends Security_Controller {
                     "arrow_class" => "parent-group-arrow $task_type_class"
                 );
 
-                //add group seperately 
+                //add group seperately
                 $group_array[] = $gantt_array_data;
                 $group_key_array[$group_id] = array("start_date" => $start_date, "end_date" => $end_date);
             }
