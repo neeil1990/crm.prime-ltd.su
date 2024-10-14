@@ -338,7 +338,7 @@ class Tasks extends Security_Controller {
             $context_id = $context_data["id"];
 
             $collaborators_array = explode(',', $task_info->collaborators);
-            if (!in_array($this->login_user->id, $collaborators_array)) {
+            if (!in_array($this->login_user->id, $collaborators_array) && $task_info->assigned_to != $this->login_user->id) {
                 return false;
             }
         }
