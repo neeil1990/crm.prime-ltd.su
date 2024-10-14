@@ -336,11 +336,11 @@ class Tasks extends Security_Controller {
             $context_data = $this->get_context_and_id($task_info);
             $context = $context_data["context"];
             $context_id = $context_data["id"];
-        }
 
-        $collaborators_array = explode(',', $task_info->collaborators);
-        if (!in_array($this->login_user->id, $collaborators_array)) {
-            return false;
+            $collaborators_array = explode(',', $task_info->collaborators);
+            if (!in_array($this->login_user->id, $collaborators_array)) {
+                return false;
+            }
         }
 
         if ($this->login_user->user_type != "staff") {
