@@ -7,7 +7,7 @@
             source: '<?php echo_uri("tasks/all_tasks_kanban_data") ?>',
             targetSelector: '#load-kanban',
             reloadSelector: "#reload-kanban-button",
-            smartFilterIdentity: "all_tasks_kanban", //a to z and _ only. should be unique to avoid conflicts 
+            smartFilterIdentity: "all_tasks_kanban", //a to z and _ only. should be unique to avoid conflicts
             search: {name: "search"},
             filterDropdown: [
                 {name: "quick_filter", class: "w200", showHtml: true, options: <?php echo view("tasks/quick_filters_dropdown"); ?>},
@@ -36,9 +36,10 @@
                         }
                     }
                 },
-                {name: "project_id", class: "w200", options: <?php echo $projects_dropdown; ?>, dependent: ["milestone_id"]}, //reset milestone on changing of project  
+                {name: "project_id", class: "w200", options: <?php echo $projects_dropdown; ?>, dependent: ["milestone_id"]}, //reset milestone on changing of project
                 {name: "milestone_id", class: "w200", options: [{id: "", text: "- <?php echo app_lang('milestone'); ?> -"}], dependency: ["project_id"], dataSource: '<?php echo_uri("tasks/get_milestones_for_filter") ?>'}, //milestone is dependent on project
-                {name: "specific_user_id", class: "w200", options: <?php echo $team_members_dropdown; ?>},
+                {name: "responsible_user_id", class: "w200", options: <?php echo $team_responsible_dropdown; ?>},
+                {name: "member_user_id", class: "w200", options: <?php echo $team_members_dropdown; ?>},
                 {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
                 {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>}
                 , <?php echo $custom_field_filters; ?>

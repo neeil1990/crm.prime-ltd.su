@@ -102,7 +102,7 @@ class Security_Controller extends App_Controller {
         return $info;
     }
 
-    //only allowed to access for team members 
+    //only allowed to access for team members
     protected function access_only_team_members() {
         if ($this->login_user->user_type !== "staff") {
             app_redirect("forbidden");
@@ -116,7 +116,7 @@ class Security_Controller extends App_Controller {
         }
     }
 
-    //only allowed to access for admin users or has admin privileges 
+    //only allowed to access for admin users or has admin privileges
     protected function access_only_admin_or_settings_admin() {
         if (!($this->login_user->is_admin || get_array_value($this->login_user->permissions, "can_manage_all_kinds_of_settings"))) {
             app_redirect("forbidden");
@@ -140,7 +140,7 @@ class Security_Controller extends App_Controller {
         }
     }
 
-    //access only allowed team members or client contacts 
+    //access only allowed team members or client contacts
     protected function access_only_allowed_members_or_client_contact($client_id) {
 
         if ($this->access_type === "all") {
@@ -150,7 +150,7 @@ class Security_Controller extends App_Controller {
         } else if ($this->module_group === "client" && ($this->access_type === "own" || $this->access_type === "read_only" || $this->access_type === "specific")) {
             return true; //can access if it's clients module and user has a pertial access
         } else if ($this->login_user->client_id === $client_id) {
-            return true; //can access if client id match 
+            return true; //can access if client id match
         } else if ($this->module_group === "estimate" && $this->access_type === "own") {
             return true; //can access if it's estimates module and user has a pertial access
         } else {
@@ -158,7 +158,7 @@ class Security_Controller extends App_Controller {
         }
     }
 
-    //allowed team members and clint himself can access  
+    //allowed team members and clint himself can access
     protected function access_only_allowed_members_or_contact_personally($user_id) {
         if (!($this->access_type === "all" || $this->access_type === "own" || $this->access_type === "read_only" || $user_id === $this->login_user->id)) {
             app_redirect("forbidden");
@@ -445,7 +445,7 @@ class Security_Controller extends App_Controller {
         if ($label_ids) {
             $add_label_option = true;
 
-            //check if any string is exists, 
+            //check if any string is exists,
             //if so, not include this parameter
             $explode_ids = explode(',', $label_ids);
             foreach ($explode_ids as $label_id) {
@@ -1091,13 +1091,18 @@ class Security_Controller extends App_Controller {
         }
     }
 
+    protected function is_not_admin()
+    {
+        return empty($this->login_user->is_admin);
+    }
+
     public function can_client_access($menu_item, $check_module = true) {
 
         if ($this->login_user->user_type === "staff" && ($this->login_user->is_admin || get_array_value($this->login_user->permissions, "can_manage_all_kinds_of_settings"))) {
-            $this->login_user->client_permissions = "all"; 
+            $this->login_user->client_permissions = "all";
             //set this permission only for admin and setting admin to manage the client settings (ex. left menu)
         }
-        
+
         return can_client_access($this->login_user->client_permissions, $menu_item, $check_module);
     }
 

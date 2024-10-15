@@ -236,6 +236,16 @@ class Tasks_model extends Crud_model {
             $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
         }
 
+        $member_user_id = $this->_get_clean_value($options, "member_user_id");
+        if ($member_user_id) {
+            $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+        }
+
+        $responsible_user_id = $this->_get_clean_value($options, "responsible_user_id");
+        if ($responsible_user_id) {
+            $where .= " AND ($tasks_table.assigned_to=$responsible_user_id)";
+        }
+
         $show_assigned_tasks_only_user_id = $this->_get_clean_value($options, "show_assigned_tasks_only_user_id");
         if ($show_assigned_tasks_only_user_id) {
             $where .= " AND ($tasks_table.assigned_to=$show_assigned_tasks_only_user_id OR FIND_IN_SET('$show_assigned_tasks_only_user_id', $tasks_table.collaborators))";
@@ -640,6 +650,16 @@ class Tasks_model extends Crud_model {
             $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
         }
 
+        $member_user_id = $this->_get_clean_value($options, "member_user_id");
+        if ($member_user_id) {
+            $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+        }
+
+        $responsible_user_id = $this->_get_clean_value($options, "responsible_user_id");
+        if ($responsible_user_id) {
+            $where .= " AND ($tasks_table.assigned_to=$responsible_user_id)";
+        }
+
         $show_assigned_tasks_only_user_id = $this->_get_clean_value($options, "show_assigned_tasks_only_user_id");
         if ($show_assigned_tasks_only_user_id) {
             $where .= " AND ($tasks_table.assigned_to=$show_assigned_tasks_only_user_id OR FIND_IN_SET('$show_assigned_tasks_only_user_id', $tasks_table.collaborators))";
@@ -823,7 +843,7 @@ class Tasks_model extends Crud_model {
         try {
             $this->db->query("SET sql_mode = ''");
         } catch (\Exception $e) {
-            
+
         }
         $where = "";
 
@@ -996,7 +1016,7 @@ class Tasks_model extends Crud_model {
         $project_comments_table = $this->db->prefixTable("project_comments");
         $checklist_items_table = $this->db->prefixTable("checklist_items");
 
-        //get task comment files info to delete the files from directory 
+        //get task comment files info to delete the files from directory
         $task_comment_files_sql = "SELECT * FROM $project_comments_table WHERE $project_comments_table.deleted=0 AND $project_comments_table.task_id=$task_id; ";
         $task_comments = $this->db->query($task_comment_files_sql)->getResult();
 
@@ -1008,7 +1028,7 @@ class Tasks_model extends Crud_model {
         $delete_task_sql = "UPDATE $tasks_table SET $tasks_table.deleted=1 WHERE $tasks_table.id=$task_id; ";
         $this->db->query($delete_task_sql);
 
-        //delete checklists 
+        //delete checklists
         $delete_checklists_sql = "UPDATE $checklist_items_table SET $checklist_items_table.deleted=1 WHERE $checklist_items_table.task_id=$task_id; ";
         $this->db->query($delete_checklists_sql);
 

@@ -46,7 +46,13 @@ class Search extends Security_Controller {
             $result = array();
 
             if ($search_field == "task") { //task
-                $options["show_assigned_tasks_only_user_id"] = $this->login_user->id;
+
+                $options["show_assigned_tasks_only_user_id"] = $this->show_assigned_tasks_only_user_id();
+
+                if ($this->is_not_admin()) {
+                    $options["show_assigned_tasks_only_user_id"] = $this->login_user->id;
+                }
+
                 $result = $this->Tasks_model->get_search_suggestion($search, $options)->getResult();
             } else if ($search_field == "project") { //project
                 if (!$this->can_manage_all_projects()) {

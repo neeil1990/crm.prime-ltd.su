@@ -2,4 +2,6 @@
 
 $lang["example"] = "Example";
 
+$lang["team_responsible"] = "Ответственный";
+
 return $lang;

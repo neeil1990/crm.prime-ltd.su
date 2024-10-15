@@ -337,9 +337,11 @@ class Tasks extends Security_Controller {
             $context = $context_data["context"];
             $context_id = $context_data["id"];
 
-            $collaborators_array = explode(',', $task_info->collaborators);
-            if (!in_array($this->login_user->id, $collaborators_array) && $task_info->assigned_to != $this->login_user->id) {
-                return false;
+            if ($this->is_not_admin()) {
+                $collaborators_array = explode(',', $task_info->collaborators);
+                if (!in_array($this->login_user->id, $collaborators_array) && $task_info->assigned_to != $this->login_user->id) {
+                    return false;
+                }
             }
         }
 
@@ -2745,18 +2747,12 @@ class Tasks extends Security_Controller {
         }
 
         $team_members_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_member") . " -"));
+        $team_responsible_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_responsible") . " -"));
         $assigned_to_list = $this->Users_model->get_dropdown_list(array("first_name", "last_name"), "id", array("deleted" => 0, "user_type" => "staff"));
-        foreach ($assigned_to_list as $key => $value) {
 
-            if (($status_id || $priority_id || $deadline) && $type != "my_tasks_overview") {
-                $team_members_dropdown[] = array("id" => $key, "text" => $value);
-            } else {
-                if ($key == $this->login_user->id) {
-                    $team_members_dropdown[] = array("id" => $key, "text" => $value, "isSelected" => true);
-                } else {
-                    $team_members_dropdown[] = array("id" => $key, "text" => $value);
-                }
-            }
+        foreach ($assigned_to_list as $key => $value) {
+            $team_members_dropdown[] = array("id" => $key, "text" => $value);
+            $team_responsible_dropdown[] = array("id" => $key, "text" => $value);
         }
 
         $view_data['tab'] = $tab;
@@ -2765,6 +2761,7 @@ class Tasks extends Security_Controller {
         $view_data['selected_deadline'] = $deadline;
 
         $view_data['team_members_dropdown'] = json_encode($team_members_dropdown);
+        $view_data['team_responsible_dropdown'] = json_encode($team_responsible_dropdown);
         $view_data["custom_field_headers"] = $this->Custom_fields_model->get_custom_field_headers_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
         $view_data["custom_field_filters"] = $this->Custom_fields_model->get_custom_field_filters("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
@@ -2804,17 +2801,16 @@ class Tasks extends Security_Controller {
         }
 
         $team_members_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_member") . " -"));
+        $team_responsible_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_responsible") . " -"));
         $assigned_to_list = $this->Users_model->get_dropdown_list(array("first_name", "last_name"), "id", array("deleted" => 0, "user_type" => "staff"));
-        foreach ($assigned_to_list as $key => $value) {
 
-            if ($key == $this->login_user->id) {
-                $team_members_dropdown[] = array("id" => $key, "text" => $value, "isSelected" => true);
-            } else {
-                $team_members_dropdown[] = array("id" => $key, "text" => $value);
-            }
+        foreach ($assigned_to_list as $key => $value) {
+            $team_members_dropdown[] = array("id" => $key, "text" => $value);
+            $team_responsible_dropdown[] = array("id" => $key, "text" => $value);
         }
 
         $view_data['team_members_dropdown'] = json_encode($team_members_dropdown);
+        $view_data['team_responsible_dropdown'] = json_encode($team_responsible_dropdown);
         $view_data['priorities_dropdown'] = $this->_get_priorities_dropdown_list();
 
         $view_data['projects_dropdown'] = json_encode($projects_dropdown);
@@ -2848,10 +2844,13 @@ class Tasks extends Security_Controller {
 
         $project_id = $this->request->getPost('project_id');
 
-        $specific_user_id = $this->request->getPost('specific_user_id');
+        $responsible_user_id = $this->request->getPost('responsible_user_id');
+
+        $member_user_id = $this->request->getPost('member_user_id');
 
         $options = array(
-            "specific_user_id" => $specific_user_id,
+            "responsible_user_id" => $responsible_user_id,
+            "member_user_id" => $member_user_id,
             "project_id" => $project_id,
             "milestone_id" => $this->request->getPost('milestone_id'),
             "priority_id" => $this->request->getPost('priority_id'),
@@ -2878,6 +2877,10 @@ class Tasks extends Security_Controller {
 
         $max_sort = $this->request->getPost('max_sort');
         $column_id = $this->request->getPost('kanban_column_id');
+
+        if ($this->is_not_admin()) {
+            $options["specific_user_id"] = $this->login_user->id;
+        }
 
         if ($column_id) {
             //load only signle column data. load more..
@@ -3374,7 +3377,9 @@ class Tasks extends Security_Controller {
 
         $project_id = $this->request->getPost('project_id');
 
-        $specific_user_id = $this->request->getPost('specific_user_id');
+        $responsible_user_id = $this->request->getPost('responsible_user_id');
+
+        $member_user_id = $this->request->getPost('member_user_id');
 
         $custom_fields = $this->Custom_fields_model->get_available_fields_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
@@ -3388,7 +3393,8 @@ class Tasks extends Security_Controller {
         $context = $this->request->getPost('context');
 
         $options = array(
-            "specific_user_id" => $specific_user_id,
+            "responsible_user_id" => $responsible_user_id,
+            "member_user_id" => $member_user_id,
             "project_id" => $project_id,
             "context" => $context,
             "milestone_id" => $this->request->getPost('milestone_id'),
@@ -3417,6 +3423,10 @@ class Tasks extends Security_Controller {
                 $options["exclude_status_id"] = $todo_status_id->id;
                 $options["specific_user_id"] = $this->login_user->id;
             }
+        }
+
+        if ($this->is_not_admin()) {
+            $options["specific_user_id"] = $this->login_user->id;
         }
 
         $all_options = append_server_side_filtering_commmon_params($options);

@@ -27,7 +27,7 @@
 
     <div class="card">
         <div class="table-responsive" id="task-table-container">
-            <table id="task-table" class="display" cellspacing="0" width="100%">            
+            <table id="task-table" class="display" cellspacing="0" width="100%">
             </table>
         </div>
     </div>
@@ -95,7 +95,7 @@ if (isset($selected_priority_id) && $selected_priority_id) {
             source: '<?php echo_uri("tasks/all_tasks_list_data") ?>',
             serverSide: true,
             order: [[1, "desc"]],
-            smartFilterIdentity: "all_tasks_list", //a to z and _ only. should be unique to avoid conflicts 
+            smartFilterIdentity: "all_tasks_list", //a to z and _ only. should be unique to avoid conflicts
             ignoreSavedFilter: ignoreSavedFilter,
             responsive: false, //hide responsive (+) icon
             filterDropdown: [
@@ -128,7 +128,8 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                 },
                 {name: "project_id", class: "w200", options: <?php echo $projects_dropdown; ?>, dependent: ["milestone_id"]}, //reset milestone on changing of project
                 {name: "milestone_id", class: "w200", options: [{id: "", text: "- <?php echo app_lang('milestone'); ?> -"}], dependency: ["project_id"], dataSource: '<?php echo_uri("tasks/get_milestones_for_filter") ?>'}, //milestone is dependent on project
-                {name: "specific_user_id", class: "w200", options: <?php echo $team_members_dropdown; ?>},
+                {name: "responsible_user_id", class: "w200", options: <?php echo $team_responsible_dropdown; ?>},
+                {name: "member_user_id", class: "w200", options: <?php echo $team_members_dropdown; ?>},
                 {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
                 {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>}
 
@@ -168,7 +169,7 @@ if (isset($selected_priority_id) && $selected_priority_id) {
             ],
             printColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 8, 9, 10, 12], '<?php echo $custom_field_headers; ?>'),
             xlsColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 8, 9, 10, 12], '<?php echo $custom_field_headers; ?>'),
-            rowCallback: tasksTableRowCallback, //load this function from the task_table_common_script.php 
+            rowCallback: tasksTableRowCallback, //load this function from the task_table_common_script.php
             onRelaodCallback: function () {
                 hideBatchTasksBtn(true);
             },
@@ -184,7 +185,7 @@ if (isset($selected_priority_id) && $selected_priority_id) {
         });
 
 
-        //open task details modal automatically 
+        //open task details modal automatically
 
         if ($("#preview_task_link").length) {
             $("#preview_task_link").trigger("click");
