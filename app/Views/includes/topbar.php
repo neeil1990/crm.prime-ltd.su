@@ -39,12 +39,6 @@
                     show_clients_of_this_client_contact($login_user);
                 }
                 ?>
-
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">
-                        DEV Branch
-                    </a>
-                </li>
             </ul>
 
             <div class="d-flex w-auto">
