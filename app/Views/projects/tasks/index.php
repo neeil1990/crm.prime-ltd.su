@@ -17,9 +17,9 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table id="task-table" class="display" width="100%">            
+        <table id="task-table" class="display" width="100%">
         </table>
-    </div>    
+    </div>
 </div>
 
 <?php
@@ -122,7 +122,7 @@ foreach ($task_statuses as $status) {
                 ],
                 printColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 12], '<?php echo $custom_field_headers; ?>'),
                 xlsColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 12], '<?php echo $custom_field_headers; ?>'),
-                rowCallback: tasksTableRowCallback //load this function from the task_table_common_script.php 
+                rowCallback: tasksTableRowCallback //load this function from the task_table_common_script.php
             });
         } else {
 
@@ -133,17 +133,17 @@ foreach ($task_statuses as $status) {
                 {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>}
 
             ];
-            var showAssignedTasksOnly = "<?php echo $show_assigned_tasks_only; ?>";
-            if (!showAssignedTasksOnly) {
-                filterDropdown.push({name: "assigned_to", class: "w200", options: <?php echo $assigned_to_dropdown; ?>});
-            }
+
+            filterDropdown.push({name: "responsible_user_id", class: "w200", options: <?php echo $assigned_to_dropdown; ?>});
+            filterDropdown.push({name: "member_user_id", class: "w200", options: <?php echo $members_to_dropdown; ?>});
+
             filterDropdown.push(<?php echo $custom_field_filters; ?>);
             $("#task-table").appTable({
                 source: '<?php echo_uri("tasks/list_data/project/" . $project_id) ?>',
                 serverSide: true,
                 order: [[1, "desc"]],
-                smartFilterIdentity: "project_tasks_list", //a to z and _ only. should be unique to avoid conflicts 
-                contextMeta: {contextId: "<?php echo $project_id; ?>", dependencies: ["milestone_id"]}, //useful to seperate instance related filters. Ex. Milestones are different for each projects. 
+                smartFilterIdentity: "project_tasks_list", //a to z and _ only. should be unique to avoid conflicts
+                contextMeta: {contextId: "<?php echo $project_id; ?>", dependencies: ["milestone_id"]}, //useful to seperate instance related filters. Ex. Milestones are different for each projects.
                 responsive: false, //hide responsive (+) icon
                 filterDropdown: filterDropdown,
                 singleDatepicker: [{name: "deadline", defaultText: "<?php echo app_lang('deadline') ?>", class: "w200",
@@ -181,7 +181,7 @@ foreach ($task_statuses as $status) {
                 ],
                 printColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 9, 10, 12], '<?php echo $custom_field_headers; ?>'),
                 xlsColumns: combineCustomFieldsColumns([1, 2, 4, 6, 8, 9, 10], '<?php echo $custom_field_headers; ?>'),
-                rowCallback: tasksTableRowCallback, //load this function from the task_table_common_script.php 
+                rowCallback: tasksTableRowCallback, //load this function from the task_table_common_script.php
                 onRelaodCallback: function () {
                     hideBatchTasksBtn();
                 }

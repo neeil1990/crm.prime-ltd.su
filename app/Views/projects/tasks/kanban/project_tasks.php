@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="bg-white">
-        <div id="kanban-filters"></div>       
+        <div id="kanban-filters"></div>
     </div>
 </div>
 <div id="load-kanban"></div>
@@ -31,7 +31,8 @@
                 {name: "milestone_id", class: "w200", options: <?php echo $milestone_dropdown; ?>},
                 {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
                 {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>},
-                {name: "specific_user_id", class: "w200", options: <?php echo $assigned_to_dropdown; ?>}
+                {name: "responsible_user_id", class: "w200", options: <?php echo $assigned_to_dropdown; ?>},
+                {name: "member_user_id", class: "w200", options: <?php echo $members_to_dropdown; ?>}
                 , <?php echo $custom_field_filters; ?>
             ];
         } else {
@@ -45,7 +46,7 @@
 <?php } ?>
         }
 
-        var smartFilter = "project_tasks_kanban"; //a to z and _ only. should be unique to avoid conflicts 
+        var smartFilter = "project_tasks_kanban"; //a to z and _ only. should be unique to avoid conflicts
         if ("<?php echo $login_user->user_type ?>" == "client") {
             smartFilter = false;
         }
@@ -56,7 +57,7 @@
             targetSelector: '#load-kanban',
             reloadSelector: "#reload-kanban-button",
             smartFilterIdentity: smartFilter,
-            contextMeta: {contextId: "<?php echo $project_id; ?>", dependencies: ["milestone_id"]}, //useful to seperate instance related filters. Ex. Milestones are different for each projects. 
+            contextMeta: {contextId: "<?php echo $project_id; ?>", dependencies: ["milestone_id"]}, //useful to seperate instance related filters. Ex. Milestones are different for each projects.
             search: {name: "search"},
             filterDropdown: filterDropdown,
             singleDatepicker: [{name: "deadline", defaultText: "<?php echo app_lang('deadline') ?>", class: "w200",

@@ -1234,7 +1234,8 @@ class Tasks extends Security_Controller {
         $show_time_with_task = (get_setting("show_time_with_task_start_date_and_deadline")) ? true : false;
 
         $options = array(
-            "assigned_to" => $this->request->getPost('assigned_to'),
+            "responsible_user_id" => $this->request->getPost('responsible_user_id'),
+            "member_user_id" => $this->request->getPost('member_user_id'),
             "deadline" => $this->request->getPost('deadline'),
             "status_ids" => $status,
             "milestone_id" => $milestone_id,
@@ -1255,6 +1256,10 @@ class Tasks extends Security_Controller {
 
         if ($context === "project") {
             $options["show_assigned_tasks_only_user_id"] = $this->show_assigned_tasks_only_user_id();
+        }
+
+        if ($this->is_not_admin()) {
+            $options["specific_user_id"] = $this->login_user->id;
         }
 
         $all_options = append_server_side_filtering_commmon_params($options);
@@ -2647,6 +2652,7 @@ class Tasks extends Security_Controller {
         $view_data['milestone_dropdown'] = $this->_get_milestones_dropdown_list($project_id);
         $view_data['priorities_dropdown'] = $this->_get_priorities_dropdown_list();
         $view_data['assigned_to_dropdown'] = $this->_get_project_members_dropdown_list($project_id);
+        $view_data['members_to_dropdown'] = $this->_get_project_members_dropdown_list($project_id, "team_member");
         $view_data["custom_field_headers"] = $this->Custom_fields_model->get_custom_field_headers_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
         $view_data["custom_field_filters"] = $this->Custom_fields_model->get_custom_field_filters("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
@@ -2678,6 +2684,7 @@ class Tasks extends Security_Controller {
         $view_data['milestone_dropdown'] = $this->_get_milestones_dropdown_list($project_id);
         $view_data['priorities_dropdown'] = $this->_get_priorities_dropdown_list();
         $view_data['assigned_to_dropdown'] = $this->_get_project_members_dropdown_list($project_id);
+        $view_data['members_to_dropdown'] = $this->_get_project_members_dropdown_list($project_id, "team_member");
 
         $exclude_status_ids = $this->get_removed_task_status_ids($project_id);
         $view_data['task_statuses'] = $this->Task_status_model->get_details(array("exclude_status_ids" => $exclude_status_ids))->getResult();
@@ -2718,9 +2725,9 @@ class Tasks extends Security_Controller {
         return json_encode($priorities_dropdown);
     }
 
-    private function _get_project_members_dropdown_list($project_id = 0) {
+    private function _get_project_members_dropdown_list($project_id = 0, $name = "assigned_to") {
         if ($this->login_user->user_type === "staff") {
-            $assigned_to_dropdown = array(array("id" => "", "text" => "- " . app_lang("assigned_to") . " -"));
+            $assigned_to_dropdown = array(array("id" => "", "text" => "- " . app_lang($name) . " -"));
             $assigned_to_list = $this->Project_members_model->get_project_members_dropdown_list($project_id, array(), true, true)->getResult();
             foreach ($assigned_to_list as $assigned_to) {
                 $assigned_to_dropdown[] = array("id" => $assigned_to->user_id, "text" => $assigned_to->member_name);
@@ -2966,10 +2973,9 @@ class Tasks extends Security_Controller {
             app_redirect("forbidden");
         }
 
-        $specific_user_id = $this->request->getPost('specific_user_id');
-
         $options = array(
-            "specific_user_id" => $specific_user_id,
+            "responsible_user_id" => $this->request->getPost('responsible_user_id'),
+            "member_user_id" => $this->request->getPost('member_user_id'),
             "project_id" => $project_id,
             "assigned_to" => $this->request->getPost('assigned_to'),
             "milestone_id" => $this->request->getPost('milestone_id'),
@@ -2988,6 +2994,10 @@ class Tasks extends Security_Controller {
 
         $max_sort = $this->request->getPost('max_sort');
         $column_id = $this->request->getPost('kanban_column_id');
+
+        if ($this->is_not_admin()) {
+            $options["specific_user_id"] = $this->login_user->id;
+        }
 
         if ($column_id) {
             //load only signle column data. load more..
