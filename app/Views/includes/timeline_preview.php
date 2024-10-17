@@ -48,7 +48,7 @@ if ($files && count($files)) {
         if (isset($seperate_audio) && $seperate_audio && $extension === "webm" && strpos($file_name, 'recording')) {
 
             $actual_file_name_without_extension = remove_file_extension($actual_file_name);
-            
+
             $recording_files .= "<audio src='$url' controls='' class='audio file-highlight-section' id='$actual_file_name_without_extension'></audio>";
 
         } else {
@@ -110,17 +110,11 @@ if ($files && count($files)) {
         }
     }
 
-    $more_image = "";
-    if ($file_count > 1) {
-        $more_image = "<span class='$caption_class'>+" . ($file_count - 1) . $caption_lang . "</span>";
-    }
-
-
     if ($recording_files) {
         echo $recording_files;
     }
 
-    echo $other_files . $more_image;
+    echo $other_files;
 
     echo "</div>";
 }

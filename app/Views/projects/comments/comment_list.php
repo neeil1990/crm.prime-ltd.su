@@ -126,7 +126,7 @@ foreach ($comments as $comment) {
                                     echo "<i data-feather='paperclip' class='icon-16'></i>";
                                 }
 
-                                echo anchor(get_uri("$file_download_url/" . $comment->id), $download_caption, array("class" => "float-end", "title" => $download_caption));
+                                echo anchor(get_uri("$file_download_url/" . $comment->id), $download_caption, array("class" => "ms-2", "title" => $download_caption));
                             }
                             ?>
                         </div>
