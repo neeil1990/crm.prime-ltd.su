@@ -27,5 +27,3 @@ foreach ($sql_explode as $sql_query) {
         $db->query($sql_query);
     }
 }
-
-echo json_encode(array("success" => true, "message" => "The database is up to date!"));

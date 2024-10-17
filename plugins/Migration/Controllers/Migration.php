@@ -6,6 +6,7 @@ class Migration extends \App\Controllers\Security_Controller
     public function index()
     {
         include PLUGINPATH . "Migration/install/do_install.php";
-        return redirect()->route('Plugins');
+
+        echo $this->template->view('Migration\Views\update\index');
     }
 }
