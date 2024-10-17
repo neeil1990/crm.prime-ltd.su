@@ -3,6 +3,7 @@
 .idea
 .log
 app/Config/Database.php
+app/Config/activated_plugins.json
 files/
 writable/
 updates/
