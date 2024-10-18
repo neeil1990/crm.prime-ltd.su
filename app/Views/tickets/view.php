@@ -272,5 +272,19 @@
             window.location.hash = $(this).attr('data-original-comment-id');
             e.preventDefault();
         });
+
+        var commentHash = window.location.hash;
+        if (commentHash.indexOf('#ticket-comment-container') > -1) {
+            var splitCommentId = commentHash.split("-");
+            var commentId = splitCommentId[3];
+            highlightSpecificComment(commentId);
+        }
+
+        function highlightSpecificComment(commentId) {
+            $(".comment-highlight-section").removeClass("comment-highlight");
+            $("#ticket-comment-container-" + commentId).addClass("comment-highlight");
+            window.location.hash = ""; //remove first to scroll with main link
+            window.location.hash = "ticket-comment-container-" + commentId;
+        }
     });
 </script>
