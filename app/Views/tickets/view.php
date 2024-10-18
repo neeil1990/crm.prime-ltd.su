@@ -20,7 +20,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <?php if ($login_user->user_type == "staff") { ?>
                                             <li role="presentation"><?php echo modal_anchor(get_uri("tickets/modal_form"), "<i data-feather='edit-2' class='icon-16'></i> " . app_lang('edit'), array("title" => app_lang('ticket'), "data-post-view" => "details", "data-post-id" => $ticket_info->id, "class" => "dropdown-item")); ?></li>
-                                            <?php if ($can_create_tasks && !$ticket_info->task_id) { ?> 
+                                            <?php if ($can_create_tasks && !$ticket_info->task_id) { ?>
                                                 <li role="presentation"><?php echo modal_anchor(get_uri("tasks/modal_form"), "<i data-feather='plus-circle' class='icon-16'></i> " . app_lang('add_task_in_project'), array("title" => app_lang('create_new_task'), "data-post-project_id" => $ticket_info->project_id, "data-post-ticket_id" => $ticket_info->id, "class" => "dropdown-item")); ?></li>
                                             <?php } ?>
                                             <li role="presentation"><?php echo modal_anchor(get_uri("tickets/merge_ticket_modal_form"), "<i data-feather='git-merge' class='icon-16'></i> " . app_lang('merge'), array("title" => app_lang('merge'), "data-post-ticket_id" => $ticket_info->id, "class" => "dropdown-item")); ?></li>
@@ -99,7 +99,7 @@
             <?php echo ajax_anchor(get_uri("tickets/save_ticket_status/$ticket_info->id/closed"), "<i data-feather='check-circle' class='icon-16'></i> " . app_lang('mark_as_closed'), array("class" => "btn btn-success", "title" => app_lang('mark_as_closed'), "data-reload-on-success" => "1")); ?>
         <?php } ?>
         <?php if ($login_user->user_type == "staff") { ?>
-            <?php if ($can_create_tasks && !$ticket_info->task_id) { ?> 
+            <?php if ($can_create_tasks && !$ticket_info->task_id) { ?>
                 <?php echo modal_anchor(get_uri("tasks/modal_form"), "<i data-feather='plus-circle' class='icon-16'></i> " . app_lang('create_new_task'), array("title" => app_lang('create_new_task'), "data-post-project_id" => $ticket_info->project_id, "data-post-ticket_id" => $ticket_info->id, "class" => "btn btn-default")); ?>
             <?php } ?>
             <?php echo modal_anchor(get_uri("tickets/modal_form"), "<i data-feather='edit-2' class='icon-16'></i> " . app_lang('edit'), array("title" => app_lang('ticket'), "data-post-view" => "details", "data-post-id" => $ticket_info->id, "class" => "btn btn-default")); ?>
@@ -111,7 +111,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-     
+
         var decending = "<?php echo $sort_as_decending; ?>";
 
         $("#comment-form").appForm({
@@ -194,7 +194,7 @@
             $("#close-template-modal-btn").trigger("click");
         }
 
-        //init uninitialized rich editor to insert template 
+        //init uninitialized rich editor to insert template
         $("#insert-template-btn").click(function () {
             setSummernote($("#description"));
         });
@@ -234,5 +234,43 @@
         });
 
         $('[data-bs-toggle="tooltip"]').tooltip();
+
+        $(".pin-comment-button").click(function() {
+            var comment_id = $(this).attr('data-pin-comment-id');
+            appLoader.show();
+            $.ajax({
+                url: "<?php echo get_uri("tickets/pin_comment/"); ?>" + comment_id,
+                type: 'POST',
+                dataType: "json",
+                success: function(result) {
+                    if (result.success) {
+                        $("#pinned-comment").append(result.data);
+                        appLoader.hide();
+                    } else {
+                        appAlert.error(result.message);
+                    }
+
+                    if (result.status) {
+                        $("#pin-comment-button-" + comment_id).addClass("hide");
+                        $("#unpin-comment-button-" + comment_id).removeClass("hide");
+                        $("#pinned-comment").removeClass("hide");
+                    }
+                }
+            });
+        });
+
+        $(".unpin-comment-button").click(function() {
+            var comment_id = $(this).attr('data-pin-comment-id');
+            $("#pin-comment-button-" + comment_id).removeClass("hide");
+            $("#unpin-comment-button-" + comment_id).addClass("hide");
+        });
+
+        $(".pinned-comment-highlight-link").click(function(e) {
+            var comment_id = $(this).attr('data-original-comment-link-id');
+            $(".comment-highlight-section").removeClass("comment-highlight");
+            $("#ticket-comment-container-" + comment_id).addClass("comment-highlight");
+            window.location.hash = $(this).attr('data-original-comment-id');
+            e.preventDefault();
+        });
     });
 </script>

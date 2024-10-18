@@ -1,4 +1,16 @@
-<div id="ticket-comment-container-<?php echo $comment->id; ?>" class="b-b p10 m0 text-break bg-white comment-container ticket-comment-container <?php echo $comment->is_note ? "note-background" : "" ?>">
+<?
+$pin_status = "";
+$unpin_status = "";
+
+if ($comment->pinned_comment_status) {
+    $pin_status = "hide";
+    $unpin_status = "";
+} else {
+    $pin_status = "";
+    $unpin_status = "hide";
+}
+?>
+<div id="ticket-comment-container-<?php echo $comment->id; ?>" class="b-b p10 m0 text-break bg-white comment-container ticket-comment-container <?php echo $comment->is_note ? "note-background" : "" ?> comment-highlight-section">
     <div class="d-flex">
         <div class="flex-shrink-0 mr10">
             <span class="avatar avatar-sm">
@@ -36,7 +48,11 @@
                             <i data-feather="chevron-down" class="icon-16 clickable"></i>
                         </div>
                         <ul class="dropdown-menu dropdown-menu-end" role="menu">
-                            <li role="presentation"><?php echo ajax_anchor(get_uri("tickets/delete_comment/$comment->id"), "<i data-feather='x' class='icon-16'></i> " . app_lang('delete'), array("class" => "dropdown-item", "title" => app_lang('delete'), "data-fade-out-on-success" => "#ticket-comment-container-$comment->id")); ?> </li>
+                            <li role="presentation">
+                                <?php echo ajax_anchor(get_uri("tickets/delete_comment/$comment->id"), "<i data-feather='x' class='icon-16'></i> " . app_lang('delete'), array("class" => "dropdown-item", "title" => app_lang('delete'), "data-fade-out-on-success" => "#ticket-comment-container-$comment->id")); ?>
+                            </li>
+                            <li role="presentation"><?php echo ajax_anchor(get_uri("tickets/pin_comment/" . $comment->id), "<i data-feather='map-pin' class='icon-16'></i> " . app_lang('unpin_comment'), array("id" => "unpin-comment-button-$comment->id", "class" => "dropdown-item unpin-comment-button $unpin_status", 'title' => app_lang('unpin_comment'), "data-pin-comment-id" => $comment->id, "data-fade-out-on-success" => "#pinned-comment-$comment->id")); ?> </li>
+                            <li role="presentation"><?php echo js_anchor("<i data-feather='map-pin' class='icon-16'></i> " . app_lang('pin_comment'), array("id" => "pin-comment-button-$comment->id", "class" => "dropdown-item pin-comment-button $pin_status", 'title' => app_lang('pin_comment'), "data-action-url" => get_uri("tickets/pin_comment/" . $comment->id), "data-pin-comment-id" => $comment->id)); ?> </li>
                         </ul>
                     </span>
                 <?php } ?>

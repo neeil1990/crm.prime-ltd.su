@@ -17,3 +17,7 @@
     max-height: 30px;
     vertical-align: unset;
 }
+
+.comment-highlight {
+    border: 2px solid #5766D9!important;
+}

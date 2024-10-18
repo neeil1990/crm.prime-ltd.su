@@ -59,20 +59,20 @@
 
                         <div class="col-md-12 mb15">
                             <strong><?php echo app_lang("created") . ": "; ?></strong>
-                            <?php echo format_to_relative_time($ticket_info->created_at); ?> 
+                            <?php echo format_to_relative_time($ticket_info->created_at); ?>
                         </div>
 
                         <?php if ($ticket_info->closed_at && $ticket_info->status == "closed") { ?>
                             <div class="col-md-12 mb15">
                                 <strong><?php echo app_lang("closed") . ": "; ?></strong>
-                                <?php echo format_to_relative_time($ticket_info->closed_at); ?> 
+                                <?php echo format_to_relative_time($ticket_info->closed_at); ?>
                             </div>
                         <?php } ?>
 
                         <?php if ($ticket_info->ticket_type) { ?>
                             <div class="col-md-12 mb15">
                                 <strong><?php echo app_lang("ticket_type") . ": "; ?></strong>
-                                <?php echo $ticket_info->ticket_type; ?> 
+                                <?php echo $ticket_info->ticket_type; ?>
                             </div>
                         <?php } ?>
 
@@ -118,6 +118,19 @@
                             }
                         }
                         ?>
+
+                        <?php
+                        $pinned_status = "hide";
+                        if (count($pinned_comments)) {
+                            $pinned_status = "";
+                        }
+                        ?>
+                        <div class="col-md-12 mb15 <?php echo $pinned_status; ?>" id="pinned-comment">
+                            <div class="mb5">
+                                <strong><?php echo app_lang("pinned_comments") . ": "; ?> </strong>
+                            </div>
+                            <?php echo view("tickets/comments/pinned_comments"); ?>
+                        </div>
 
                         <?php if (can_access_reminders_module()) { ?>
                             <div class="col-md-12 mb15" id="ticket-reminders">
