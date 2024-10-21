@@ -235,6 +235,8 @@
 
         $('[data-bs-toggle="tooltip"]').tooltip();
 
+        updatePinCommentAbove();
+
         $(".pin-comment-button").click(function() {
             var comment_id = $(this).attr('data-pin-comment-id');
             appLoader.show();
@@ -255,6 +257,8 @@
                         $("#unpin-comment-button-" + comment_id).removeClass("hide");
                         $("#pinned-comment").removeClass("hide");
                     }
+
+                    updatePinCommentAbove();
                 }
             });
         });
@@ -263,6 +267,7 @@
             var comment_id = $(this).attr('data-pin-comment-id');
             $("#pin-comment-button-" + comment_id).removeClass("hide");
             $("#unpin-comment-button-" + comment_id).addClass("hide");
+            window.setTimeout(updatePinCommentAbove, 1000);
         });
 
         $(".pinned-comment-highlight-link").click(function(e) {
@@ -285,6 +290,37 @@
             $("#ticket-comment-container-" + commentId).addClass("comment-highlight");
             window.location.hash = ""; //remove first to scroll with main link
             window.location.hash = "ticket-comment-container-" + commentId;
+        }
+
+        function updatePinCommentAbove() {
+
+            let pinCommentPreview = $(".pin-comment-preview");
+
+            if (!pinCommentPreview.length) {
+                return;
+            }
+
+            let container = $("#comment-pin-container").html("");
+
+            container.append('<div class="box-title"><span>Закрепленные комментарии</span></div>');
+
+            pinCommentPreview.each(function(i, el) {
+                let self = $(el);
+                let id = self.attr('id');
+
+                if (!self.children().length) {
+                    return true;
+                }
+
+                let comment = $("<div />", { class: "b-b p10 m0 text-break bg-white comment-container ticket-comment-container" })
+                    .html($('#ticket-comment-container-' + id).html());
+
+                comment.find(".dropdown")
+                    .removeClass(['dropdown', 'comment-dropdown'])
+                    .html($("<a />", { href: '#ticket-comment-container-' + id }).html(self.find(".pin").html() + self.find(".float-start").html()));
+
+                container.append(comment);
+            });
         }
     });
 </script>

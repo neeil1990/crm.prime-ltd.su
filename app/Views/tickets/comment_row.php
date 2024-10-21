@@ -75,7 +75,7 @@ if ($comment->pinned_comment_status) {
                         $download_caption = sprintf(app_lang('download_files'), $total_files);
                     }
                     echo "<i data-feather='paperclip' class='icon-16'></i>";
-                    echo anchor(get_uri("tickets/download_comment_files/" . $comment->id), $download_caption, array("class" => "float-end", "title" => $download_caption));
+                    echo anchor(get_uri("tickets/download_comment_files/" . $comment->id), $download_caption, array("class" => "ms-2", "title" => $download_caption));
                 }
                 ?>
             </div>

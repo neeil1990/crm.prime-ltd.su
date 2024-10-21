@@ -57,6 +57,10 @@ if (!$sort_as_decending) {
     <?php echo form_close(); ?>
 </div>
 
+<div id="comment-pin-container" class="mb-4"></div>
+
+<div class="box-title"><span>Комментарии</span></div>
+
 <?php
 //for decending mode, show the comment box at the bottom
 if ($sort_as_decending) {
