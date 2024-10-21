@@ -5,12 +5,14 @@ namespace App\Controllers;
 class Tickets extends Security_Controller {
 
     protected $Ticket_templates_model;
+    protected $Pin_ticket_comments;
 
     function __construct() {
         parent::__construct();
         $this->init_permission_checker("ticket");
 
         $this->Ticket_templates_model = model('App\Models\Ticket_templates_model');
+        $this->Pin_ticket_comments = model('App\Models\Pin_ticket_comments');
     }
 
     private function validate_ticket_access($ticket_id = 0) {
@@ -76,7 +78,7 @@ class Tickets extends Security_Controller {
         return $assigned_to_dropdown;
     }
 
-    //load new tickt modal 
+    //load new tickt modal
     function modal_form() {
         $this->validate_submitted_data(array(
             "id" => "numeric"
@@ -282,7 +284,7 @@ class Tickets extends Security_Controller {
     }
 
 
-    // list of tickets, prepared for datatable 
+    // list of tickets, prepared for datatable
     function list_data($is_widget = 0) {
         $this->access_only_allowed_members();
 
@@ -334,7 +336,7 @@ class Tickets extends Security_Controller {
         echo json_encode($result);
     }
 
-    // list of tickets of a specific client, prepared for datatable 
+    // list of tickets of a specific client, prepared for datatable
     function ticket_list_data_of_client($client_id, $is_widget = 0) {
         validate_numeric_value($client_id);
         $this->access_only_allowed_members_or_client_contact($client_id);
@@ -367,7 +369,7 @@ class Tickets extends Security_Controller {
         echo json_encode(array("data" => $result));
     }
 
-    // return a row of ticket list table 
+    // return a row of ticket list table
     private function _row_data($id) {
         $custom_fields = $this->Custom_fields_model->get_available_fields_for_table("tickets", $this->login_user->is_admin, $this->login_user->user_type);
 
@@ -475,7 +477,7 @@ class Tickets extends Security_Controller {
         return $row_data;
     }
 
-    // load ticket details view 
+    // load ticket details view
     function view($ticket_id = 0) {
         validate_numeric_value($ticket_id);
 
@@ -510,7 +512,8 @@ class Tickets extends Security_Controller {
 
                 $comments_options = array(
                     "ticket_id" => $ticket_id,
-                    "sort_as_decending" => $sort_as_decending
+                    "sort_as_decending" => $sort_as_decending,
+                    "login_user_id" => $this->login_user->id
                 );
 
                 if ($this->login_user->user_type === "client") {
@@ -520,6 +523,8 @@ class Tickets extends Security_Controller {
                 $view_data['comments'] = $this->Ticket_comments_model->get_details($comments_options)->getResult();
 
                 $view_data['custom_fields_list'] = $this->Custom_fields_model->get_combined_details("tickets", $ticket_info->id, $this->login_user->is_admin, $this->login_user->user_type)->getResult();
+
+                $view_data['pinned_comments'] = $this->Pin_ticket_comments->get_details(array("ticket_id" => $ticket_id, "pinned_by" => $this->login_user->id))->getResult();
 
                 $view_data["sort_as_decending"] = $sort_as_decending;
 
@@ -800,7 +805,7 @@ class Tickets extends Security_Controller {
         echo json_encode(array("data" => $result));
     }
 
-    // return a row of ticket template table 
+    // return a row of ticket template table
     private function _row_data_for_ticket_templates($id) {
         $options = array(
             "id" => $id
@@ -1067,7 +1072,7 @@ class Tickets extends Security_Controller {
         }
     }
 
-    //load merge tickt modal 
+    //load merge tickt modal
     function merge_ticket_modal_form() {
         $this->validate_submitted_data(array(
             "id" => "numeric"
@@ -1225,6 +1230,41 @@ class Tickets extends Security_Controller {
         $view_data["closed_data"] = json_encode($closed_data_array);
 
         return $this->template->view("tickets/reports/chart_report_view", $view_data);
+    }
+
+    // pin/unpin comments
+    function pin_comment($comment_id = 0)
+    {
+        if ($comment_id) {
+            $data = array(
+                "ticket_comment_id" => $comment_id,
+                "pinned_by" => $this->login_user->id
+            );
+
+            $existing = $this->Pin_ticket_comments->get_one_where(array_merge($data, array("deleted" => 0)));
+
+            $save_id = "";
+            if ($existing->id) {
+                //pinned already, unpin now
+                $save_id = $this->Pin_ticket_comments->delete($existing->id);
+            } else {
+                //not pinned, pin now
+                $data["created_at"] = get_current_utc_time();
+                $save_id = $this->Pin_ticket_comments->ci_save($data);
+            }
+
+            if ($save_id) {
+                $options = array("id" => $save_id);
+                $pinned_comments = $this->Pin_ticket_comments->get_details($options)->getResult();
+
+                $status = "pinned";
+
+                $save_data = $this->template->view("tickets/comments/pinned_comments", array("pinned_comments" => $pinned_comments));
+                echo json_encode(array("success" => true, "data" => $save_data, "status" => $status));
+            } else {
+                echo json_encode(array("success" => false));
+            }
+        }
     }
 
     private function _get_clients_dropdown() {
