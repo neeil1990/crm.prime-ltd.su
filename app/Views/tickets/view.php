@@ -312,8 +312,10 @@
                     return true;
                 }
 
-                let comment = $("<div />", { class: "b-b p10 m0 text-break bg-white comment-container ticket-comment-container" })
-                    .html($('#ticket-comment-container-' + id).html());
+                let origin = $('#ticket-comment-container-' + id);
+
+                let comment = $("<div />", { class: origin.attr('class') })
+                    .html(origin.html());
 
                 comment.find(".dropdown")
                     .removeClass(['dropdown', 'comment-dropdown'])
