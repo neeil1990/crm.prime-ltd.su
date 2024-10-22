@@ -17,7 +17,7 @@ if (isset($model_info->context) && $model_info->context != "project") {
     $mention_source = get_uri("tasks/get_member_suggestion_to_mention");
 }
 ?>
-<div id="<?php echo $comment_type . "-comment-form-container"; ?>">
+<div id="<?php echo $comment_type . "-comment-form-container"; ?>" class="mb-4">
     <?php echo form_open(get_uri($url), array("id" => $comment_type . "-comment-form", "class" => "general-form", "role" => "form")); ?>
     <div class="d-flex b-b comment-form-container">
         <div class="flex-shrink-0 d-none d-sm-block">
