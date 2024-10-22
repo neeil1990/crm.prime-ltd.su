@@ -598,6 +598,7 @@ class Tickets extends Security_Controller {
         $comment_data["files"] = $files_data; //don't clean serialized data
 
         $comment_id = $this->Ticket_comments_model->ci_save($comment_data);
+
         if ($comment_id) {
             //update ticket status;
             if ($this->login_user->user_type === "client") {
@@ -616,9 +617,13 @@ class Tickets extends Security_Controller {
 
             $this->Tickets_model->ci_save($ticket_data, $ticket_id);
 
-            $comments_options = array("id" => $comment_id);
+            $comments_options = array(
+                "id" => $comment_id,
+                "login_user_id" => $this->login_user->id,
+            );
             $view_data['comment'] = $this->Ticket_comments_model->get_details($comments_options)->getRow();
             $comment_view = $this->template->view("tickets/comment_row", $view_data);
+
             echo json_encode(array("success" => true, "data" => $comment_view, 'message' => app_lang('comment_submited')));
 
             if (!$is_note) {

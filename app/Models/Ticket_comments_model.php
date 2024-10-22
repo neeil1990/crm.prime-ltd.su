@@ -22,7 +22,7 @@ class Ticket_comments_model extends Crud_model {
         $extra_select = "";
         $login_user_id = $this->_get_clean_value($options, "login_user_id");
         if ($login_user_id) {
-            $extra_select = "(SELECT count($pin_ticket_comments_table.id) FROM $pin_ticket_comments_table WHERE $pin_ticket_comments_table.ticket_comment_id=$ticket_comments_table.id AND $pin_ticket_comments_table.deleted=0 AND $pin_ticket_comments_table.pinned_by=$login_user_id) as pinned_comment_status";
+            $extra_select = ", (SELECT count($pin_ticket_comments_table.id) FROM $pin_ticket_comments_table WHERE $pin_ticket_comments_table.ticket_comment_id=$ticket_comments_table.id AND $pin_ticket_comments_table.deleted=0 AND $pin_ticket_comments_table.pinned_by=$login_user_id) as pinned_comment_status";
         }
 
         $id = $this->_get_clean_value($options, "id");
@@ -49,7 +49,7 @@ class Ticket_comments_model extends Crud_model {
         $users_table.image as created_by_avatar,
         $users_table.user_type,
         $tickets_table.creator_name,
-        $tickets_table.creator_email,
+        $tickets_table.creator_email
         $extra_select
         FROM $ticket_comments_table
         LEFT JOIN $users_table ON $users_table.id= $ticket_comments_table.created_by
