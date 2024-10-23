@@ -3,5 +3,7 @@
 $lang["example"] = "Example";
 
 $lang["team_responsible"] = "Ответственный";
+$lang["edit_checklist_item"] = "Редактировать элемент контрольного списка";
+$lang["copy_checklist_item"] = "Копировать элемент контрольного списка";
 
 return $lang;

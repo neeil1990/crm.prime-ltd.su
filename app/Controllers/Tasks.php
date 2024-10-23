@@ -1574,6 +1574,16 @@ class Tasks extends Security_Controller {
         }
     }
 
+    public function edit_checklist_modal_form($checklist_id)
+    {
+        if ($checklist_id) {
+            $view_data["checklist_id"] = $checklist_id;
+            $view_data["checklist_item"] = $this->Checklist_items_model->get_details(["id" => $checklist_id])->getRow();
+
+            return $this->template->view('tasks/edit_checklist_modal_form', $view_data);
+        }
+    }
+
     private function _make_checklist_item_row($data, $return_type = "row") {
         $checkbox_class = "checkbox-blank";
         $title_class = "";
@@ -1599,11 +1609,15 @@ class Tasks extends Security_Controller {
             $delete = "";
         }
 
+        $edit = modal_anchor(get_uri("tasks/edit_checklist_modal_form/$data->id"), "<div class='float-end me-2'><i data-feather='edit-2' class='icon-16'></i></div>", array("class" => "edit-checklist-item", 'title' => app_lang("edit_checklist_item")));
+
+        $copy = js_anchor("<div class='float-end me-2'><i data-feather='copy' class='icon-16'></i></div>", array("class" => "copy-checklist-item", 'title' => app_lang("copy_checklist_item")));
+
         if ($return_type == "data") {
             return $status . $delete . $title;
         }
 
-        return "<div id='checklist-item-row-$data->id' class='list-group-item mb5 checklist-item-row b-a rounded text-break' data-id='$data->id'>" . $status . $delete . $title . "</div>";
+        return "<div id='checklist-item-row-$data->id' class='list-group-item mb5 checklist-item-row b-a rounded text-break' data-id='$data->id'>" . $status . $delete . $edit . $copy . $title . "</div>";
     }
 
     private function _make_sub_task_row($data, $return_type = "row") {
@@ -1848,6 +1862,22 @@ class Tasks extends Security_Controller {
                 $data = array((($type == "blocked_by") ? "blocking" : "blocked_by") => $dependency_tasks_of_others_array);
                 $this->Tasks_model->update_custom_data($data, $dependency_task_id);
             }
+        }
+
+        echo json_encode(array("success" => true));
+    }
+
+    function update_checklist_item()
+    {
+        $checklist_id = $this->request->getPost("checklist_id");
+        $checklist_title = $this->request->getPost("checklist_title");
+
+        $this->validate_submitted_data(array(
+            "checklist_id" => "required|numeric"
+        ));
+
+        if ($checklist_title) {
+            $this->Checklist_items_model->update_where(["title" => $checklist_title], ["id" => $checklist_id]);
         }
 
         echo json_encode(array("success" => true));
