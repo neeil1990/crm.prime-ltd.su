@@ -26,3 +26,9 @@
 .checklist-items a.copy-checklist-item {
     color: #a1a3a5;
 }
+
+.filter-multi-select .dropdown-menu {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 300px;
+}

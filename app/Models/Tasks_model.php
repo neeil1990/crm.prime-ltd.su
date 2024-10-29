@@ -226,9 +226,9 @@ class Tasks_model extends Crud_model {
             $where .= " AND $tasks_table.expense_id=$expense_id";
         }
 
-        $priority_id = $this->_get_clean_value($options, "priority_id");
-        if ($priority_id) {
-            $where .= " AND $tasks_table.priority_id=$priority_id";
+        $priority_ids = $this->_get_clean_value($options, "priority_ids");
+        if ($priority_ids) {
+            $where .= " AND FIND_IN_SET($tasks_table.priority_id,'$priority_ids')";
         }
 
         $specific_user_id = $this->_get_clean_value($options, "specific_user_id");
@@ -236,14 +236,16 @@ class Tasks_model extends Crud_model {
             $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
         }
 
-        $member_user_id = $this->_get_clean_value($options, "member_user_id");
-        if ($member_user_id) {
-            $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+        $member_user_ids = $this->_get_clean_value($options, "member_user_ids");
+        if ($member_user_ids) {
+            foreach ($member_user_ids as $member_user_id) {
+                $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+            }
         }
 
-        $responsible_user_id = $this->_get_clean_value($options, "responsible_user_id");
-        if ($responsible_user_id) {
-            $where .= " AND ($tasks_table.assigned_to=$responsible_user_id)";
+        $responsible_user_ids = $this->_get_clean_value($options, "responsible_user_ids");
+        if ($responsible_user_ids) {
+            $where .= " AND FIND_IN_SET($tasks_table.assigned_to,'$responsible_user_ids')";
         }
 
         $show_assigned_tasks_only_user_id = $this->_get_clean_value($options, "show_assigned_tasks_only_user_id");
@@ -274,9 +276,11 @@ class Tasks_model extends Crud_model {
             $where .= " AND $tasks_table.status_id=$task_status_id";
         }
 
-        $label_id = $this->_get_clean_value($options, "label_id");
-        if ($label_id) {
-            $where .= " AND (FIND_IN_SET('$label_id', $tasks_table.labels)) ";
+        $label_ids = $this->_get_clean_value($options, "label_ids");
+        if ($label_ids) {
+            foreach ($label_ids as $label_id) {
+                $where .= " AND (FIND_IN_SET('$label_id', $tasks_table.labels)) ";
+            }
         }
 
         $where .= $this->make_context_query($context_options, $tasks_table, $clients_table, $ticket_table, $projects_table, $project_members_table);
@@ -640,9 +644,9 @@ class Tasks_model extends Crud_model {
             $where .= " AND $tasks_table.assigned_to=$assigned_to";
         }
 
-        $priority_id = $this->_get_clean_value($options, "priority_id");
-        if ($priority_id) {
-            $where .= " AND $tasks_table.priority_id=$priority_id";
+        $priority_ids = $this->_get_clean_value($options, "priority_ids");
+        if ($priority_ids) {
+            $where .= " AND FIND_IN_SET($tasks_table.priority_id,'$priority_ids')";
         }
 
         $specific_user_id = $this->_get_clean_value($options, "specific_user_id");
@@ -650,14 +654,16 @@ class Tasks_model extends Crud_model {
             $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
         }
 
-        $member_user_id = $this->_get_clean_value($options, "member_user_id");
-        if ($member_user_id) {
-            $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+        $member_user_ids = $this->_get_clean_value($options, "member_user_ids");
+        if ($member_user_ids) {
+            foreach ($member_user_ids as $member_user_id) {
+                $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+            }
         }
 
-        $responsible_user_id = $this->_get_clean_value($options, "responsible_user_id");
-        if ($responsible_user_id) {
-            $where .= " AND ($tasks_table.assigned_to=$responsible_user_id)";
+        $responsible_user_ids = $this->_get_clean_value($options, "responsible_user_ids");
+        if ($responsible_user_ids) {
+            $where .= " AND FIND_IN_SET($tasks_table.assigned_to,'$responsible_user_ids')";
         }
 
         $show_assigned_tasks_only_user_id = $this->_get_clean_value($options, "show_assigned_tasks_only_user_id");
@@ -675,9 +681,11 @@ class Tasks_model extends Crud_model {
             $where .= " AND $tasks_table.context='$context'";
         }
 
-        $label_id = $this->_get_clean_value($options, "label_id");
-        if ($label_id) {
-            $where .= " AND (FIND_IN_SET('$label_id', $tasks_table.labels)) ";
+        $label_ids = $this->_get_clean_value($options, "label_ids");
+        if ($label_ids) {
+            foreach ($label_ids as $label_id) {
+                $where .= " AND (FIND_IN_SET('$label_id', $tasks_table.labels)) ";
+            }
         }
 
         $deadline = $this->_get_clean_value($options, "deadline");

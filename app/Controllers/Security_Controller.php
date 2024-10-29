@@ -432,7 +432,7 @@ class Security_Controller extends App_Controller {
             show_404();
         }
 
-        $labels_dropdown = $is_filter ? array(array("id" => "", "text" => "- " . ($custom_filter_title ? $custom_filter_title : app_lang("label")) . " -")) : array();
+        $labels_dropdown = $is_filter ? array(array("value" => "", "text" => "- " . ($custom_filter_title ? $custom_filter_title : app_lang("label")) . " -")) : array();
 
         $options = array(
             "context" => $type
@@ -462,7 +462,7 @@ class Security_Controller extends App_Controller {
 
         $labels = $this->Labels_model->get_details($options)->getResult();
         foreach ($labels as $label) {
-            $labels_dropdown[] = array("id" => $label->id, "text" => $label->title);
+            $labels_dropdown[] = array("value" => $label->id, "text" => $label->title);
         }
 
         return $labels_dropdown;

@@ -6,7 +6,10 @@ $quick_filters_dropdown = array(
 );
 
 foreach ($task_statuses as $task_status) {
-    $quick_filters_dropdown[] = array("id" => $task_status->id, "text" => $task_status->key_name ? app_lang("recently_moved_to") . " " . app_lang($task_status->key_name) : app_lang("recently_moved_to") . " " . $task_status->title);
+    $quick_filters_dropdown[] = array(
+        "id" => $task_status->id,
+        "text" => $task_status->key_name ? app_lang("recently_moved_to") . " " . app_lang($task_status->key_name) : app_lang("recently_moved_to") . " " . $task_status->title
+    );
 }
 
 $quick_filters_dropdown[] = array("id" => "recently_commented", "text" => app_lang("recently_commented"));

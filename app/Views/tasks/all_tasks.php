@@ -127,11 +127,7 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                     }
                 },
                 {name: "project_id", class: "w200", options: <?php echo $projects_dropdown; ?>, dependent: ["milestone_id"]}, //reset milestone on changing of project
-                {name: "milestone_id", class: "w200", options: [{id: "", text: "- <?php echo app_lang('milestone'); ?> -"}], dependency: ["project_id"], dataSource: '<?php echo_uri("tasks/get_milestones_for_filter") ?>'}, //milestone is dependent on project
-                {name: "responsible_user_id", class: "w200", options: <?php echo $team_responsible_dropdown; ?>},
-                {name: "member_user_id", class: "w200", options: <?php echo $team_members_dropdown; ?>},
-                {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
-                {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>}
+                {name: "milestone_id", class: "w200", options: [{id: "", text: "- <?php echo app_lang('milestone'); ?> -"}], dependency: ["project_id"], dataSource: '<?php echo_uri("tasks/get_milestones_for_filter") ?>'} //milestone is dependent on project
 
                 , <?php echo $custom_field_filters; ?>
             ],
@@ -144,6 +140,30 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                         {value: moment().add(15, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_number_of_days'), 15); ?>"}
                     ]}],
             multiSelect: [
+                {
+                    class: "w200",
+                    name: "responsible_user_id",
+                    text: "<?php echo app_lang('team_responsible'); ?>",
+                    options: <?php echo $team_responsible_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "member_user_id",
+                    text: "<?php echo app_lang('team_member'); ?>",
+                    options: <?php echo $team_members_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "priority_id",
+                    text: "<?php echo app_lang('priority'); ?>",
+                    options: <?php echo $priorities_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "label_id",
+                    text: "<?php echo app_lang('label'); ?>",
+                    options: <?php echo $labels_dropdown; ?>
+                },
                 {
                     class: "w200",
                     name: "status_id",
