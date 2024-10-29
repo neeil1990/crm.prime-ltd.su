@@ -296,11 +296,11 @@ class Tickets extends Security_Controller {
         $ticket_type_id = $this->request->getPost('ticket_type_id');
         $options = array("status" => $status,
             "ticket_types" => $this->allowed_ticket_types,
-            "ticket_label" => $ticket_label,
+            "ticket_labels" => $ticket_label,
             "assigned_to" => $assigned_to,
             "custom_fields" => $custom_fields,
             "created_at" => $this->request->getPost('created_at'),
-            "ticket_type_id" => $ticket_type_id,
+            "ticket_type_ids" => $ticket_type_id,
             "show_assigned_tickets_only_user_id" => $this->show_assigned_tickets_only_user_id(),
             "client_id" => $this->request->getPost('client_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tickets", $this->login_user->is_admin, $this->login_user->user_type)
@@ -958,7 +958,7 @@ class Tickets extends Security_Controller {
         }
 
         $ticket_type = $this->Ticket_types_model->get_dropdown_list(array("title"), "id", $where);
-        $ticket_type_dropdown = array(array("id" => "", "text" => "- " . app_lang("ticket_type") . " -"));
+        $ticket_type_dropdown = array(array("value" => "", "text" => "- " . app_lang("ticket_type") . " -"));
 
         foreach ($ticket_type as $id => $name) {
             $selected_status = false;
@@ -970,7 +970,7 @@ class Tickets extends Security_Controller {
                 }
             }
 
-            $ticket_type_dropdown[] = array("id" => $id, "text" => $name, "isSelected" => $selected_status);
+            $ticket_type_dropdown[] = array("value" => $id, "text" => $name, "isSelected" => $selected_status);
         }
         return $ticket_type_dropdown;
     }

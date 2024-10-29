@@ -22,7 +22,7 @@
 
     <div class="card no-border-top-radius">
         <div class="table-responsive pb50">
-            <table id="ticket-table" class="display" cellspacing="0" width="100%">            
+            <table id="ticket-table" class="display" cellspacing="0" width="100%">
             </table>
         </div>
     </div>
@@ -66,8 +66,6 @@
             filterDropdowns.push({name: "client_id", class: "w200", options: <?php echo $clients_dropdown; ?>});
         }
 
-        filterDropdowns.push({name: "ticket_type_id", class: "w200", options: <?php echo $ticket_types_dropdown; ?>});
-        filterDropdowns.push({name: "ticket_label", class: "w200", options: <?php echo $ticket_labels_dropdown; ?>});
         filterDropdowns.push({name: "assigned_to", class: "w200", options: <?php echo $assigned_to_dropdown; ?>});
         filterDropdowns.push(<?php echo $custom_field_filters; ?>);
 
@@ -75,10 +73,24 @@
             source: '<?php echo_uri("tickets/list_data") ?>',
             serverSide: true,
             order: [[7, "desc"]],
-            smartFilterIdentity: "tickets_list", //a to z and _ only. should be unique to avoid conflicts 
+            smartFilterIdentity: "tickets_list", //a to z and _ only. should be unique to avoid conflicts
             ignoreSavedFilter: ignoreSavedFilter,
             radioButtons: [{text: '<?php echo app_lang("open") ?>', name: "status", value: "open", isChecked: selectOpenStatus}, {text: '<?php echo app_lang("closed") ?>', name: "status", value: "closed", isChecked: selectClosedStatus}],
             filterDropdown: filterDropdowns,
+            multiSelect: [
+                {
+                    class: "w200",
+                    name: "ticket_type_id",
+                    text: "<?php echo app_lang('ticket_type'); ?>",
+                    options: <?php echo $ticket_types_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "ticket_label",
+                    text: "<?php echo app_lang('label'); ?>",
+                    options: <?php echo $ticket_labels_dropdown; ?>
+                }
+            ],
             singleDatepicker: [{name: "created_at", defaultText: "<?php echo app_lang('created') ?>",
                     options: [
                         {value: moment().subtract(2, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_days'), 2); ?>"},
