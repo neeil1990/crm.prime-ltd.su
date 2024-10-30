@@ -61,6 +61,12 @@
 
         var filterDropdowns = [];
 
+        filterDropdowns.push({name: "status", class: "w200", options: [
+                {id: 'open', text: '<?php echo app_lang("open") ?>', isSelected:true},
+                {id: 'closed', text: '<?php echo app_lang("closed") ?>'},
+            ]
+        });
+
         var clientAccessPermission = "<?php echo get_array_value($login_user->permissions, "client"); ?>";
         if (clientAccessPermission === "all" || <?php echo $login_user->is_admin ?>) {
             filterDropdowns.push({name: "client_id", class: "w200", options: <?php echo $clients_dropdown; ?>});
@@ -75,7 +81,7 @@
             order: [[7, "desc"]],
             smartFilterIdentity: "tickets_list", //a to z and _ only. should be unique to avoid conflicts
             ignoreSavedFilter: ignoreSavedFilter,
-            radioButtons: [{text: '<?php echo app_lang("open") ?>', name: "status", value: "open", isChecked: selectOpenStatus}, {text: '<?php echo app_lang("closed") ?>', name: "status", value: "closed", isChecked: selectClosedStatus}],
+            radioButtons: [],
             filterDropdown: filterDropdowns,
             multiSelect: [
                 {
@@ -110,7 +116,7 @@
                 {visible: false, searchable: false, order_by: "last_activity"},
                 {title: '<?php echo app_lang("last_activity") ?>', "iDataSort": 7, "class": "w10p", order_by: "last_activity"},
                 {title: '<?php echo app_lang("status") ?>', "class": "w5p"}
-<?php echo $custom_field_headers; ?>,
+                <?php echo $custom_field_headers; ?>,
                 {title: '<i data-feather="menu" class="icon-16"></i>', "class": "text-center dropdown-option w10p", visible: optionsVisibility}
             ],
             printColumns: combineCustomFieldsColumns([1, 2, 3, 4, 5, 6, 8, 9], '<?php echo $custom_field_headers; ?>'),
