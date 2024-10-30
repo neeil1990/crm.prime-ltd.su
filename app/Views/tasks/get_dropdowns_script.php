@@ -56,12 +56,14 @@ if (!isset($contexts)) {
             }
 
             appLoader.show({container: "#dropdown-apploader-section", zIndex: 1});
+
             $.ajax({
                 url: url,
                 dataType: "json",
                 success: function (result) {
 
                     initializeTaskModalCommonDropdowns(result, true);
+
                     if (context && reload_context) {
                         $("#" + context + "_id").show().val("");
                         $("#" + context + "_id").select2({data: result[context + "s_dropdown"]});
@@ -112,10 +114,18 @@ if (!isset($contexts)) {
             $('#milestone_id').select2({data: result.milestones_dropdown});
             $('#assigned_to').select2({data: result.assign_to_dropdown});
             $('#collaborators').select2({multiple: true, data: result.collaborators_dropdown});
-            $('#project_labels').select2({multiple: true, data: result.label_suggestions});
+            $('#project_labels').select2({multiple: true, data: valueToIdParams(result.label_suggestions)});
             $('#task_status_id').select2({data: result.statuses_dropdown});
         }
 
+        function valueToIdParams(params) {
+            return params.map(function (result) {
+                return {
+                    id: result.value,
+                    text: result.text
+                }
+            });
+        }
 
         var context = $("#task-context").val();
         showHideDropdowns(context, dropdowns);

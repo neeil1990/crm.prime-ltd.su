@@ -12,6 +12,7 @@ class Tasks extends Security_Controller {
     protected $Checklist_items_model;
     protected $Pin_comments_model;
     protected $Project_settings_model;
+    protected $Task_personal_notes_models;
     private $project_member_memory = array(); //array([project_id]=>true/false)
     private $project_client_memory = array(); //array([project_id]=>true/false)
     private $can_edit_client_memory = array(); //array([client_id]=>true/false, [any_clients]=>true/false)
@@ -32,6 +33,7 @@ class Tasks extends Security_Controller {
         $this->Checklist_items_model = model('App\Models\Checklist_items_model');
         $this->Pin_comments_model = model('App\Models\Pin_comments_model');
         $this->Project_settings_model = model('App\Models\Project_settings_model');
+        $this->Task_personal_notes_models = model('App\Models\Task_personal_notes_models');
     }
 
     private function get_context_id_pairs() {
@@ -1464,6 +1466,8 @@ class Tasks extends Security_Controller {
             $options .= js_anchor("<i data-feather='x' class='icon-16'></i>", array('title' => app_lang('delete_task'), "class" => "delete", "data-id" => $data->id, "data-action-url" => get_uri("tasks/delete"), "data-action" => "delete-confirmation"));
         }
 
+        $note = $data->personal_note_text;
+
         $row_data = array(
             $data->status_color,
             $check_status,
@@ -1476,7 +1480,8 @@ class Tasks extends Security_Controller {
             $context_title,
             $assigned_to,
             $collaborators,
-            $status
+            $status,
+            $note,
         );
 
         foreach ($custom_fields as $field) {
@@ -1695,6 +1700,8 @@ class Tasks extends Security_Controller {
         $options = array("task_id" => $task_id, "login_user_id" => $this->login_user->id);
         $view_data['comments'] = $this->Project_comments_model->get_details($options)->getResult();
         $view_data['task_id'] = $task_id;
+
+        $view_data['personal_note'] = $this->Task_personal_notes_models->get_one_where(["created_by" => $this->login_user->id, "task_id" => $task_id]);
 
         $view_data['custom_fields_list'] = $this->Custom_fields_model->get_combined_details("tasks", $task_id, $this->login_user->is_admin, $this->login_user->user_type)->getResult();
 
@@ -2774,6 +2781,23 @@ class Tasks extends Security_Controller {
         return json_encode($assigned_to_dropdown);
     }
 
+    function save_personal_note() {
+        $user_id = $this->login_user->id;
+        $text = $this->request->getPost('text');
+        $task_id = $this->request->getPost('task_id');
+
+        $data = [
+            'task_id' => $task_id,
+            'created_by' => $user_id,
+            'text' => $text,
+            'created_at' => date("Y-m-d H:i:s")
+        ];
+
+        $this->Task_personal_notes_models->update_or_create($data, ["created_by" => $user_id, "task_id" => $task_id]);
+
+        return json_encode(["success" => true]);
+    }
+
     function all_tasks($tab = "", $status_id = 0, $priority_id = 0, $type = "", $deadline = "") {
         $this->access_only_team_members();
         $view_data['project_id'] = 0;
@@ -3449,6 +3473,7 @@ class Tasks extends Security_Controller {
             "custom_fields" => $custom_fields,
             "status_ids" => $status,
             "unread_status_user_id" => $this->login_user->id,
+            "curr_user_id" => $this->login_user->id,
             "quick_filter" => $quick_filter,
             "label_ids" => $this->request->getPost('label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
@@ -3488,7 +3513,6 @@ class Tasks extends Security_Controller {
             $list_data = $result->getResult();
             $result = array();
         }
-
 
         $tasks_edit_permissions = $this->_get_tasks_edit_permissions($list_data);
         $tasks_status_edit_permissions = $this->_get_tasks_status_edit_permissions($list_data, $tasks_edit_permissions);
