@@ -44,9 +44,11 @@ class Tickets_model extends Crud_model {
             $where .= " AND FIND_IN_SET($tickets_table.status, 'new,open,client_replied')";
         }
 
-        $ticket_label = $this->_get_clean_value($options, "ticket_label");
-        if ($ticket_label) {
-            $where .= " AND (FIND_IN_SET('$ticket_label', $tickets_table.labels)) ";
+        $ticket_labels = $this->_get_clean_value($options, "ticket_labels");
+        if ($ticket_labels) {
+            foreach ($ticket_labels as $ticket_label) {
+                $where .= " AND (FIND_IN_SET('$ticket_label', $tickets_table.labels)) ";
+            }
         }
 
         $assigned_to = $this->_get_clean_value($options, "assigned_to");
@@ -66,9 +68,10 @@ class Tickets_model extends Crud_model {
             $where .= " AND FIND_IN_SET($ticket_types_table.id, '$ticket_types')";
         }
 
-        $ticket_type_id = $this->_get_clean_value($options, "ticket_type_id");
-        if ($ticket_type_id) {
-            $where .= " AND $tickets_table.ticket_type_id=$ticket_type_id";
+        $ticket_type_ids = $this->_get_clean_value($options, "ticket_type_ids");
+        if ($ticket_type_ids && count($ticket_type_ids)) {
+            $ticket_type_ids = implode(",", $ticket_type_ids);
+            $where .= " AND FIND_IN_SET($tickets_table.ticket_type_id, '$ticket_type_ids')";
         }
 
         $created_at = $this->_get_clean_value($options, "created_at");
@@ -207,7 +210,7 @@ class Tickets_model extends Crud_model {
         $tickets_table = $this->db->prefixTable('tickets');
         $ticket_comments_table = $this->db->prefixTable('ticket_comments');
 
-        //get ticket comments info to delete the files from directory 
+        //get ticket comments info to delete the files from directory
         $ticket_comments_sql = "SELECT * FROM $ticket_comments_table WHERE $ticket_comments_table.deleted=0 AND $ticket_comments_table.ticket_id=$ticket_id; ";
         $ticket_comments = $this->db->query($ticket_comments_sql)->getResult();
 

@@ -18,7 +18,7 @@
                                         <li role="presentation"><?php echo modal_anchor(get_uri("tasks/modal_form"), "<i data-feather='copy' class='icon-16'></i> " . app_lang('clone_task'), array("title" => app_lang('clone_task'), "data-post-id" => $model_info->id, "data-post-is_clone" => true, "data-post-view_type" => "details", "class" => "dropdown-item")); ?></li>
                                     </ul>
                                 </span>
-                            </div> 
+                            </div>
                         <?php } ?>
 
                     </div>
@@ -46,7 +46,7 @@
             history.pushState(browserState, "", browserState.Url);
 
             //restore previous url
-            
+
             if(!window.modalEventAttached){
                 $('#ajaxModal').on('hidden.bs.modal', function (e) {
                     if (window.existingUrl) {
@@ -59,11 +59,11 @@
                         window.reloadKanban = false; //reset
                         $("#reload-kanban-button:visible").trigger("click");
                     }
-                    
+
                 });
                 window.modalEventAttached = true;
             }
-            
+
         });
     </script>
 
@@ -98,7 +98,7 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
             ghostClass: "sortable-ghost",
             onUpdate: function (e) {
                 appLoader.show();
-                //prepare checklist items indexes 
+                //prepare checklist items indexes
                 var data = "";
                 $.each($selector.find(".checklist-item-row"), function (index, ele) {
                     if (data) {
@@ -160,6 +160,20 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
 
         count_checklists();
 
+        $(".copy-checklist-item").click(function () {
+            let $temp = $("<input>");
+
+            $("body").append($temp);
+
+            $temp.val($(this).closest(".list-group-item").find(".font-13").text()).select();
+
+            document.execCommand("copy");
+
+            $temp.remove();
+
+            appAlert.success("Скопировано", {duration: 5000});
+        });
+
         var checklist_complete = $(".checklist-items .checkbox-checked").length;
         $(".chcklists_status_count").text(checklist_complete);
 
@@ -171,7 +185,7 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
                 $("#checklist-items").append(response.data);
 
                 count_checklists();
-                window.reloadKanban = true; 
+                window.reloadKanban = true;
             }
         });
 
@@ -196,7 +210,7 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
                 success: function (response) {
                     if (response.success) {
                         status_checkbox.closest("div").html(response.data);
-                        window.reloadKanban = true; 
+                        window.reloadKanban = true;
                     }
                 }
             });
@@ -223,7 +237,7 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
                 $("#sub-task-title").val("");
                 $("#sub-task-title").focus();
                 $("#sub-tasks").append(response.task_data);
-                window.reloadKanban = true; 
+                window.reloadKanban = true;
             }
         });
 

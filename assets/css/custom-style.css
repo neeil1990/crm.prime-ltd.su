@@ -21,3 +21,14 @@
 .comment-highlight {
     border: 2px solid #5766D9!important;
 }
+
+.checklist-items a.edit-checklist-item,
+.checklist-items a.copy-checklist-item {
+    color: #a1a3a5;
+}
+
+.filter-multi-select .dropdown-menu {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 300px;
+}

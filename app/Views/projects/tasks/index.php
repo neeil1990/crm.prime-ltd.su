@@ -129,13 +129,7 @@ foreach ($task_statuses as $status) {
             var filterDropdown = [
                 {name: "quick_filter", class: "w200", showHtml: true, options: <?php echo view("tasks/quick_filters_dropdown"); ?>},
                 {name: "milestone_id", class: "w200", options: <?php echo $milestone_dropdown; ?>},
-                {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
-                {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>}
-
             ];
-
-            filterDropdown.push({name: "responsible_user_id", class: "w200", options: <?php echo $assigned_to_dropdown; ?>});
-            filterDropdown.push({name: "member_user_id", class: "w200", options: <?php echo $members_to_dropdown; ?>});
 
             filterDropdown.push(<?php echo $custom_field_filters; ?>);
             $("#task-table").appTable({
@@ -155,6 +149,30 @@ foreach ($task_statuses as $status) {
                             {value: moment().add(15, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_number_of_days'), 15); ?>"}
                         ]}],
                 multiSelect: [
+                    {
+                        class: "w200",
+                        name: "responsible_user_id",
+                        text: "<?php echo app_lang('team_responsible'); ?>",
+                        options: <?php echo $assigned_to_dropdown; ?>
+                    },
+                    {
+                        class: "w200",
+                        name: "member_user_id",
+                        text: "<?php echo app_lang('team_member'); ?>",
+                        options: <?php echo $members_to_dropdown; ?>
+                    },
+                    {
+                        class: "w200",
+                        name: "priority_id",
+                        text: "<?php echo app_lang('priority'); ?>",
+                        options: <?php echo $priorities_dropdown; ?>
+                    },
+                    {
+                        class: "w200",
+                        name: "label_id",
+                        text: "<?php echo app_lang('label'); ?>",
+                        options: <?php echo $labels_dropdown; ?>
+                    },
                     {
                         name: "status_id",
                         text: "<?php echo app_lang('status'); ?>",

@@ -24,7 +24,7 @@ if ($total_sub_tasks) {
                             <div>
                                 <?php echo get_update_task_info_anchor_data($model_info, "user", $can_edit_tasks, "", $show_assign_to_dropdown); ?>
                             </div>
-                            <p> 
+                            <p>
                                 <span class='badge badge-light mr5' title='Point'><?php echo get_update_task_info_anchor_data($model_info, "points", $can_edit_tasks); ?></span>
 
                                 <?php
@@ -93,7 +93,7 @@ if ($total_sub_tasks) {
 
                     <?php if ($model_info->recurring_task_id) { ?>
                         <div class="col-md-12 mb15">
-                            <strong><?php echo app_lang('created_from') . ": "; ?> </strong> 
+                            <strong><?php echo app_lang('created_from') . ": "; ?> </strong>
                             <?php
                             echo modal_anchor(get_uri("tasks/view"), app_lang("task") . " " . $model_info->recurring_task_id, array("title" => app_lang('task_info') . " #$model_info->recurring_task_id", "data-post-id" => $model_info->recurring_task_id, "data-modal-lg" => "1"));
                             ?>
@@ -141,7 +141,7 @@ if ($total_sub_tasks) {
                             if ($show_timer) {
                                 echo view("tasks/task_timer");
                             }
-                            ?> 
+                            ?>
                         </div>
 
                         <?php if (get_setting("module_project_timesheet") == "1" && $show_timesheet_info) { ?>
@@ -292,9 +292,8 @@ if ($total_sub_tasks) {
                         <input type="hidden" name="task_id" value="<?php echo $task_id; ?>" />
                         <input type="hidden" id="is_checklist_group" name="is_checklist_group" value="" />
 
-                        <div class="checklist-items" id="checklist-items">
+                        <div class="checklist-items" id="checklist-items"></div>
 
-                        </div>
                         <?php if ($can_edit_tasks) { ?>
                             <div class="mb5 mt5 btn-group checklist-options-panel hide" role="group">
                                 <button id="type-new-item-button" type="button" class="btn btn-default checklist_button active"> <?php echo app_lang('type_new_item'); ?></button>
@@ -361,7 +360,7 @@ if ($total_sub_tasks) {
                                 </div>
                             </div>
                             <div id="sub-task-options-panel" class="col-md-12 mb15 p0 hide">
-                                <button type="submit" class="btn btn-primary"><span data-feather="check-circle" class="icon-16"></span> <?php echo app_lang('create'); ?></button> 
+                                <button type="submit" class="btn btn-primary"><span data-feather="check-circle" class="icon-16"></span> <?php echo app_lang('create'); ?></button>
                                 <button id="sub-task-options-panel-close" type="button" class="btn btn-default"><span data-feather="x" class="icon-16"></span> <?php echo app_lang('cancel'); ?></button>
                             </div>
                         <?php } ?>
@@ -418,7 +417,7 @@ if ($total_sub_tasks) {
                         </div>
 
                         <div class="p0 mt10">
-                            <button type="submit" class="btn btn-primary"><span data-feather="check-circle" class="icon-16"></span> <?php echo app_lang('add'); ?></button> 
+                            <button type="submit" class="btn btn-primary"><span data-feather="check-circle" class="icon-16"></span> <?php echo app_lang('add'); ?></button>
                             <button type="button" class="dependency-tasks-close btn btn-default"><span data-feather="x" class="icon-16"></span> <?php echo app_lang('cancel'); ?></button>
                         </div>
 

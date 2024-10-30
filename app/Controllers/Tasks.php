@@ -1233,17 +1233,19 @@ class Tasks extends Security_Controller {
 
         $show_time_with_task = (get_setting("show_time_with_task_start_date_and_deadline")) ? true : false;
 
+        $responsible_user_ids = $this->request->getPost('responsible_user_id') ? implode(",", $this->request->getPost('responsible_user_id')) : "";
+
         $options = array(
-            "responsible_user_id" => $this->request->getPost('responsible_user_id'),
-            "member_user_id" => $this->request->getPost('member_user_id'),
+            "responsible_user_ids" => $responsible_user_ids,
+            "member_user_ids" => $this->request->getPost('member_user_id'),
             "deadline" => $this->request->getPost('deadline'),
             "status_ids" => $status,
             "milestone_id" => $milestone_id,
-            "priority_id" => $this->request->getPost('priority_id'),
+            "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
             "custom_fields" => $custom_fields,
             "unread_status_user_id" => $this->login_user->id,
             "quick_filter" => $quick_filter,
-            "label_id" => $this->request->getPost('label_id'),
+            "label_ids" => $this->request->getPost('label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 
@@ -1574,6 +1576,16 @@ class Tasks extends Security_Controller {
         }
     }
 
+    public function edit_checklist_modal_form($checklist_id)
+    {
+        if ($checklist_id) {
+            $view_data["checklist_id"] = $checklist_id;
+            $view_data["checklist_item"] = $this->Checklist_items_model->get_details(["id" => $checklist_id])->getRow();
+
+            return $this->template->view('tasks/edit_checklist_modal_form', $view_data);
+        }
+    }
+
     private function _make_checklist_item_row($data, $return_type = "row") {
         $checkbox_class = "checkbox-blank";
         $title_class = "";
@@ -1599,11 +1611,15 @@ class Tasks extends Security_Controller {
             $delete = "";
         }
 
+        $edit = modal_anchor(get_uri("tasks/edit_checklist_modal_form/$data->id"), "<div class='float-end me-2'><i data-feather='edit-2' class='icon-16'></i></div>", array("class" => "edit-checklist-item", 'title' => app_lang("edit_checklist_item")));
+
+        $copy = js_anchor("<div class='float-end me-2'><i data-feather='copy' class='icon-16'></i></div>", array("class" => "copy-checklist-item", 'title' => app_lang("copy_checklist_item")));
+
         if ($return_type == "data") {
             return $status . $delete . $title;
         }
 
-        return "<div id='checklist-item-row-$data->id' class='list-group-item mb5 checklist-item-row b-a rounded text-break' data-id='$data->id'>" . $status . $delete . $title . "</div>";
+        return "<div id='checklist-item-row-$data->id' class='list-group-item mb5 checklist-item-row b-a rounded text-break' data-id='$data->id'>" . $status . $delete . $edit . $copy . $title . "</div>";
     }
 
     private function _make_sub_task_row($data, $return_type = "row") {
@@ -1848,6 +1864,22 @@ class Tasks extends Security_Controller {
                 $data = array((($type == "blocked_by") ? "blocking" : "blocked_by") => $dependency_tasks_of_others_array);
                 $this->Tasks_model->update_custom_data($data, $dependency_task_id);
             }
+        }
+
+        echo json_encode(array("success" => true));
+    }
+
+    function update_checklist_item()
+    {
+        $checklist_id = $this->request->getPost("checklist_id");
+        $checklist_title = $this->request->getPost("checklist_title");
+
+        $this->validate_submitted_data(array(
+            "checklist_id" => "required|numeric"
+        ));
+
+        if ($checklist_title) {
+            $this->Checklist_items_model->update_where(["title" => $checklist_title], ["id" => $checklist_id]);
         }
 
         echo json_encode(array("success" => true));
@@ -2707,7 +2739,7 @@ class Tasks extends Security_Controller {
 
     private function _get_priorities_dropdown_list($priority_id = 0) {
         $priorities = $this->Task_priority_model->get_details()->getResult();
-        $priorities_dropdown = array(array("id" => "", "text" => "- " . app_lang("priority") . " -"));
+        $priorities_dropdown = array(array("value" => "", "text" => "- " . app_lang("priority") . " -"));
 
         //if there is any specific priority selected, select only the priority.
         $selected_status = false;
@@ -2720,22 +2752,22 @@ class Tasks extends Security_Controller {
                 }
             }
 
-            $priorities_dropdown[] = array("id" => $priority->id, "text" => $priority->title, "isSelected" => $selected_status);
+            $priorities_dropdown[] = array("value" => $priority->id, "text" => $priority->title, "isSelected" => $selected_status);
         }
         return json_encode($priorities_dropdown);
     }
 
     private function _get_project_members_dropdown_list($project_id = 0, $name = "assigned_to") {
         if ($this->login_user->user_type === "staff") {
-            $assigned_to_dropdown = array(array("id" => "", "text" => "- " . app_lang($name) . " -"));
+            $assigned_to_dropdown = array(array("value" => "", "text" => "- " . app_lang($name) . " -"));
             $assigned_to_list = $this->Project_members_model->get_project_members_dropdown_list($project_id, array(), true, true)->getResult();
             foreach ($assigned_to_list as $assigned_to) {
-                $assigned_to_dropdown[] = array("id" => $assigned_to->user_id, "text" => $assigned_to->member_name);
+                $assigned_to_dropdown[] = array("value" => $assigned_to->user_id, "text" => $assigned_to->member_name);
             }
         } else {
             $assigned_to_dropdown = array(
-                array("id" => "", "text" => app_lang("all_tasks")),
-                array("id" => $this->login_user->id, "text" => app_lang("my_tasks"))
+                array("value" => "", "text" => app_lang("all_tasks")),
+                array("value" => $this->login_user->id, "text" => app_lang("my_tasks"))
             );
         }
 
@@ -2753,13 +2785,13 @@ class Tasks extends Security_Controller {
             }
         }
 
-        $team_members_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_member") . " -"));
-        $team_responsible_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_responsible") . " -"));
+        $team_members_dropdown = array(array("value" => "", "text" => "- " . app_lang("team_member") . " -"));
+        $team_responsible_dropdown = array(array("value" => "", "text" => "- " . app_lang("team_responsible") . " -"));
         $assigned_to_list = $this->Users_model->get_dropdown_list(array("first_name", "last_name"), "id", array("deleted" => 0, "user_type" => "staff"));
 
         foreach ($assigned_to_list as $key => $value) {
-            $team_members_dropdown[] = array("id" => $key, "text" => $value);
-            $team_responsible_dropdown[] = array("id" => $key, "text" => $value);
+            $team_members_dropdown[] = array("value" => $key, "text" => $value);
+            $team_responsible_dropdown[] = array("value" => $key, "text" => $value);
         }
 
         $view_data['tab'] = $tab;
@@ -2807,13 +2839,13 @@ class Tasks extends Security_Controller {
             }
         }
 
-        $team_members_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_member") . " -"));
-        $team_responsible_dropdown = array(array("id" => "", "text" => "- " . app_lang("team_responsible") . " -"));
+        $team_members_dropdown = array(array("value" => "", "text" => "- " . app_lang("team_member") . " -"));
+        $team_responsible_dropdown = array(array("value" => "", "text" => "- " . app_lang("team_responsible") . " -"));
         $assigned_to_list = $this->Users_model->get_dropdown_list(array("first_name", "last_name"), "id", array("deleted" => 0, "user_type" => "staff"));
 
         foreach ($assigned_to_list as $key => $value) {
-            $team_members_dropdown[] = array("id" => $key, "text" => $value);
-            $team_responsible_dropdown[] = array("id" => $key, "text" => $value);
+            $team_members_dropdown[] = array("value" => $key, "text" => $value);
+            $team_responsible_dropdown[] = array("value" => $key, "text" => $value);
         }
 
         $view_data['team_members_dropdown'] = json_encode($team_members_dropdown);
@@ -2851,22 +2883,22 @@ class Tasks extends Security_Controller {
 
         $project_id = $this->request->getPost('project_id');
 
-        $responsible_user_id = $this->request->getPost('responsible_user_id');
+        $responsible_user_ids = $this->request->getPost('responsible_user_id') ? implode(",", $this->request->getPost('responsible_user_id')) : "";
 
-        $member_user_id = $this->request->getPost('member_user_id');
+        $member_user_ids = $this->request->getPost('member_user_id');
 
         $options = array(
-            "responsible_user_id" => $responsible_user_id,
-            "member_user_id" => $member_user_id,
+            "responsible_user_ids" => $responsible_user_ids,
+            "member_user_ids" => $member_user_ids,
             "project_id" => $project_id,
             "milestone_id" => $this->request->getPost('milestone_id'),
-            "priority_id" => $this->request->getPost('priority_id'),
+            "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
             "deadline" => $this->request->getPost('deadline'),
             "search" => $this->request->getPost('search'),
             "context" => $this->request->getPost('context'),
             "unread_status_user_id" => $this->login_user->id,
             "quick_filter" => $this->request->getPost("quick_filter"),
-            "label_id" => $this->request->getPost('label_id'),
+            "label_ids" => $this->request->getPost('label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 
@@ -2973,19 +3005,23 @@ class Tasks extends Security_Controller {
             app_redirect("forbidden");
         }
 
+        $responsible_user_ids = $this->request->getPost('responsible_user_id') ? implode(",", $this->request->getPost('responsible_user_id')) : "";
+
+        $member_user_ids = $this->request->getPost('member_user_id');
+
         $options = array(
-            "responsible_user_id" => $this->request->getPost('responsible_user_id'),
-            "member_user_id" => $this->request->getPost('member_user_id'),
+            "responsible_user_ids" => $responsible_user_ids,
+            "member_user_ids" => $member_user_ids,
             "project_id" => $project_id,
             "assigned_to" => $this->request->getPost('assigned_to'),
             "milestone_id" => $this->request->getPost('milestone_id'),
-            "priority_id" => $this->request->getPost('priority_id'),
+            "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
             "deadline" => $this->request->getPost('deadline'),
             "search" => $this->request->getPost('search'),
             "unread_status_user_id" => $this->login_user->id,
             "show_assigned_tasks_only_user_id" => $this->show_assigned_tasks_only_user_id(),
             "quick_filter" => $this->request->getPost('quick_filter'),
-            "label_id" => $this->request->getPost('label_id'),
+            "label_ids" => $this->request->getPost('label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 
@@ -3387,9 +3423,9 @@ class Tasks extends Security_Controller {
 
         $project_id = $this->request->getPost('project_id');
 
-        $responsible_user_id = $this->request->getPost('responsible_user_id');
+        $responsible_user_ids = $this->request->getPost('responsible_user_id') ? implode(",", $this->request->getPost('responsible_user_id')) : "";
 
-        $member_user_id = $this->request->getPost('member_user_id');
+        $member_user_ids = $this->request->getPost('member_user_id');
 
         $custom_fields = $this->Custom_fields_model->get_available_fields_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
@@ -3403,18 +3439,18 @@ class Tasks extends Security_Controller {
         $context = $this->request->getPost('context');
 
         $options = array(
-            "responsible_user_id" => $responsible_user_id,
-            "member_user_id" => $member_user_id,
+            "responsible_user_ids" => $responsible_user_ids,
+            "member_user_ids" => $member_user_ids,
             "project_id" => $project_id,
             "context" => $context,
             "milestone_id" => $this->request->getPost('milestone_id'),
-            "priority_id" => $this->request->getPost('priority_id'),
+            "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
             "deadline" => $this->request->getPost('deadline'),
             "custom_fields" => $custom_fields,
             "status_ids" => $status,
             "unread_status_user_id" => $this->login_user->id,
             "quick_filter" => $quick_filter,
-            "label_id" => $this->request->getPost('label_id'),
+            "label_ids" => $this->request->getPost('label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 

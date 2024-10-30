@@ -28,11 +28,7 @@
         if ("<?php echo $login_user->user_type ?>" == "staff") {
             filterDropdown = [
                 {name: "quick_filter", class: "w200", showHtml: true, options: <?php echo view("tasks/quick_filters_dropdown"); ?>},
-                {name: "milestone_id", class: "w200", options: <?php echo $milestone_dropdown; ?>},
-                {name: "priority_id", class: "w200", options: <?php echo $priorities_dropdown; ?>},
-                {name: "label_id", class: "w200", options: <?php echo $labels_dropdown; ?>},
-                {name: "responsible_user_id", class: "w200", options: <?php echo $assigned_to_dropdown; ?>},
-                {name: "member_user_id", class: "w200", options: <?php echo $members_to_dropdown; ?>}
+                {name: "milestone_id", class: "w200", options: <?php echo $milestone_dropdown; ?>}
                 , <?php echo $custom_field_filters; ?>
             ];
         } else {
@@ -60,6 +56,32 @@
             contextMeta: {contextId: "<?php echo $project_id; ?>", dependencies: ["milestone_id"]}, //useful to seperate instance related filters. Ex. Milestones are different for each projects.
             search: {name: "search"},
             filterDropdown: filterDropdown,
+            multiSelect: [
+                {
+                    class: "w200",
+                    name: "responsible_user_id",
+                    text: "<?php echo app_lang('team_responsible'); ?>",
+                    options: <?php echo $assigned_to_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "member_user_id",
+                    text: "<?php echo app_lang('team_member'); ?>",
+                    options: <?php echo $members_to_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "priority_id",
+                    text: "<?php echo app_lang('priority'); ?>",
+                    options: <?php echo $priorities_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "label_id",
+                    text: "<?php echo app_lang('label'); ?>",
+                    options: <?php echo $labels_dropdown; ?>
+                },
+            ],
             singleDatepicker: [{name: "deadline", defaultText: "<?php echo app_lang('deadline') ?>", class: "w200",
                     options: [
                         {value: "expired", text: "<?php echo app_lang('expired') ?>"},

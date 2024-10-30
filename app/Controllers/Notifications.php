@@ -51,10 +51,10 @@ class Notifications extends Security_Controller {
     }
 
     private function _prepare_notification_list($offset = 0) {
-        $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset);
+        $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset, 100);
         $view_data['notifications'] = $notifiations->result;
         $view_data['found_rows'] = $notifiations->found_rows;
-        $next_page_offset = $offset + 20;
+        $next_page_offset = $offset + 100;
         $view_data['next_page_offset'] = $next_page_offset;
         $view_data['result_remaining'] = $notifiations->found_rows > $next_page_offset;
         return $view_data;
