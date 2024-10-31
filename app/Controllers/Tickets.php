@@ -46,7 +46,7 @@ class Tickets extends Security_Controller {
         if ($this->login_user->user_type === "staff") {
 
             //prepare ticket label filter list
-            $view_data['ticket_labels_dropdown'] = json_encode($this->make_labels_dropdown("ticket", "", true));
+            $view_data['ticket_labels_dropdown'] = json_encode($this->make_labels_dropdown_value("ticket", "", true));
 
             $view_data['show_options_column'] = true; //team members can view the options column
 
