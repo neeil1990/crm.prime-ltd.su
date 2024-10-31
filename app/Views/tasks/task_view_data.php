@@ -171,6 +171,11 @@ if ($total_sub_tasks) {
                         <?php echo view("projects/comments/pinned_comments"); ?>
                     </div>
 
+                    <div class="col-md-12 mb15">
+                        <div class="mb15"><strong><?php echo app_lang("notes") . " (" . app_lang('private') . ")" . ": "; ?> </strong></div>
+                        <?php echo view("tasks/task_notes", array("task_id" => $model_info->id, "text" => $personal_note->text)); ?>
+                    </div>
+
                     <?php if (can_access_reminders_module()) { ?>
                         <div class="col-md-12 mb15" id="task-reminders">
                             <div class="mb15"><strong><?php echo app_lang("reminders") . " (" . app_lang('private') . ")" . ": "; ?> </strong></div>

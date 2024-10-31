@@ -56,12 +56,14 @@ if (!isset($contexts)) {
             }
 
             appLoader.show({container: "#dropdown-apploader-section", zIndex: 1});
+
             $.ajax({
                 url: url,
                 dataType: "json",
                 success: function (result) {
 
                     initializeTaskModalCommonDropdowns(result, true);
+
                     if (context && reload_context) {
                         $("#" + context + "_id").show().val("");
                         $("#" + context + "_id").select2({data: result[context + "s_dropdown"]});
@@ -115,7 +117,6 @@ if (!isset($contexts)) {
             $('#project_labels').select2({multiple: true, data: result.label_suggestions});
             $('#task_status_id').select2({data: result.statuses_dropdown});
         }
-
 
         var context = $("#task-context").val();
         showHideDropdowns(context, dropdowns);

@@ -183,8 +183,9 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                 {title: "<?php echo app_lang('related_to') ?>", visible: showOption},
                 {title: "<?php echo app_lang('assigned_to') ?>", "class": "min-w150", visible: showOption, order_by: "assigned_to"},
                 {title: "<?php echo app_lang('collaborators') ?>", visible: showOption},
-                {title: "<?php echo app_lang('status') ?>", visible: showOption, order_by: "status"}
-<?php echo $custom_field_headers; ?>,
+                {title: "<?php echo app_lang('status') ?>", visible: showOption, order_by: "status"},
+                {title: "<?php echo app_lang('note') ?>", visible: showOption}
+                <?php echo $custom_field_headers; ?>,
                 {title: '<i data-feather="menu" class="icon-16"></i>', "class": "text-center option"}
             ],
             printColumns: combineCustomFieldsColumns([1, 2, 4, 6, 7, 8, 9, 10, 12], '<?php echo $custom_field_headers; ?>'),

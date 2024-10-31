@@ -138,6 +138,7 @@ class Tasks_model extends Crud_model {
         $subscriptions_table = $this->db->prefixTable("subscriptions");
         $expenses_table = $this->db->prefixTable('expenses');
         $invoices_table = $this->db->prefixTable('invoices');
+        $task_personal_notes_table = $this->db->prefixTable('task_personal_notes');
 
         $where = "";
 
@@ -356,6 +357,10 @@ class Tasks_model extends Crud_model {
             $unread_status_user_id = 0;
         }
 
+        $curr_user_id = $this->_get_clean_value($options, "curr_user_id");
+        if (!$curr_user_id) {
+            $curr_user_id = 0;
+        }
 
         $select_labels_data_query = $this->get_labels_data_query();
 
@@ -427,10 +432,14 @@ class Tasks_model extends Crud_model {
                     $task_priority_table.title AS priority_title, $task_priority_table.icon AS priority_icon, $task_priority_table.color AS priority_color,
                     $clients_table.company_name,
                     $contracts_table.title AS contract_title,
+                    $task_personal_notes_table.text AS personal_note_text,
                     $subscriptions_table.title AS subscription_title,
                     $expenses_table.expense_date, $expenses_table.title AS expense_title,
                     $invoices_table.display_id AS invoice_display_id,
-                    IF($tasks_table.deadline IS NULL, $milestones_table.title, '') AS deadline_milestone_title, notification_table.task_id AS unread, sub_task_table.total_sub_tasks AS has_sub_tasks, $select_labels_data_query $select_custom_fieds 
+                    IF($tasks_table.deadline IS NULL, $milestones_table.title, '') AS deadline_milestone_title,
+                     notification_table.task_id AS unread,
+                      sub_task_table.total_sub_tasks AS has_sub_tasks,
+                       $select_labels_data_query $select_custom_fieds 
                         
         FROM $tasks_table
         LEFT JOIN $users_table ON $users_table.id= $tasks_table.assigned_to
@@ -445,7 +454,8 @@ class Tasks_model extends Crud_model {
         LEFT JOIN $ticket_table ON $tasks_table.ticket_id = $ticket_table.id
         LEFT JOIN $invoices_table ON $tasks_table.invoice_id = $invoices_table.id
         LEFT JOIN (SELECT COUNT($tasks_table.id) AS total_sub_tasks, $tasks_table.parent_task_id FROM $tasks_table WHERE $tasks_table.deleted = 0 AND $tasks_table.parent_task_id!=0 GROUP BY $tasks_table.parent_task_id) AS sub_task_table ON sub_task_table.parent_task_id = $tasks_table.id
-        LEFT JOIN (SELECT $notifications_table.task_id FROM $notifications_table WHERE $notifications_table.deleted=0 AND $notifications_table.event='project_task_commented' AND !FIND_IN_SET('$unread_status_user_id', $notifications_table.read_by) AND $notifications_table.user_id!=$unread_status_user_id  GROUP BY $notifications_table.task_id) AS notification_table ON notification_table.task_id = $tasks_table.id
+        LEFT JOIN (SELECT $notifications_table.task_id FROM $notifications_table WHERE $notifications_table.deleted=0 AND $notifications_table.event='project_task_commented' AND !FIND_IN_SET('$unread_status_user_id', $notifications_table.read_by) AND $notifications_table.user_id!=$unread_status_user_id  GROUP BY $notifications_table.task_id) AS notification_table ON notification_table.task_id = $tasks_table.id 
+        LEFT JOIN $task_personal_notes_table ON $tasks_table.id = $task_personal_notes_table.task_id AND $task_personal_notes_table.created_by = $curr_user_id 
         $extra_left_join 
         $join_custom_fieds 
         WHERE $tasks_table.deleted=0 $where $custom_fields_where 
