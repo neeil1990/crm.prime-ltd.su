@@ -35,5 +35,11 @@
         setTimeout(function () {
             $("#checklist_title").focus();
         }, 200);
+
+        $("#ajaxModal").unbind( "hidden.bs.modal" );
+
+        $("#ajaxModal").bind("hidden.bs.modal", function () {
+            location.reload();
+        });
     });
 </script>
