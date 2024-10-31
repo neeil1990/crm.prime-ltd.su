@@ -114,17 +114,8 @@ if (!isset($contexts)) {
             $('#milestone_id').select2({data: result.milestones_dropdown});
             $('#assigned_to').select2({data: result.assign_to_dropdown});
             $('#collaborators').select2({multiple: true, data: result.collaborators_dropdown});
-            $('#project_labels').select2({multiple: true, data: valueToIdParams(result.label_suggestions)});
+            $('#project_labels').select2({multiple: true, data: result.label_suggestions});
             $('#task_status_id').select2({data: result.statuses_dropdown});
-        }
-
-        function valueToIdParams(params) {
-            return params.map(function (result) {
-                return {
-                    id: result.value,
-                    text: result.text
-                }
-            });
         }
 
         var context = $("#task-context").val();

@@ -441,7 +441,7 @@ class Projects extends Security_Controller
     function save_cloned_project()
     {
 
-        ini_set('max_execution_time', 300); //300 seconds 
+        ini_set('max_execution_time', 300); //300 seconds
 
         $project_id = $this->request->getPost('project_id');
         $project_start_date = $this->request->getPost('start_date');
@@ -494,7 +494,7 @@ class Projects extends Security_Controller
         $old_project_info = $this->Projects_model->get_one($project_id);
 
         //add milestones
-        //when the new milestones will be created the ids will be different. so, we have to convert the milestone ids. 
+        //when the new milestones will be created the ids will be different. so, we have to convert the milestone ids.
         $milestones_array = array();
 
         if ($copy_milestones) {
@@ -532,11 +532,11 @@ class Projects extends Security_Controller
             }
         }
 
-        //we'll keep all new task ids vs old task ids. by this way, we'll add the checklist easily 
+        //we'll keep all new task ids vs old task ids. by this way, we'll add the checklist easily
         $task_ids = array();
 
         //add tasks
-        //first, save tasks whose are not sub tasks 
+        //first, save tasks whose are not sub tasks
         $tasks = $this->Tasks_model->get_all_where(array("project_id" => $project_id, "deleted" => 0, "parent_task_id" => 0))->getResult();
         foreach ($tasks as $task) {
             $task_data = $this->_prepare_new_task_data_on_cloning_project($new_project_id, $milestones_array, $task, $copy_same_assignee_and_collaborators, $copy_tasks_start_date_and_deadline, $move_all_tasks_to_to_do, $change_the_tasks_start_date_and_deadline_based_on_project_start_date, $old_project_info, $project_start_date);
@@ -572,7 +572,7 @@ class Projects extends Security_Controller
         $tasks = $this->Tasks_model->get_all_tasks_where_have_dependency($project_id)->getResult();
         foreach ($tasks as $task) {
             if (array_key_exists($task->id, $task_ids)) {
-                //save blocked by tasks 
+                //save blocked by tasks
                 if ($task->blocked_by) {
                     //find the newly created tasks
                     $new_blocked_by_tasks = "";
@@ -594,7 +594,7 @@ class Projects extends Security_Controller
                     }
                 }
 
-                //save blocking tasks 
+                //save blocking tasks
                 if ($task->blocking) {
                     //find the newly created tasks
                     $new_blocking_tasks = "";
@@ -671,7 +671,7 @@ class Projects extends Security_Controller
 
     private function _prepare_new_task_data_on_cloning_project($new_project_id, $milestones_array, $task, $copy_same_assignee_and_collaborators, $copy_tasks_start_date_and_deadline, $move_all_tasks_to_to_do, $change_the_tasks_start_date_and_deadline_based_on_project_start_date, $old_project_info, $project_start_date)
     {
-        //prepare new task data. 
+        //prepare new task data.
         $task->project_id = $new_project_id;
         $milestone_id = get_array_value($milestones_array, $task->milestone_id);
         $task->milestone_id = $milestone_id ? $milestone_id : "";
@@ -1310,7 +1310,7 @@ class Projects extends Security_Controller
         $this->access_only_team_members();
         $this->init_project_permission_checker($project_id);
 
-        //show the message icon to client contacts list only if the user can send message to client. 
+        //show the message icon to client contacts list only if the user can send message to client.
         $can_send_message_to_client = false;
         $client_message_users = get_setting("client_message_users");
         $client_message_users_array = explode(",", $client_message_users);
@@ -3094,7 +3094,7 @@ class Projects extends Security_Controller
         }
     }
 
-    //reset projects dropdown on changing of client 
+    //reset projects dropdown on changing of client
     function get_projects_of_selected_client_for_filter()
     {
         $this->access_only_team_members();

@@ -432,6 +432,47 @@ class Security_Controller extends App_Controller {
             show_404();
         }
 
+        $labels_dropdown = $is_filter ? array(array("id" => "", "text" => "- " . ($custom_filter_title ? $custom_filter_title : app_lang("label")) . " -")) : array();
+
+        $options = array(
+            "context" => $type
+        );
+
+        if ($type == "event" || $type == "note" || $type == "to_do") {
+            $options["user_id"] = $this->login_user->id;
+        }
+
+        if ($label_ids) {
+            $add_label_option = true;
+
+            //check if any string is exists,
+            //if so, not include this parameter
+            $explode_ids = explode(',', $label_ids);
+            foreach ($explode_ids as $label_id) {
+                if (!is_int($label_id)) {
+                    $add_label_option = false;
+                    break;
+                }
+            }
+
+            if ($add_label_option) {
+                $options["label_ids"] = $label_ids; //to edit labels where have access of others
+            }
+        }
+
+        $labels = $this->Labels_model->get_details($options)->getResult();
+        foreach ($labels as $label) {
+            $labels_dropdown[] = array("id" => $label->id, "text" => $label->title);
+        }
+
+        return $labels_dropdown;
+    }
+
+    protected function make_labels_dropdown_value($type = "", $label_ids = "", $is_filter = false, $custom_filter_title = "") {
+        if (!$type) {
+            show_404();
+        }
+
         $labels_dropdown = $is_filter ? array(array("value" => "", "text" => "- " . ($custom_filter_title ? $custom_filter_title : app_lang("label")) . " -")) : array();
 
         $options = array(

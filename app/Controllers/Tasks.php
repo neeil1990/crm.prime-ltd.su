@@ -2699,7 +2699,7 @@ class Tasks extends Security_Controller {
         $view_data['task_statuses'] = $this->Task_status_model->get_details(array("exclude_status_ids" => $exclude_status_ids))->getResult();
 
         $view_data["show_assigned_tasks_only"] = get_array_value($this->login_user->permissions, "show_assigned_tasks_only");
-        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown("task", "", true));
+        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
 
         return $this->template->view("projects/tasks/index", $view_data);
     }
@@ -2729,7 +2729,7 @@ class Tasks extends Security_Controller {
         $view_data['task_statuses'] = $this->Task_status_model->get_details(array("exclude_status_ids" => $exclude_status_ids))->getResult();
         $view_data['can_edit_tasks'] = $this->_can_edit_project_tasks($project_id);
         $view_data["custom_field_filters"] = $this->Custom_fields_model->get_custom_field_filters("tasks", $this->login_user->is_admin, $this->login_user->user_type);
-        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown("task", "", true));
+        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
 
         return $this->template->view("projects/tasks/kanban/project_tasks", $view_data);
     }
@@ -2835,7 +2835,7 @@ class Tasks extends Security_Controller {
         $view_data['priorities_dropdown'] = $this->_get_priorities_dropdown_list($priority_id);
         $view_data['contexts_dropdown'] = json_encode($this->_get_accessible_contexts_dropdown());
         $view_data["has_all_projects_restricted_role"] = $this->has_all_projects_restricted_role();
-        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown("task", "", true));
+        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
 
         return $this->template->rander("tasks/all_tasks", $view_data);
     }
@@ -2883,7 +2883,7 @@ class Tasks extends Security_Controller {
         $view_data["custom_field_filters"] = $this->Custom_fields_model->get_custom_field_filters("tasks", $this->login_user->is_admin, $this->login_user->user_type);
         $view_data['contexts_dropdown'] = json_encode($this->_get_accessible_contexts_dropdown());
         $view_data["has_all_projects_restricted_role"] = $this->has_all_projects_restricted_role();
-        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown("task", "", true));
+        $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
 
         return $this->template->rander("tasks/kanban/all_tasks", $view_data);
     }
