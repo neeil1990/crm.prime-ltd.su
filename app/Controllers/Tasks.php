@@ -695,6 +695,8 @@ class Tasks extends Security_Controller {
         //get labels suggestion
         $label_suggestions = $this->make_labels_dropdown("task");
 
+        $private_label_suggestions = $this->make_labels_dropdown("private_task");
+
         $task_status_options = array();
         if ($context == "project" && $context_id) {
             $task_status_options["exclude_status_ids"] = $this->get_removed_task_status_ids($context_id);
@@ -873,6 +875,7 @@ class Tasks extends Security_Controller {
             "assign_to_dropdown" => $assign_to_dropdown,
             "collaborators_dropdown" => $collaborators_dropdown,
             "label_suggestions" => $label_suggestions,
+            "private_label_suggestions" => $private_label_suggestions,
             "statuses_dropdown" => $statuses_dropdown,
             "points_dropdown" => $task_points,
             "priorities_dropdown" => $priorities_dropdown,
@@ -1004,6 +1007,7 @@ class Tasks extends Security_Controller {
             "subscription_id" => $subscription_id ? $subscription_id : 0,
             "priority_id" => $priority_id ? $priority_id : 0,
             "labels" => $this->request->getPost('labels'),
+            "private_labels" => $this->request->getPost('private_labels'),
             "start_date" => $start_date,
             "deadline" => $deadline,
             "recurring" => $recurring,
@@ -1333,7 +1337,17 @@ class Tasks extends Security_Controller {
             $toggle_sub_task_icon = "<span class='filter-sub-task-button clickable ml5' title='" . app_lang("show_sub_tasks") . "' main-task-id= '$main_task_id'><i data-feather='filter' class='icon-16'></i></span>";
         }
 
-        $title .= modal_anchor(get_uri("tasks/view"), $data->title . $icon, array("title" => app_lang('task_info') . " #$data->id", "data-post-id" => $data->id, "data-search" => $sub_task_search_column, "class" => $unread_comments_class, "data-modal-lg" => "1"));
+        $title .= modal_anchor(
+            get_uri("tasks/view"),
+            $data->title . $icon,
+            array(
+                "title" => app_lang('task_info') . " #$data->id",
+                "data-post-id" => $data->id,
+                "data-search" => $sub_task_search_column,
+                "class" => $unread_comments_class,
+                "data-modal-lg" => "1"
+            )
+        );
 
         $task_point = "";
         if ($data->points > 1) {
@@ -1351,7 +1365,9 @@ class Tasks extends Security_Controller {
 
         $task_labels = make_labels_view_data($data->labels_list, true);
 
-        $title .= "<span class='float-end mr5'>" . $task_labels . "</span>";
+        $task_private_labels = make_labels_view_data($data->private_labels_list, true);
+
+        $title .= "<span class='float-end mr5'>" . $task_labels . $task_private_labels . "</span>";
 
         $context_title = "";
         if ($data->project_id) {
@@ -1696,6 +1712,7 @@ class Tasks extends Security_Controller {
         $view_data['collaborators'] = $this->_get_collaborators($model_info->collaborator_list, false);
 
         $view_data['labels'] = make_labels_view_data($model_info->labels_list);
+        $view_data['private_labels'] = make_labels_view_data($model_info->private_labels_list);
 
         $options = array("task_id" => $task_id, "login_user_id" => $this->login_user->id);
         $view_data['comments'] = $this->Project_comments_model->get_details($options)->getResult();
@@ -2836,6 +2853,7 @@ class Tasks extends Security_Controller {
         $view_data['contexts_dropdown'] = json_encode($this->_get_accessible_contexts_dropdown());
         $view_data["has_all_projects_restricted_role"] = $this->has_all_projects_restricted_role();
         $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
+        $view_data['private_labels_dropdown'] = json_encode($this->make_labels_dropdown_value("private_task", "", true, app_lang("personal_labels")));
 
         return $this->template->rander("tasks/all_tasks", $view_data);
     }
@@ -2884,6 +2902,7 @@ class Tasks extends Security_Controller {
         $view_data['contexts_dropdown'] = json_encode($this->_get_accessible_contexts_dropdown());
         $view_data["has_all_projects_restricted_role"] = $this->has_all_projects_restricted_role();
         $view_data['labels_dropdown'] = json_encode($this->make_labels_dropdown_value("task", "", true));
+        $view_data['private_labels_dropdown'] = json_encode($this->make_labels_dropdown_value("private_task", "", true, app_lang("personal_labels")));
 
         return $this->template->rander("tasks/kanban/all_tasks", $view_data);
     }
@@ -2923,6 +2942,7 @@ class Tasks extends Security_Controller {
             "unread_status_user_id" => $this->login_user->id,
             "quick_filter" => $this->request->getPost("quick_filter"),
             "label_ids" => $this->request->getPost('label_id'),
+            "private_label_ids" => $this->request->getPost('private_label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 
@@ -3330,6 +3350,10 @@ class Tasks extends Security_Controller {
             $success_array["labels"] = $task_info->labels_list ? make_labels_view_data($task_info->labels_list) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("label") . "<span>";
         }
 
+        if ($data_field == "private_labels") {
+            $success_array["private_labels"] = $task_info->private_labels_list ? make_labels_view_data($task_info->private_labels_list) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("label") . "<span>";
+        }
+
         if ($data_field == "milestone_id") {
             $success_array["milestone_id"] = $task_info->milestone_id;
         }
@@ -3476,6 +3500,7 @@ class Tasks extends Security_Controller {
             "curr_user_id" => $this->login_user->id,
             "quick_filter" => $quick_filter,
             "label_ids" => $this->request->getPost('label_id'),
+            "private_label_ids" => $this->request->getPost('private_label_id'),
             "custom_field_filter" => $this->prepare_custom_field_filter_values("tasks", $this->login_user->is_admin, $this->login_user->user_type)
         );
 

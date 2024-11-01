@@ -140,6 +140,9 @@ class Tasks_model extends Crud_model {
         $invoices_table = $this->db->prefixTable('invoices');
         $task_personal_notes_table = $this->db->prefixTable('task_personal_notes');
 
+        $users_model = model("App\Models\Users_model", false);
+        $login_user_id = $users_model->login_user_id();
+
         $where = "";
 
         $id = $this->_get_clean_value($options, "id");
@@ -284,6 +287,13 @@ class Tasks_model extends Crud_model {
             }
         }
 
+        $private_label_ids = $this->_get_clean_value($options, "private_label_ids");
+        if ($private_label_ids) {
+            foreach ($private_label_ids as $private_label_id) {
+                $where .= " AND (FIND_IN_SET('$private_label_id', $tasks_table.private_labels)) ";
+            }
+        }
+
         $where .= $this->make_context_query($context_options, $tasks_table, $clients_table, $ticket_table, $projects_table, $project_members_table);
 
         $start_date = $this->_get_clean_value($options, "start_date");
@@ -364,6 +374,8 @@ class Tasks_model extends Crud_model {
 
         $select_labels_data_query = $this->get_labels_data_query();
 
+        $select_private_labels_data_query = $this->get_private_labels_data_query($login_user_id);
+
         $limit_offset = "";
         $limit = $this->_get_clean_value($options, "limit");
         if ($limit) {
@@ -439,8 +451,9 @@ class Tasks_model extends Crud_model {
                     IF($tasks_table.deadline IS NULL, $milestones_table.title, '') AS deadline_milestone_title,
                      notification_table.task_id AS unread,
                       sub_task_table.total_sub_tasks AS has_sub_tasks,
-                       $select_labels_data_query $select_custom_fieds 
-                        
+                       $select_labels_data_query, 
+                       $select_private_labels_data_query $select_custom_fieds 
+                     
         FROM $tasks_table
         LEFT JOIN $users_table ON $users_table.id= $tasks_table.assigned_to
         LEFT JOIN $projects_table ON $tasks_table.project_id=$projects_table.id 
@@ -613,6 +626,9 @@ class Tasks_model extends Crud_model {
         $notifications_table = $this->db->prefixTable("notifications");
         $checklist_items_table = $this->db->prefixTable('checklist_items');
 
+        $users_model = model("App\Models\Users_model", false);
+        $login_user_id = $users_model->login_user_id();
+
         $where = "";
 
         $id = $this->_get_clean_value($options, "id");
@@ -698,6 +714,13 @@ class Tasks_model extends Crud_model {
             }
         }
 
+        $private_label_ids = $this->_get_clean_value($options, "private_label_ids");
+        if ($private_label_ids) {
+            foreach ($private_label_ids as $private_label_id) {
+                $where .= " AND (FIND_IN_SET('$private_label_id', $tasks_table.private_labels)) ";
+            }
+        }
+
         $deadline = $this->_get_clean_value($options, "deadline");
         if ($deadline) {
             $now = get_my_local_time("Y-m-d");
@@ -765,6 +788,8 @@ class Tasks_model extends Crud_model {
 
         $select_labels_data_query = $this->get_labels_data_query();
 
+        $select_private_labels_data_query = $this->get_private_labels_data_query($login_user_id);
+
         $this->db->query('SET SQL_BIG_SELECTS=1');
 
         if (get_array_value($options, "return_task_counts_only")) {
@@ -782,7 +807,7 @@ class Tasks_model extends Crud_model {
                 (SELECT COUNT($checklist_items_table.id) FROM $checklist_items_table WHERE $checklist_items_table.deleted=0 AND $checklist_items_table.task_id=$tasks_table.id) AS total_checklist,
                 (SELECT COUNT($checklist_items_table.id) FROM $checklist_items_table WHERE $checklist_items_table.is_checked=1 AND $checklist_items_table.deleted=0 AND $checklist_items_table.task_id=$tasks_table.id) AS total_checklist_checked,
                 COUNT(sub_tasks_table.id) AS total_sub_tasks, completed_sub_tasks_table.total_sub_tasks_done, $tasks_table.client_id, $tasks_table.contract_id, $tasks_table.estimate_id, $tasks_table.expense_id, $tasks_table.invoice_id, $tasks_table.lead_id, $tasks_table.order_id, $tasks_table.proposal_id, $tasks_table.subscription_id, $tasks_table.ticket_id, $tasks_table.collaborators,
-                $select_labels_data_query
+                $select_labels_data_query, $select_private_labels_data_query 
         FROM $tasks_table
         LEFT JOIN (
             SELECT $tasks_table.id, $tasks_table.parent_task_id, $tasks_table.title

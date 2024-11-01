@@ -11,6 +11,15 @@ Requires at least: 2.8
 Author: PRIME
 */
 
+//add setting link to the plugin setting
+app_hooks()->add_filter('app_filter_action_links_of_Migration', function ($action_links_array) {
+    $action_links_array = array(
+        anchor(get_uri("migration/settings"), app_lang("settings"))
+    );
+
+    return $action_links_array;
+});
+
 //installation: install dependencies
 register_installation_hook("Migration", function ($item_purchase_code) {
     include PLUGINPATH . "Migration/install/do_install.php";

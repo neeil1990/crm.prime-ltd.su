@@ -18,7 +18,6 @@ $dbprefix = get_db_prefix();
 
 //set database prefix
 $sql = str_replace('CREATE TABLE IF NOT EXISTS `', 'CREATE TABLE IF NOT EXISTS `' . $dbprefix, $sql);
-$sql = str_replace('INSERT INTO `', 'INSERT INTO `' . $dbprefix, $sql);
 
 $sql_explode = explode('--#', $sql);
 foreach ($sql_explode as $sql_query) {
@@ -27,3 +26,4 @@ foreach ($sql_explode as $sql_query) {
         $db->query($sql_query);
     }
 }
+

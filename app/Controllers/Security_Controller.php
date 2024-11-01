@@ -438,7 +438,7 @@ class Security_Controller extends App_Controller {
             "context" => $type
         );
 
-        if ($type == "event" || $type == "note" || $type == "to_do") {
+        if ($type == "event" || $type == "note" || $type == "to_do" || $type == "private_task") {
             $options["user_id"] = $this->login_user->id;
         }
 
@@ -479,7 +479,7 @@ class Security_Controller extends App_Controller {
             "context" => $type
         );
 
-        if ($type == "event" || $type == "note" || $type == "to_do") {
+        if ($type == "event" || $type == "note" || $type == "to_do"  || $type == "private_task") {
             $options["user_id"] = $this->login_user->id;
         }
 

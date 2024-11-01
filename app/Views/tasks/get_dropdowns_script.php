@@ -14,6 +14,7 @@ if (!isset($contexts)) {
         dropdowns.assign_to_dropdown = <?php echo json_encode($assign_to_dropdown); ?>;
         dropdowns.collaborators_dropdown = <?php echo json_encode($collaborators_dropdown); ?>;
         dropdowns.label_suggestions = <?php echo json_encode($label_suggestions); ?>;
+        dropdowns.private_label_suggestions = <?php echo json_encode($private_label_suggestions); ?>;
         dropdowns.statuses_dropdown = <?php echo json_encode($statuses_dropdown); ?>;
 
 
@@ -115,6 +116,7 @@ if (!isset($contexts)) {
             $('#assigned_to').select2({data: result.assign_to_dropdown});
             $('#collaborators').select2({multiple: true, data: result.collaborators_dropdown});
             $('#project_labels').select2({multiple: true, data: result.label_suggestions});
+            $('#project_private_labels').select2({multiple: true, data: result.private_label_suggestions});
             $('#task_status_id').select2({data: result.statuses_dropdown});
         }
 

@@ -9,7 +9,7 @@ use stdClass;
 class Crud_model extends Model {
 
     protected $table;
-    protected $table_without_prefix;    
+    protected $table_without_prefix;
     protected $db;
     protected $db_builder = null;
     private $log_activity = false;
@@ -21,7 +21,7 @@ class Crud_model extends Model {
     private $log_for_key2 = "";
     protected $allowedFields = array();
     private $Activity_logs_model;
-    
+
     function __construct($table = null, $db = null) {
         $this->Activity_logs_model = model("App\Models\Activity_logs_model");
         $this->db = $db ? $db : db_connect('default');
@@ -387,6 +387,13 @@ class Crud_model extends Model {
         return "(SELECT GROUP_CONCAT($labels_table.id, '--::--', $labels_table.title, '--::--', $labels_table.color, ':--::--:') FROM $labels_table WHERE FIND_IN_SET($labels_table.id, $this->table.labels)) AS labels_list";
     }
 
+    protected function get_private_labels_data_query($user_id) {
+        $labels_table = $this->db->prefixTable("labels");
+
+        return "(SELECT GROUP_CONCAT($labels_table.id, '--::--', $labels_table.title, '--::--', $labels_table.color, ':--::--:') FROM $labels_table 
+        WHERE FIND_IN_SET($labels_table.id, $this->table.private_labels) AND $labels_table.user_id = $user_id) AS private_labels_list";
+    }
+
     function delete_permanently($id = 0) {
         if ($id) {
             validate_numeric_value($id);
@@ -475,7 +482,7 @@ class Crud_model extends Model {
             $tax3 = $total_taxable * ($invoice_info->tax_percentage3 / 100);
             $total_taxable = $total_taxable + $tax1 + $tax2 - $tax3;
 
-            $invoice_total = $total_taxable + $total_non_taxable - $non_taxable_discount_value; //deduct only non-taxable discount since the taxable discount already deducted 
+            $invoice_total = $total_taxable + $total_non_taxable - $non_taxable_discount_value; //deduct only non-taxable discount since the taxable discount already deducted
 
             if ($invoice_info->discount_type == "after_tax") {
                 $taxable_discount_value = $total_taxable * ($invoice_info->discount_amount / 100);
@@ -486,9 +493,9 @@ class Crud_model extends Model {
         } else {
             //discount_amount_type is fixed_amount
 
-            $discount_total = $invoice_info->discount_amount; //fixed amount 
+            $discount_total = $invoice_info->discount_amount; //fixed amount
             //fixed amount discount. fixed amount can't be applied before tax when there are both taxable and non-taxable items.
-            //calculate all togather 
+            //calculate all togather
 
             if ($invoice_info->discount_type == "before_tax" && $total_taxable > 0) {
                 $total_taxable = $total_taxable - $discount_total;
@@ -522,7 +529,7 @@ class Crud_model extends Model {
         $info->tax = number_format($tax1, 2, ".", "") * 1;
         $info->tax2 = number_format($tax2, 2, ".", "") * 1;
         $info->tax3 = number_format($tax3, 2, ".", "") * 1;
-        
+
         $info->discount_type = $invoice_info->discount_type;
         return $info;
     }

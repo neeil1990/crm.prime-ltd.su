@@ -75,7 +75,13 @@ if ($total_sub_tasks) {
                     </div>
 
                     <div class="col-md-12 mb15">
-                        <strong><?php echo app_lang('label') . ": " ?></strong><?php echo get_update_task_info_anchor_data($model_info, "labels", $can_edit_tasks, $labels); ?>
+                        <strong><?php echo app_lang('label') . ": " ?></strong>
+                        <?php echo get_update_task_info_anchor_data($model_info, "labels", $can_edit_tasks, $labels); ?>
+                    </div>
+
+                    <div class="col-md-12 mb15">
+                        <strong><?php echo app_lang('personal_labels') . ": " ?></strong>
+                        <?php echo get_update_task_info_anchor_data($model_info, "private_labels", $can_edit_tasks, $private_labels); ?>
                     </div>
 
                     <div class="col-md-12 mb15">

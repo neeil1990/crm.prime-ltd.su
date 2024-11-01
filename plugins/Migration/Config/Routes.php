@@ -4,6 +4,8 @@ namespace Config;
 
 $routes = Services::routes();
 
-$password_manager_namespace = ['namespace' => 'Migration\Controllers'];
+$namespace = ['namespace' => 'Migration\Controllers'];
 
-$routes->get('migration', 'Migration::index', $password_manager_namespace);
+$routes->get('migration', 'Migration::index', $namespace);
+$routes->get('migration/settings', 'Migration::settings', $namespace);
+$routes->post('migration/settings/(:any)', 'Migration::$1', $namespace);
