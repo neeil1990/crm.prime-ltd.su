@@ -115,7 +115,7 @@
                     <?php
                 }
             }
-            ?>    
+            ?>
 
 
 
@@ -241,6 +241,22 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="row">
+                    <label for="project_labels" class=" col-md-3"><?php echo app_lang('personal_labels'); ?></label>
+                    <div class=" col-md-9" id="dropdown-apploader-section">
+                        <?php
+                        echo form_input(array(
+                            "id" => "project_private_labels",
+                            "name" => "private_labels",
+                            "value" => $model_info->private_labels,
+                            "class" => "form-control",
+                            "placeholder" => app_lang('personal_labels')
+                        ));
+                        ?>
+                    </div>
+                </div>
+            </div>
             <div class="clearfix">
                 <div class="row">
                     <label for="start_date" class="<?php echo $show_time_with_task ? "col-md-3 col-sm-3" : "col-md-3" ?>"><?php echo app_lang('start_date'); ?></label>
@@ -340,9 +356,9 @@
                             ?>
                         </div>
                     </div>
-                </div>   
+                </div>
 
-                <div id="recurring_fields" class="<?php if (!$model_info->recurring) echo "hide"; ?>"> 
+                <div id="recurring_fields" class="<?php if (!$model_info->recurring) echo "hide"; ?>">
                     <div class="form-group">
                         <div class="row">
                             <label for="repeat_every" class=" col-md-3"><?php echo app_lang('repeat_every'); ?></label>
@@ -373,8 +389,8 @@
                                 );
                                 ?>
                             </div>
-                        </div>    
-                    </div>    
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <div class="row">
@@ -395,8 +411,8 @@
                             <div class="col-md-5 mt5">
                                 <span class="help" data-bs-toggle="tooltip" title="<?php echo app_lang('recurring_cycle_instructions'); ?>"><i data-feather="help-circle" class="icon-16"></i></span>
                             </div>
-                        </div>  
-                    </div>  
+                        </div>
+                    </div>
 
                     <div class = "form-group hide" id = "next_recurring_date_container" >
                         <div class="row">
@@ -416,11 +432,11 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
 
             <?php } ?>
 
-            <?php echo view("custom_fields/form/prepare_context_fields", array("custom_fields" => $custom_fields, "label_column" => "col-md-3", "field_column" => " col-md-9")); ?> 
+            <?php echo view("custom_fields/form/prepare_context_fields", array("custom_fields" => $custom_fields, "label_column" => "col-md-3", "field_column" => " col-md-9")); ?>
 
             <?php echo view("includes/dropzone_preview"); ?>
 
@@ -430,7 +446,7 @@
                         <label for="copy_checklist" class=" col-md-12">
                             <?php
                             echo form_checkbox("copy_checklist", "1", true, "id='copy_checklist' class='float-start mr15 form-check-input'");
-                            ?>    
+                            ?>
                             <?php echo app_lang('copy_checklist'); ?>
                         </label>
                     </div>
@@ -441,7 +457,7 @@
                         <label for="copy_sub_tasks" class=" col-md-12">
                             <?php
                             echo form_checkbox("copy_sub_tasks", "1", false, "id='copy_sub_tasks' class='float-start mr15 form-check-input'");
-                            ?>    
+                            ?>
                             <?php echo app_lang('copy_sub_tasks'); ?>
                         </label>
                     </div>

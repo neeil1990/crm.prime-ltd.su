@@ -23,9 +23,9 @@ if (!function_exists('echo_uri')) {
 
 /**
  * prepare uri
- * 
+ *
  * @param string $uri
- * @return full url 
+ * @return full url
  */
 if (!function_exists('get_uri')) {
 
@@ -44,7 +44,7 @@ if (!function_exists('get_uri')) {
 
 /**
  * use this to print file path
- * 
+ *
  * @param string $uri
  * @return full url of the given file path
  */
@@ -58,7 +58,7 @@ if (!function_exists('get_file_uri')) {
 
 /**
  * get the url of user avatar
- * 
+ *
  * @param string $image_name
  * @return url of the avatar of given image reference
  */
@@ -86,8 +86,8 @@ if (!function_exists('get_avatar')) {
 }
 
 /**
- * link the css files 
- * 
+ * link the css files
+ *
  * @param array $array
  * @return print css links
  */
@@ -105,8 +105,8 @@ if (!function_exists('load_css')) {
 
 
 /**
- * link the javascript files 
- * 
+ * link the javascript files
+ *
  * @param array $array
  * @return print js links
  */
@@ -123,8 +123,8 @@ if (!function_exists('load_js')) {
 }
 
 /**
- * check the array key and return the value 
- * 
+ * check the array key and return the value
+ *
  * @param array $array
  * @return extract array value safely
  */
@@ -140,7 +140,7 @@ if (!function_exists('get_array_value')) {
 
 /**
  * prepare a anchor tag for any js request
- * 
+ *
  * @param string $title
  * @param array $attributes
  * @return html link of anchor tag
@@ -164,8 +164,8 @@ if (!function_exists('js_anchor')) {
 
 
 /**
- * prepare a anchor tag for modal 
- * 
+ * prepare a anchor tag for modal
+ *
  * @param string $url
  * @param string $title
  * @param array $attributes
@@ -189,7 +189,7 @@ if (!function_exists('modal_anchor')) {
 
 /**
  * prepare a anchor tag for ajax request
- * 
+ *
  * @param string $url
  * @param string $title
  * @param array $attributes
@@ -243,7 +243,7 @@ if (!function_exists('get_setting')) {
 
 /**
  * check if a string starts with a specified sting
- * 
+ *
  * @param string $string
  * @param string $needle
  * @return true/false
@@ -259,7 +259,7 @@ if (!function_exists('starts_with')) {
 
 /**
  * check if a string ends with a specified sting
- * 
+ *
  * @param string $string
  * @param string $needle
  * @return true/false
@@ -273,8 +273,8 @@ if (!function_exists('ends_with')) {
 }
 
 /**
- * create a encoded id for sequrity pupose 
- * 
+ * create a encoded id for sequrity pupose
+ *
  * @param string $id
  * @param string $salt
  * @return endoded value
@@ -306,7 +306,7 @@ if (!function_exists('get_encrypter')) {
 
 /**
  * decode the id which made by encode_id()
- * 
+ *
  * @param string $id
  * @param string $salt
  * @return decoded value
@@ -339,7 +339,7 @@ if (!function_exists('decode_id')) {
 
 /**
  * decode html data which submited using a encode method of encodeAjaxPostData() function
- * 
+ *
  * @param string $html
  * @return htmle
  */
@@ -357,7 +357,7 @@ if (!function_exists('decode_ajax_post_data')) {
 
 /**
  * check if fields has any value or not. and generate a error message for null value
- * 
+ *
  * @param array $fields
  * @return throw error for bad value
  */
@@ -470,7 +470,7 @@ if (!function_exists('get_members_from_mention')) {
 
 /**
  * send mail
- * 
+ *
  * @param string $to
  * @param string $subject
  * @param string $message
@@ -582,7 +582,7 @@ if (!function_exists('send_app_mail')) {
 
 /**
  * get users ip address
- * 
+ *
  * @return ip
  */
 if (!function_exists('get_real_ip')) {
@@ -602,7 +602,7 @@ if (!function_exists('get_real_ip')) {
 
 /**
  * check if it's localhost
- * 
+ *
  * @return boolean
  */
 if (!function_exists('is_localhost')) {
@@ -622,7 +622,7 @@ if (!function_exists('is_localhost')) {
 
 /**
  * convert string to url
- * 
+ *
  * @param string $address
  * @return url
  */
@@ -639,7 +639,7 @@ if (!function_exists('to_url')) {
 
 /**
  * validate post data using the codeigniter's form validation method
- * 
+ *
  * @param string $address
  * @return throw error if foind any inconsistancy
  */
@@ -656,7 +656,7 @@ if (!function_exists('validate_numeric_value')) {
 /**
  * team members profile anchor. only clickable to team members
  * client's will see a none clickable link
- * 
+ *
  * @param string $id
  * @param string $name
  * @param array $attributes
@@ -679,7 +679,7 @@ if (!function_exists('get_team_member_profile_link')) {
 /**
  * team members profile anchor. only clickable to team members
  * client's will see a none clickable link
- * 
+ *
  * @param string $id
  * @param string $name
  * @param array $attributes
@@ -696,7 +696,7 @@ if (!function_exists('get_client_contact_profile_link')) {
 
 /**
  * return a colorful label according to invoice status
- * 
+ *
  * @param Object $invoice_info
  * @return html
  */
@@ -748,7 +748,7 @@ if (!function_exists('get_invoice_status_label')) {
 
 /**
  * get all data to make an invoice
- * 
+ *
  * @param Int $invoice_id
  * @return array
  */
@@ -773,7 +773,7 @@ if (!function_exists('get_invoice_making_data')) {
 
 /**
  * get all data to make an invoice
- * 
+ *
  * @param Invoice making data $invoice_data
  * @return array
  */
@@ -837,7 +837,7 @@ if (!function_exists('prepare_invoice_pdf')) {
 
 /**
  * get all data to make an estimate
- * 
+ *
  * @param emtimate making data $estimate_data
  * @return array
  */
@@ -883,7 +883,7 @@ if (!function_exists('prepare_estimate_pdf')) {
 
 /**
  * get all data to make an order
- * 
+ *
  * @param emtimate making data $order_data
  * @return array
  */
@@ -928,7 +928,7 @@ if (!function_exists('prepare_order_pdf')) {
 }
 
 /**
- * 
+ *
  * get invoice number
  * @param Int $invoice_id
  * @return string
@@ -944,7 +944,7 @@ if (!function_exists('get_invoice_id')) {
 }
 
 /**
- * 
+ *
  * get estimate number
  * @param Int $estimate_id
  * @return string
@@ -960,7 +960,7 @@ if (!function_exists('get_estimate_id')) {
 }
 
 /**
- * 
+ *
  * get proposal number
  * @param Int $proposal_id
  * @return string
@@ -976,7 +976,7 @@ if (!function_exists('get_proposal_id')) {
 }
 
 /**
- * 
+ *
  * get order number
  * @param Int $order_id
  * @return string
@@ -992,7 +992,7 @@ if (!function_exists('get_order_id')) {
 }
 
 /**
- * 
+ *
  * get ticket number
  * @param Int $ticket_id
  * @return string
@@ -1010,7 +1010,7 @@ if (!function_exists('get_ticket_id')) {
 
 /**
  * get all data to make an estimate
- * 
+ *
  * @param Int $estimate_id
  * @return array
  */
@@ -1036,7 +1036,7 @@ if (!function_exists('get_estimate_making_data')) {
 
 /**
  * get all data to make an contract
- * 
+ *
  * @param Int $contract_id
  * @return array
  */
@@ -1060,7 +1060,7 @@ if (!function_exists('get_contract_making_data')) {
 
 /**
  * get all data to make an proposal
- * 
+ *
  * @param Int $proposal_id
  * @return array
  */
@@ -1086,7 +1086,7 @@ if (!function_exists('get_proposal_making_data')) {
 
 /**
  * get all data to make an order
- * 
+ *
  * @param Int $order_id
  * @return array
  */
@@ -1108,7 +1108,7 @@ if (!function_exists('get_order_making_data')) {
                 return $data;
             }
         } else {
-            //order total when it's in cart 
+            //order total when it's in cart
             //count all items of login user (client)
             $login_user_id = isset($ci->login_user->id) ? $ci->login_user->id : 0;
             $data["order_total_summary"] = $ci->Orders_model->get_processing_order_total_summary($login_user_id, $cookie_hash);
@@ -1120,7 +1120,7 @@ if (!function_exists('get_order_making_data')) {
 
 /**
  * get team members and teams select2 dropdown data list
- * 
+ *
  * @return array
  */
 if (!function_exists('get_team_members_and_teams_select2_data_list')) {
@@ -1154,7 +1154,7 @@ if (!function_exists('get_team_members_and_teams_select2_data_list')) {
 
 /**
  * submit data for notification
- * 
+ *
  * @return array
  */
 if (!function_exists('log_notification')) {
@@ -1173,7 +1173,7 @@ if (!function_exists('log_notification')) {
             if ($user_id) {
                 $data["user_id"] = $user_id;
             } else if ($user_id === "0") {
-                $data["user_id"] = $user_id; //if user id is 0 (string) we'll assume that it's system bot 
+                $data["user_id"] = $user_id; //if user id is 0 (string) we'll assume that it's system bot
             } else if (isset($ci->login_user->id)) {
                 $data["user_id"] = $ci->login_user->id;
             }
@@ -1196,7 +1196,7 @@ if (!function_exists('log_notification')) {
             if ($user_id) {
                 $req .= "&user_id=" . $user_id;
             } else if ($user_id === "0") {
-                $req .= "&user_id=" . $user_id; //if user id is 0 (string) we'll assume that it's system bot 
+                $req .= "&user_id=" . $user_id; //if user id is 0 (string) we'll assume that it's system bot
             } else if (isset($ci->login_user->id)) {
                 $req .= "&user_id=" . $ci->login_user->id;
             }
@@ -1232,7 +1232,7 @@ if (!function_exists('log_notification')) {
 
 /**
  * save custom fields for any context
- * 
+ *
  * @param Int $estimate_id
  * @return array
  */
@@ -1373,7 +1373,7 @@ if (!function_exists('update_custom_fields_changes')) {
 
 /**
  * use this to clean xss and html elements
- * the best practice is to use this before rendering 
+ * the best practice is to use this before rendering
  * but you can use this before saving for suitable cases
  *
  * @param string or array $data
@@ -1597,6 +1597,11 @@ if (!function_exists("get_update_task_info_anchor_data")) {
                 $labels = $extra_data;
             }
 
+            $private_labels = "<span class='text-off'>" . app_lang("add") . " " . app_lang("label") . "<span>";
+            if ($model_info->private_labels) {
+                $private_labels = $extra_data;
+            }
+
             $collaborators = "<span class='text-off'>" . app_lang("add") . " " . app_lang("collaborators") . "<span>";
             if ($model_info->collaborators) {
                 $collaborators = $extra_data;
@@ -1614,6 +1619,9 @@ if (!function_exists("get_update_task_info_anchor_data")) {
             } else if ($type == "labels") {
 
                 return $can_edit_tasks ? js_anchor($labels, array('title' => "", "class" => "", "data-id" => $model_info->id, "data-value" => $model_info->labels, "data-act" => "update-task-info", "data-act-type" => "labels")) : $extra_data;
+            } else if ($type == "private_labels") {
+
+                return $can_edit_tasks ? js_anchor($private_labels, array('title' => "", "class" => "", "data-id" => $model_info->id, "data-value" => $model_info->private_labels, "data-act" => "update-task-info", "data-act-type" => "private_labels")) : $extra_data;
             } else if ($type == "points") {
 
                 return $can_edit_tasks ? js_anchor($model_info->points, array('title' => "", "class" => "", "data-id" => $model_info->id, "data-value" => $model_info->points, "data-act" => "update-task-info", "data-act-type" => "points")) : $model_info->points;
@@ -1683,7 +1691,7 @@ if (!function_exists('validate_invoice_verification_code')) {
                 $existing_client_id = get_array_value($existing_invoice_data, "client_id");
                 $existing_contact_id = get_array_value($existing_invoice_data, "contact_id");
 
-                //given data 
+                //given data
                 $given_invoice_id = get_array_value($given_invoice_data, "invoice_id");
                 $given_client_id = get_array_value($given_invoice_data, "client_id");
                 $given_contact_id = get_array_value($given_invoice_data, "contact_id");
@@ -1813,7 +1821,7 @@ if (!function_exists('add_auto_reply_to_ticket')) {
 
 /**
  * redirect to a location within the app
- * 
+ *
  * @param string $url
  * @return void
  */
@@ -1851,7 +1859,7 @@ if (!function_exists('app_lang')) {
 
 /**
  * show 404 error page
- * 
+ *
  * @return void
  */
 if (!function_exists('show_404')) {
@@ -1865,7 +1873,7 @@ if (!function_exists('show_404')) {
 
 /**
  * get all data to make an contract
- * 
+ *
  * @param contract making data $contract_data
  * @return array
  */
@@ -2088,7 +2096,7 @@ if (!function_exists('get_db_prefix')) {
 }
 
 /**
- * convert copied comment code to link 
+ * convert copied comment code to link
  * @param string $text containing text with copied comment id brace
  * @param string $return_type indicates what to return (link or text)
  * @return text with link or link text
@@ -2116,7 +2124,7 @@ if (!function_exists('convert_comment_link')) {
                     if ($context === "recording") {
                         $links[] = anchor("/#recording-" . $context_id, $comment_text ? $comment_text : "", array('class' => 'file-highlight-link', 'data-file-id' => $context_id));
                     } else {
-                        //it's a task commment. 
+                        //it's a task commment.
                         $links[] = anchor(get_uri("tasks/view/" . $context . "/#comment-" . $context_id), $comment_text ? $comment_text : "", array('class' => 'comment-highlight-link', 'data-comment-id' => $context_id, 'data-task-id' => $context));
                     }
                 } else {
@@ -2146,7 +2154,7 @@ if (!function_exists('convert_comment_link')) {
 
 /**
  * get all data to make an proposal
- * 
+ *
  * @param proposal making data $proposal_data
  * @return array
  */
@@ -2304,7 +2312,7 @@ if (!function_exists('prepare_allowed_members_array')) {
 }
 
 /**
- * 
+ *
  * get contract number
  * @param Int $contract_id
  * @return string
@@ -2329,7 +2337,7 @@ if (!function_exists('get_default_company_id')) {
 }
 
 /**
- * 
+ *
  * get subscription number
  * @param Int $subscription_id
  * @return string
@@ -2346,7 +2354,7 @@ if (!function_exists('get_subscription_id')) {
 
 /**
  * get all data to make an subscription
- * 
+ *
  * @param Int $subscription_id
  * @return array
  */
@@ -2374,7 +2382,7 @@ if (!function_exists('get_subscription_making_data')) {
 
 /**
  * return a colorful label according to subscription status
- * 
+ *
  * @param Object $subscription_info
  * @return html
  */
@@ -2526,7 +2534,7 @@ if (!function_exists('append_server_side_filtering_commmon_params')) {
             $options["limit"] = $request->getPost("limit");
 
             if ($options["limit"] == -1) {
-                $options["limit"] = 100; //max limit is 100 for serverside. 
+                $options["limit"] = 100; //max limit is 100 for serverside.
             }
 
             $options["skip"] = $request->getPost("skip") ? $request->getPost("skip") : 0;
@@ -2597,7 +2605,7 @@ if (!function_exists('get_reminder_context_info')) {
 
 /**
  * return a colorful label according to estimate status
- * 
+ *
  * @param Object $estimate_info
  * @return html
  */
@@ -2759,7 +2767,7 @@ if (!function_exists('process_images_from_content')) {
 
 /**
  * return a colorful label according to subscription type
- * 
+ *
  * @param Object $subscription_info
  * @return html
  */
@@ -2785,7 +2793,7 @@ if (!function_exists('get_subscription_type_label')) {
 
 
 /**
- * 
+ *
  * get company logo
  * @param Int $company_id
  * @return string
@@ -2832,7 +2840,7 @@ if (!function_exists('get_company_logo')) {
 
 /**
  * get all project statuses text object
- * 
+ *
  * @return object
  */
 if (!function_exists('get_project_status_text_info')) {
@@ -2870,7 +2878,7 @@ if (!function_exists('get_project_status_text_info')) {
 
 /**
  * check the client access permission
- * 
+ *
  * @return object
  */
 if (!function_exists('can_client_access')) {
@@ -2883,7 +2891,7 @@ if (!function_exists('can_client_access')) {
         //get the client contact permissions
         $client_permissions_array = explode(",", $client_permissions);
 
-        //check module availability 
+        //check module availability
         if ($check_module && get_setting("module_" . $menu_item) != "1") {
             return false;
         }
@@ -2989,7 +2997,7 @@ if (!function_exists('prepare_invoice_display_id_data')) {
 
 /**
  * get all data to make an proposal
- * 
+ *
  * @param Proposal making data $proposal_data
  * @return array
  */
@@ -3099,7 +3107,7 @@ if (!function_exists('rebuild_html')) {
 
 /**
  * get all data to make an contract
- * 
+ *
  * @param Contract making data $contract_data
  * @return array
  */

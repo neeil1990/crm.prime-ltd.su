@@ -45,6 +45,14 @@ foreach ($points_dropdown as $key => $value) {
                 showbuttons = true;
                 select2Option = {data: source, multiple: true};
                 placement = "bottom";
+            } else if (type === "private_labels") {
+                e.stopPropagation();
+                e.preventDefault();
+
+                source = <?php echo json_encode($private_label_suggestions); ?>;
+                showbuttons = true;
+                select2Option = {data: source, multiple: true};
+                placement = "bottom";
             } else if (type === "start_date" || type === "deadline") {
                 editableType = "date";
 
@@ -107,6 +115,12 @@ foreach ($points_dropdown as $key => $value) {
                         if (type === "labels" && response.labels) {
                             setTimeout(function () {
                                 $instance.html(response.labels);
+                            }, 50);
+                        }
+
+                        if (type === "private_labels" && response.private_labels) {
+                            setTimeout(function () {
+                                $instance.html(response.private_labels);
                             }, 50);
                         }
 

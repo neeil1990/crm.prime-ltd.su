@@ -14,6 +14,7 @@
                     echo js_anchor("<i data-feather='x' class='icon-16'></i> " . app_lang("cancel_selection"), array("class" => "hide btn btn-default batch-cancel-btn"));
                 }
                 if ($can_create_tasks) {
+                    echo modal_anchor(get_uri("labels/modal_form"), "<i data-feather='tag' class='icon-16'></i> " . app_lang('personal_labels'), array("class" => "btn btn-outline-light", "title" => app_lang('manage_labels'), "data-post-type" => "private_task"));
                     echo modal_anchor(get_uri("labels/modal_form"), "<i data-feather='tag' class='icon-16'></i> " . app_lang('manage_labels'), array("class" => "btn btn-outline-light", "title" => app_lang('manage_labels'), "data-post-type" => "task"));
                     echo modal_anchor(get_uri("tasks/import_modal_form"), "<i data-feather='upload' class='icon-16'></i> " . app_lang('import_tasks'), array("class" => "btn btn-default", "title" => app_lang('import_tasks')));
                     echo modal_anchor(get_uri("tasks/modal_form"), "<i data-feather='plus-circle' class='icon-16'></i> " . app_lang('add_multiple_tasks'), array("class" => "btn btn-default", "title" => app_lang('add_multiple_tasks'), "data-post-add_type" => "multiple"));
@@ -163,6 +164,12 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                     name: "label_id",
                     text: "<?php echo app_lang('label'); ?>",
                     options: <?php echo $labels_dropdown; ?>
+                },
+                {
+                    class: "w200",
+                    name: "private_label_id",
+                    text: "<?php echo app_lang('personal_labels'); ?>",
+                    options: <?php echo $private_labels_dropdown; ?>
                 },
                 {
                     class: "w200",

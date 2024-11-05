@@ -65,6 +65,12 @@
                     text: "<?php echo app_lang('label'); ?>",
                     options: <?php echo $labels_dropdown; ?>
                 },
+                {
+                    class: "w200",
+                    name: "private_label_id",
+                    text: "<?php echo app_lang('personal_labels'); ?>",
+                    options: <?php echo $private_labels_dropdown; ?>
+                },
             ],
             singleDatepicker: [{name: "deadline", class: "w200", defaultText: "<?php echo app_lang('deadline') ?>",
                     options: [

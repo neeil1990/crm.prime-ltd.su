@@ -23,6 +23,8 @@ foreach ($tasks as $task) {
     }
 
     $task_labels_data = make_labels_view_data($task->labels_list);
+    $task_private_labels_data = make_labels_view_data($task->private_labels_list);
+
     $sub_task_icon = "";
     if ($task->parent_task_id) {
         $sub_task_icon = "<span class='sub-task-icon mr5' title='" . app_lang("sub_task") . "'><i data-feather='git-merge' class='icon-14'></i></span>";
@@ -30,6 +32,10 @@ foreach ($tasks as $task) {
 
     if ($task_labels_data) {
         $task_labels .= "<div class='meta float-start mr5'>$task_labels_data</div>";
+    }
+
+    if ($task_private_labels_data) {
+        $task_labels .= "<div class='meta float-start mr5'>$task_private_labels_data</div>";
     }
 
     $unread_comments_class = "";

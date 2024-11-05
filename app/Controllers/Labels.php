@@ -31,7 +31,7 @@ class Labels extends Security_Controller {
                     return false;
                 }
             }
-            
+
             return true;
         } else if ($context == "task" && ($this->can_manage_all_projects() || get_array_value($this->login_user->permissions, "can_edit_tasks") == "1")) {
             return true;
@@ -42,9 +42,11 @@ class Labels extends Security_Controller {
         } else if ($context == "lead" && $access_info->access_type) {
             return true;
         } else if ($context == "client" && $this->get_access_info("lead")->access_type) {
-            return true; //client and lead has same labels. allow access if there is any one. 
+            return true; //client and lead has same labels. allow access if there is any one.
         } else if ($context == "lead" && $this->get_access_info("client")->access_type) {
-            return true; //client and lead has same labels. allow access if there is any one. 
+            return true; //client and lead has same labels. allow access if there is any one.
+        } else if ($context == "private_task") {
+            return true;
         }
     }
 
@@ -73,7 +75,7 @@ class Labels extends Security_Controller {
             "context" => $type
         );
 
-        if ($type == "event" || $type == "note" || $type == "to_do") {
+        if ($type == "event" || $type == "note" || $type == "to_do" || $type == "private_task") {
             $labels_where["user_id"] = $this->login_user->id;
         }
 
@@ -111,7 +113,7 @@ class Labels extends Security_Controller {
         );
 
         //save user_id for only events and personal notes
-        if ($context == "event" || $context == "to_do" || $context == "note") {
+        if ($context == "event" || $context == "to_do" || $context == "note" || $context == "private_task") {
             $label_data["user_id"] = $this->login_user->id;
         }
 

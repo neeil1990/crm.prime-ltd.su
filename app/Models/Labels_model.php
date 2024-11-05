@@ -59,7 +59,11 @@ class Labels_model extends Crud_model {
         if ($id && $type) {
             $table = $this->db->prefixTable($type);
 
-            $sql = "SELECT COUNT($table.id) AS existing_labels FROM $table WHERE $table.deleted=0 AND $table.labels REGEXP '[[:<:]]" . $id . "[[:>:]]'";
+            if ($type == "private_tasks") {
+                $sql = "SELECT COUNT(rise_tasks.id) AS existing_labels FROM rise_tasks WHERE rise_tasks.deleted=0 AND FIND_IN_SET($id, rise_tasks.private_labels)";
+            } else {
+                $sql = "SELECT COUNT($table.id) AS existing_labels FROM $table WHERE $table.deleted=0 AND FIND_IN_SET($id, $table.labels)";
+            }
 
             return $this->db->query($sql)->getRow()->existing_labels;
         }
