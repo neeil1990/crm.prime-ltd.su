@@ -4083,6 +4083,15 @@ class Tasks extends Security_Controller {
         return $this->download_app_files(get_setting("timeline_file_path"), $info->files);
     }
 
+    function get_count_tasks() {
+        $options = [
+            'assigned_to' => $this->login_user->id,
+            'deadline' => $this->request->getPost('deadline')
+        ];
+
+        return $this->Tasks_model->count_tasks($options);
+    }
+
     function get_task_labels_dropdown_for_filter() {
         $labels_dropdown = array(array("id" => "", "text" => "- " . app_lang("label") . " -"));
 
