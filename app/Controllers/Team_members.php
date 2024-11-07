@@ -45,7 +45,7 @@ class Team_members extends Security_Controller {
 
     //only admin can change other user's info
     //none admin users can only change his/her own info
-    //allowed members can update other members info    
+    //allowed members can update other members info
     private function can_update_team_members_info($user_id) {
         $access_info = $this->get_access_info("team_member_update_permission");
 
@@ -83,7 +83,7 @@ class Team_members extends Security_Controller {
 
         //can't delete own user
         //only admin can delete other admin users.
-        //non-admin users can delete other users but can't delete admin user. 
+        //non-admin users can delete other users but can't delete admin user.
         if ($member_info && !$this->is_own_id($member_info->id) && ($this->login_user->is_admin || (get_array_value($this->login_user->permissions, "can_delete_team_members") && $member_info->is_admin != 1))) {
             return true;
         }
@@ -172,7 +172,7 @@ class Team_members extends Security_Controller {
             $user_data["password"] = password_hash($password, PASSWORD_DEFAULT);
         }
 
-        //make role id or admin permission 
+        //make role id or admin permission
         $role = $this->request->getPost('role');
         $role_id = $role;
 
@@ -258,7 +258,7 @@ class Team_members extends Security_Controller {
         $email_array = $this->request->getPost('email');
         $email_array = array_unique($email_array);
 
-        //get the send invitation template 
+        //get the send invitation template
         $email_template = $this->Email_templates_model->get_final_template("team_member_invitation"); //use default template
 
         $parser_data["INVITATION_SENT_BY"] = $this->login_user->first_name . " " . $this->login_user->last_name;
@@ -432,7 +432,7 @@ class Team_members extends Security_Controller {
                 $view_data["show_expense_info"] = (get_setting("module_expense") == "1" && $expense_access_info->access_type == "all") ? true : false;
 
                 //admin can access all members attendance and leave
-                //none admin users can only access to his/her own information 
+                //none admin users can only access to his/her own information
 
                 if ($this->login_user->is_admin || $user_info->id === $this->login_user->id || get_array_value($this->login_user->permissions, "can_manage_user_role_and_permissions")) {
                     $show_attendance = true;
@@ -692,7 +692,16 @@ class Team_members extends Security_Controller {
 
     function save_my_preferences() {
         //setting preferences
-        $settings = array("notification_sound_volume", "disable_push_notification", "hidden_topbar_menus", "disable_keyboard_shortcuts", "recently_meaning", "reminder_sound_volume", "reminder_snooze_length");
+        $settings = array(
+            "task_deadline_datepicker_view",
+            "notification_sound_volume",
+            "disable_push_notification",
+            "hidden_topbar_menus",
+            "disable_keyboard_shortcuts",
+            "recently_meaning",
+            "reminder_sound_volume",
+            "reminder_snooze_length"
+        );
 
         foreach ($settings as $setting) {
             $value = $this->request->getPost($setting);
@@ -757,7 +766,7 @@ class Team_members extends Security_Controller {
 
         if (!$this->is_own_id($user_id) && ($this->login_user->is_admin || (!$user_info->is_admin && $this->has_role_manage_permission() && !$this->is_admin_role($role)))) {
             //only admin user/eligible user has permission to update team member's role
-            //but admin user/eligible user can't update his/her own role 
+            //but admin user/eligible user can't update his/her own role
             //eligible user can't update admin user's role or can't give admin role to anyone
             $role_id = $role;
 

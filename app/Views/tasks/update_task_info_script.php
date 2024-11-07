@@ -8,7 +8,9 @@ foreach ($points_dropdown as $key => $value) {
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('body').on('click', '[data-act=update-task-info]', function (e) {
+        let body = $("body");
+
+        body.on('click', '[data-act=update-task-info]', function (e) {
             var $instance = $(this),
                     type = $(this).attr('data-act-type'),
                     source = "",
@@ -60,9 +62,33 @@ foreach ($points_dropdown as $key => $value) {
                     datepicker["endDate"] = "<?php echo $project_deadline; ?>";
 
                     //don't show dates before start date
-<?php if (is_date_exists($model_info->start_date)) { ?>
+                    <?php if (is_date_exists($model_info->start_date)) { ?>
                         datepicker["startDate"] = "<?php echo format_to_date($model_info->start_date); ?>";
-<?php } ?>
+                    <?php } ?>
+
+                    <?php if ($task_deadline_datepicker_view == "extended") { ?>
+                        datepicker["beforeShowDay"] = function (date) {
+
+                        let day = date.getDate();
+                        let deadline = `${date.getFullYear()}-${date.getMonth() + 1}-${day}`;
+
+                        $.ajax({
+                            url: '<?php echo_uri("tasks/get_count_tasks") ?>',
+                            type: "POST",
+                            data: {
+                                deadline: deadline
+                            },
+                            success: (response) => {
+                                $("div[data-deadline="+ deadline +"]").next(".badge").text(response);
+                            }
+                        });
+
+                        return {
+                            content: '<div data-deadline="'+ deadline +'">'+ day +'</div><div class="badge rounded-pill text-bg-light font-monospace mt-0"></div>'
+                        };
+                    };
+                    <?php } ?>
+
                 }
             } else if (type === "priority_id") {
                 source = <?php echo json_encode($priorities_dropdown); ?>;
@@ -167,6 +193,49 @@ foreach ($points_dropdown as $key => $value) {
                     }
                 }
             });
+
+            if (type === "deadline") {
+
+                $(".app-popover-body").children(".popover-tempId").removeAttr("style");
+
+                <?php if ($task_deadline_datepicker_view == "simplified") { ?>
+                    let timeout = null;
+                    let popover = $(".app-popover");
+                    let datepickerDaysClass = ".datepicker-days .day";
+
+                    popover.on("mouseenter", datepickerDaysClass, function () {
+                        let el = $(this);
+                        let date = new Date(el.data("date"));
+
+                        let year = date.getFullYear();
+                        let month = date.getMonth() + 1;
+                        let day = date.getDate();
+
+                        timeout = setTimeout(() => {
+                            $.ajax({
+                                url: '<?php echo_uri("tasks/get_count_tasks") ?>',
+                                type: "POST",
+                                data: {
+                                    deadline: `${year}-${month}-${day}`
+                                },
+                                success: (response) => {
+                                    const tooltip = new bootstrap.Tooltip(el, {
+                                        title: 'Кол-во ' + response,
+                                        trigger: 'manual'
+                                    });
+
+                                    tooltip.show();
+                                }
+                            });
+                        }, 500);
+                    });
+
+                    popover.on("mouseleave", datepickerDaysClass, function () {
+                        clearTimeout(timeout);
+                        $(".tooltip").remove();
+                    });
+                <?php } ?>
+            }
 
             return false;
         });

@@ -11,6 +11,22 @@
 
             <div class="form-group">
                 <div class="row">
+                    <label for="task_deadline_datepicker_view" class=" col-md-2">Вид календаря крайний срок на странице задачи</label>
+                    <div class=" col-md-10">
+                        <?php
+                        echo form_dropdown(
+                            "task_deadline_datepicker_view", array(
+                            "" => "По умолчанию",
+                            "simplified" => "Упрощенный",
+                            "extended" => "Расширенный",
+                        ), get_setting('user_' . $user_id . '_task_deadline_datepicker_view'), "class='select2 mini'"
+                        );
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
                     <label for="notification_sound_volume" class=" col-md-2"><?php echo app_lang('notification_sound_volume'); ?></label>
                     <div class=" col-md-10">
                         <?php
@@ -62,7 +78,7 @@
                             "0" => app_lang("no")
                                 ), $push_notification, "class='select2 mini' id='disable_push_notification'"
                         );
-                        ?>                       
+                        ?>
                     </div>
                 </div>
             </div>
@@ -202,4 +218,4 @@
             }
         });
     });
-</script>    
+</script>

@@ -854,6 +854,26 @@ class Tasks_model extends Crud_model {
         return $this->db->query($sql)->getRow()->total;
     }
 
+    function count_tasks($options = []) {
+        $tasks_table = $this->db->prefixTable('tasks');
+
+        $where = '';
+
+        $assigned_to = $this->_get_clean_value($options, "assigned_to");
+        if ($assigned_to) {
+            $where .= " AND $tasks_table.assigned_to = " . $assigned_to;
+        }
+
+        $deadline = $this->_get_clean_value($options, "deadline");
+        if ($deadline) {
+            $where .= " AND $tasks_table.deadline = DATE('$deadline')";
+        }
+
+        $sql = "SELECT COUNT($tasks_table.id) AS total FROM $tasks_table WHERE $tasks_table.deleted = 0 $where";
+
+        return $this->db->query($sql)->getRow()->total;
+    }
+
     function get_label_suggestions($project_id) {
         $tasks_table = $this->db->prefixTable('tasks');
         $sql = "SELECT GROUP_CONCAT(labels) as label_groups
