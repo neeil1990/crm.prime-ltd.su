@@ -79,13 +79,12 @@ foreach ($points_dropdown as $key => $value) {
                                 deadline: deadline
                             },
                             success: (response) => {
-                                let count = '<div class="badge rounded-pill text-bg-light font-monospace mt-0">'+ response +'</div>';
-                                $("div[data-deadline="+ deadline +"]").after(count);
+                                $("div[data-deadline="+ deadline +"]").next(".badge").text(response);
                             }
                         });
 
                         return {
-                            content: '<div data-deadline="'+ deadline +'">'+ day +'</div>'
+                            content: '<div data-deadline="'+ deadline +'">'+ day +'</div><div class="badge rounded-pill text-bg-light font-monospace mt-0"></div>'
                         };
                     };
                     <?php } ?>
