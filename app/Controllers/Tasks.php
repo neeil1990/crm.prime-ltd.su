@@ -1698,6 +1698,8 @@ class Tasks extends Security_Controller {
 
         $view_data = $this->_get_task_related_dropdowns($model_info->context, $model_info->$context_id_key, true);
 
+        $view_data['task_deadline_datepicker_view'] = get_setting('user_' . $this->login_user->id . '_task_deadline_datepicker_view');
+
         $view_data['show_assign_to_dropdown'] = true;
         if ($this->login_user->user_type == "client" && !get_setting("client_can_assign_tasks")) {
             $view_data['show_assign_to_dropdown'] = false;
