@@ -4095,7 +4095,7 @@ class Tasks extends Security_Controller {
 
     function get_count_tasks() {
         $options = [
-            'assigned_to' => $this->login_user->id,
+            'assigned_to' => $this->request->getPost('user_id'),
             'deadline' => $this->request->getPost('deadline')
         ];
 
