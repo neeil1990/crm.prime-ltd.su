@@ -108,6 +108,7 @@ if (!isset($contexts)) {
                 $("#milestone_id").show().val("");
                 $("#assigned_to").show().val("");
                 $("#collaborators").show().val("");
+                $("#executors").show().val("");
                 $("#project_labels").show().val("");
                 $("#task_status_id").show().val(result.statuses_dropdown[0].id);
             }
@@ -115,6 +116,7 @@ if (!isset($contexts)) {
             $('#milestone_id').select2({data: result.milestones_dropdown});
             $('#assigned_to').select2({data: result.assign_to_dropdown});
             $('#collaborators').select2({multiple: true, data: result.collaborators_dropdown});
+            $('#executors').select2({multiple: true, data: result.collaborators_dropdown});
             $('#project_labels').select2({multiple: true, data: result.label_suggestions});
             $('#project_private_labels').select2({multiple: true, data: result.private_label_suggestions});
             $('#task_status_id').select2({data: result.statuses_dropdown});

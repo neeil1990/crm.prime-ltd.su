@@ -171,6 +171,23 @@
 
                 <div class="form-group">
                     <div class="row">
+                        <label for="executors" class=" col-md-3"><?php echo app_lang('executors'); ?></label>
+                        <div class="col-md-9" id="dropdown-apploader-section">
+                            <?php
+                            echo form_input(array(
+                                "id" => "executors",
+                                "name" => "executors",
+                                "value" => $model_info->executors,
+                                "class" => "form-control",
+                                "placeholder" => app_lang('executors')
+                            ));
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
                         <label for="collaborators" class=" col-md-3"><?php echo app_lang('collaborators'); ?></label>
                         <div class="col-md-9" id="dropdown-apploader-section">
                             <?php

@@ -88,6 +88,13 @@ if ($total_sub_tasks) {
                     </div>
 
                     <div class="col-md-12 mb15">
+                        <strong><?php echo app_lang('executors') . ": "; ?> </strong>
+                        <div class="mt5">
+                            <?php echo get_update_task_info_anchor_data($model_info, "executors", $can_edit_tasks, $executors); ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb15">
                         <strong><?php echo app_lang('collaborators') . ": "; ?> </strong>
                         <div class="mt5">
                             <?php echo get_update_task_info_anchor_data($model_info, "collaborators", $can_edit_tasks, $collaborators); ?>

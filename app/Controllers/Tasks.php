@@ -950,6 +950,7 @@ class Tasks extends Security_Controller {
 
         $assigned_to = $this->request->getPost('assigned_to');
         $collaborators = $this->request->getPost('collaborators');
+        $executors = $this->request->getPost('executors');
         $recurring = $this->request->getPost('recurring') ? 1 : 0;
         $repeat_every = $this->request->getPost('repeat_every');
         $repeat_type = $this->request->getPost('repeat_type');
@@ -1038,6 +1039,7 @@ class Tasks extends Security_Controller {
         } else {
             $data["assigned_to"] = $assigned_to;
             $data["collaborators"] = $collaborators;
+            $data["executors"] = $executors;
         }
 
         $data = clean_data($data);
@@ -1711,7 +1713,9 @@ class Tasks extends Security_Controller {
         $view_data['can_comment_on_tasks'] = $this->_can_comment_on_tasks($model_info);
 
         $view_data['model_info'] = $model_info;
+
         $view_data['collaborators'] = $this->_get_collaborators($model_info->collaborator_list, false);
+        $view_data['executors'] = $this->_get_collaborators($model_info->executors_list, false);
 
         $view_data['labels'] = make_labels_view_data($model_info->labels_list);
         $view_data['private_labels'] = make_labels_view_data($model_info->private_labels_list);
@@ -3374,6 +3378,10 @@ class Tasks extends Security_Controller {
 
         if ($data_field == "collaborators") {
             $success_array["collaborators"] = $task_info->collaborator_list ? $this->_get_collaborators($task_info->collaborator_list, false) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("collaborators") . "<span>";
+        }
+
+        if ($data_field == "executors") {
+            $success_array["executors"] = $task_info->executors_list ? $this->_get_collaborators($task_info->executors_list, false) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("executors") . "<span>";
         }
 
         if ($data_field == "start_date" || $data_field == "deadline") {

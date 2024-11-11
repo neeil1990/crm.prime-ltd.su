@@ -32,7 +32,7 @@ foreach ($points_dropdown as $key => $value) {
             } else if (type === "points") {
                 source = <?php echo json_encode($points_dropdown_for_update); ?>;
                 select2Option = {data: source};
-            } else if (type === "collaborators") {
+            } else if (type === "collaborators" || type === "executors") {
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -153,6 +153,12 @@ foreach ($points_dropdown as $key => $value) {
                         if (type === "collaborators" && response.collaborators) {
                             setTimeout(function () {
                                 $instance.html(response.collaborators);
+                            }, 50);
+                        }
+
+                        if (type === "executors" && response.executors) {
+                            setTimeout(function () {
+                                $instance.html(response.executors);
                             }, 50);
                         }
 
