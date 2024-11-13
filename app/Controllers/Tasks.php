@@ -1098,6 +1098,14 @@ class Tasks extends Security_Controller {
             }
 
             $this->check_sub_tasks_statuses($status_id, $id);
+        } else {
+            if (empty($data["collaborators"])) {
+                $data["collaborators"] = $this->login_user->id;
+            } else {
+                if (!in_array($this->login_user->id, explode(',', $data["collaborators"]))) {
+                    $data["collaborators"] .= ',' . $this->login_user->id;
+                }
+            }
         }
 
         $save_id = $this->Tasks_model->ci_save($data, $id);
