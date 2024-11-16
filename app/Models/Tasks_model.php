@@ -247,6 +247,13 @@ class Tasks_model extends Crud_model {
             }
         }
 
+        $executors_user_ids = $this->_get_clean_value($options, "executors_user_ids");
+        if ($executors_user_ids) {
+            foreach ($executors_user_ids as $executors_user_id) {
+                $where .= " AND (FIND_IN_SET('$executors_user_id', $tasks_table.executors))";
+            }
+        }
+
         $responsible_user_ids = $this->_get_clean_value($options, "responsible_user_ids");
         if ($responsible_user_ids) {
             $where .= " AND FIND_IN_SET($tasks_table.assigned_to,'$responsible_user_ids')";
@@ -685,6 +692,13 @@ class Tasks_model extends Crud_model {
         if ($member_user_ids) {
             foreach ($member_user_ids as $member_user_id) {
                 $where .= " AND (FIND_IN_SET('$member_user_id', $tasks_table.collaborators))";
+            }
+        }
+
+        $executors_user_ids = $this->_get_clean_value($options, "executors_user_ids");
+        if ($executors_user_ids) {
+            foreach ($executors_user_ids as $executors_user_id) {
+                $where .= " AND (FIND_IN_SET('$executors_user_id', $tasks_table.executors))";
             }
         }
 

@@ -1254,6 +1254,7 @@ class Tasks extends Security_Controller {
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $this->request->getPost('member_user_id'),
+            "executors_user_ids" => $this->request->getPost('executors_user_id'),
             "deadline" => $this->request->getPost('deadline'),
             "status_ids" => $status,
             "milestone_id" => $milestone_id,
@@ -1428,6 +1429,12 @@ class Tasks extends Security_Controller {
             $collaborators = "-";
         }
 
+        $executors = $this->_get_collaborators($data->executors_list);
+
+        if (!$executors) {
+            $executors = "-";
+        }
+
 
         $checkbox_class = "checkbox-blank";
         if ($data->status_key_name === "done") {
@@ -1505,6 +1512,7 @@ class Tasks extends Security_Controller {
             $milestone_title,
             $context_title,
             $assigned_to,
+            $executors,
             $collaborators,
             $status,
             $note,
@@ -2944,9 +2952,12 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "milestone_id" => $this->request->getPost('milestone_id'),
             "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
@@ -3067,9 +3078,12 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "assigned_to" => $this->request->getPost('assigned_to'),
             "milestone_id" => $this->request->getPost('milestone_id'),
@@ -3493,6 +3507,8 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $custom_fields = $this->Custom_fields_model->get_available_fields_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
         $quick_filter = $this->request->getPost('quick_filter');
@@ -3507,6 +3523,7 @@ class Tasks extends Security_Controller {
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "context" => $context,
             "milestone_id" => $this->request->getPost('milestone_id'),

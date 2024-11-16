@@ -157,6 +157,12 @@ foreach ($task_statuses as $status) {
                     },
                     {
                         class: "w200",
+                        name: "executors_user_id",
+                        text: "<?php echo app_lang('executors'); ?>",
+                        options: <?php echo $members_to_dropdown; ?>
+                    },
+                    {
+                        class: "w200",
                         name: "member_user_id",
                         text: "<?php echo app_lang('team_member'); ?>",
                         options: <?php echo $members_to_dropdown; ?>
@@ -192,6 +198,7 @@ foreach ($task_statuses as $status) {
                     {title: "<?php echo app_lang("milestone") ?>", visible: showResponsiveOption, order_by: "milestone"},
                     {visible: false, searchable: false},
                     {title: "<?php echo app_lang('assigned_to') ?>", "class": "min-w150", visible: showResponsiveOption, order_by: "assigned_to"},
+                    {title: "<?php echo app_lang('executors') ?>", visible: showResponsiveOption},
                     {title: "<?php echo app_lang('collaborators') ?>", visible: showResponsiveOption},
                     {title: "<?php echo app_lang('status') ?>", visible: showResponsiveOption, order_by: "status"}
                     <?php echo $custom_field_headers; ?>,
