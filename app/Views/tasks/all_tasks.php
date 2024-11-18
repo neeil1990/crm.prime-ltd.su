@@ -194,7 +194,7 @@ if (isset($selected_priority_id) && $selected_priority_id) {
                 {title: "<?php echo app_lang('deadline') ?>", "iDataSort": 5, visible: showOption, order_by: "deadline"},
                 {title: "<?php echo app_lang('milestone') ?>", visible: showOption, order_by: "milestone"},
                 {title: "<?php echo app_lang('related_to') ?>", visible: showOption},
-                {title: "<?php echo app_lang('assigned_to') ?>", "class": "min-w150", visible: showOption, order_by: "assigned_to"},
+                {title: "<?php echo app_lang('assigned_to') ?>", visible: showOption, order_by: "assigned_to"},
                 {title: "<?php echo app_lang('executors') ?>", visible: showOption},
                 {title: "<?php echo app_lang('collaborators') ?>", visible: showOption},
                 {title: "<?php echo app_lang('status') ?>", visible: showOption, order_by: "status"},
