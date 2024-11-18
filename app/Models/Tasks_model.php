@@ -884,6 +884,11 @@ class Tasks_model extends Crud_model {
             $where .= " AND $tasks_table.deadline = DATE('$deadline')";
         }
 
+        $status_ids = $this->_get_clean_value($options, "status_ids");
+        if ($status_ids) {
+            $where .= " AND FIND_IN_SET($tasks_table.status_id,'$status_ids')";
+        }
+
         $sql = "SELECT COUNT($tasks_table.id) AS total FROM $tasks_table WHERE $tasks_table.deleted = 0 $where";
 
         return $this->db->query($sql)->getRow()->total;
