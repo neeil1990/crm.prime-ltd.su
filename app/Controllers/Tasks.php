@@ -341,8 +341,12 @@ class Tasks extends Security_Controller {
 
             if ($this->is_not_admin()) {
                 $collaborators_array = explode(',', $task_info->collaborators);
-                if (!in_array($this->login_user->id, $collaborators_array) && $task_info->assigned_to != $this->login_user->id) {
-                    return false;
+                $executors_array = explode(',', $task_info->executors);
+
+                if (in_array($this->login_user->id, $collaborators_array) == false &&
+                    in_array($this->login_user->id, $executors_array) == false &&
+                    $task_info->assigned_to != $this->login_user->id) {
+                        return false;
                 }
             }
         }
