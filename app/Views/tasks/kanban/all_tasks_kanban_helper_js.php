@@ -49,6 +49,12 @@
                 },
                 {
                     class: "w200",
+                    name: "executors_user_id",
+                    text: "<?php echo app_lang('executors'); ?>",
+                    options: <?php echo $team_members_dropdown; ?>
+                },
+                {
+                    class: "w200",
                     name: "member_user_id",
                     text: "<?php echo app_lang('team_member'); ?>",
                     options: <?php echo $team_members_dropdown; ?>

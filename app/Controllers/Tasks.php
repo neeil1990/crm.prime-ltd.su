@@ -950,6 +950,7 @@ class Tasks extends Security_Controller {
 
         $assigned_to = $this->request->getPost('assigned_to');
         $collaborators = $this->request->getPost('collaborators');
+        $executors = $this->request->getPost('executors');
         $recurring = $this->request->getPost('recurring') ? 1 : 0;
         $repeat_every = $this->request->getPost('repeat_every');
         $repeat_type = $this->request->getPost('repeat_type');
@@ -1038,6 +1039,7 @@ class Tasks extends Security_Controller {
         } else {
             $data["assigned_to"] = $assigned_to;
             $data["collaborators"] = $collaborators;
+            $data["executors"] = $executors;
         }
 
         $data = clean_data($data);
@@ -1096,6 +1098,14 @@ class Tasks extends Security_Controller {
             }
 
             $this->check_sub_tasks_statuses($status_id, $id);
+        } else {
+            if (empty($data["collaborators"])) {
+                $data["collaborators"] = $this->login_user->id;
+            } else {
+                if (!in_array($this->login_user->id, explode(',', $data["collaborators"]))) {
+                    $data["collaborators"] .= ',' . $this->login_user->id;
+                }
+            }
         }
 
         $save_id = $this->Tasks_model->ci_save($data, $id);
@@ -1244,6 +1254,7 @@ class Tasks extends Security_Controller {
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $this->request->getPost('member_user_id'),
+            "executors_user_ids" => $this->request->getPost('executors_user_id'),
             "deadline" => $this->request->getPost('deadline'),
             "status_ids" => $status,
             "milestone_id" => $milestone_id,
@@ -1403,7 +1414,7 @@ class Tasks extends Security_Controller {
 
         if ($data->assigned_to) {
             $image_url = get_avatar($data->assigned_to_avatar);
-            $assigned_to_user = "<span class='avatar avatar-xs mr10'><img src='$image_url' alt='...'></span> $data->assigned_to_user";
+            $assigned_to_user = "<span class='avatar avatar-xs mr10'><img src='$image_url' alt='...' title='$data->assigned_to_user'></span>";
             $assigned_to = get_team_member_profile_link($data->assigned_to, $assigned_to_user);
 
             if ($data->user_type != "staff") {
@@ -1416,6 +1427,12 @@ class Tasks extends Security_Controller {
 
         if (!$collaborators) {
             $collaborators = "-";
+        }
+
+        $executors = $this->_get_collaborators($data->executors_list);
+
+        if (!$executors) {
+            $executors = "-";
         }
 
 
@@ -1495,6 +1512,7 @@ class Tasks extends Security_Controller {
             $milestone_title,
             $context_title,
             $assigned_to,
+            $executors,
             $collaborators,
             $status,
             $note,
@@ -1711,7 +1729,9 @@ class Tasks extends Security_Controller {
         $view_data['can_comment_on_tasks'] = $this->_can_comment_on_tasks($model_info);
 
         $view_data['model_info'] = $model_info;
+
         $view_data['collaborators'] = $this->_get_collaborators($model_info->collaborator_list, false);
+        $view_data['executors'] = $this->_get_collaborators($model_info->executors_list, false);
 
         $view_data['labels'] = make_labels_view_data($model_info->labels_list);
         $view_data['private_labels'] = make_labels_view_data($model_info->private_labels_list);
@@ -2932,9 +2952,12 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "milestone_id" => $this->request->getPost('milestone_id'),
             "priority_ids" => $this->request->getPost('priority_id') ? implode(",", $this->request->getPost('priority_id')) : "",
@@ -3055,9 +3078,12 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "assigned_to" => $this->request->getPost('assigned_to'),
             "milestone_id" => $this->request->getPost('milestone_id'),
@@ -3376,6 +3402,10 @@ class Tasks extends Security_Controller {
             $success_array["collaborators"] = $task_info->collaborator_list ? $this->_get_collaborators($task_info->collaborator_list, false) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("collaborators") . "<span>";
         }
 
+        if ($data_field == "executors") {
+            $success_array["executors"] = $task_info->executors_list ? $this->_get_collaborators($task_info->executors_list, false) : "<span class='text-off'>" . app_lang("add") . " " . app_lang("executors") . "<span>";
+        }
+
         if ($data_field == "start_date" || $data_field == "deadline") {
             $date = "-";
             if (is_date_exists($task_info->$data_field)) {
@@ -3477,6 +3507,8 @@ class Tasks extends Security_Controller {
 
         $member_user_ids = $this->request->getPost('member_user_id');
 
+        $executors_user_ids = $this->request->getPost('executors_user_id');
+
         $custom_fields = $this->Custom_fields_model->get_available_fields_for_table("tasks", $this->login_user->is_admin, $this->login_user->user_type);
 
         $quick_filter = $this->request->getPost('quick_filter');
@@ -3491,6 +3523,7 @@ class Tasks extends Security_Controller {
         $options = array(
             "responsible_user_ids" => $responsible_user_ids,
             "member_user_ids" => $member_user_ids,
+            "executors_user_ids" => $executors_user_ids,
             "project_id" => $project_id,
             "context" => $context,
             "milestone_id" => $this->request->getPost('milestone_id'),
@@ -4087,8 +4120,9 @@ class Tasks extends Security_Controller {
 
     function get_count_tasks() {
         $options = [
-            'assigned_to' => $this->login_user->id,
-            'deadline' => $this->request->getPost('deadline')
+            'assigned_to' => $this->request->getPost('user_id'),
+            'deadline' => $this->request->getPost('deadline'),
+            'status_ids' => "1,2,4,5,6"
         ];
 
         return $this->Tasks_model->count_tasks($options);

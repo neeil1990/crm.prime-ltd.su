@@ -171,6 +171,23 @@
 
                 <div class="form-group">
                     <div class="row">
+                        <label for="executors" class=" col-md-3"><?php echo app_lang('executors'); ?></label>
+                        <div class="col-md-9" id="dropdown-apploader-section">
+                            <?php
+                            echo form_input(array(
+                                "id" => "executors",
+                                "name" => "executors",
+                                "value" => $model_info->executors,
+                                "class" => "form-control",
+                                "placeholder" => app_lang('executors')
+                            ));
+                            ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
                         <label for="collaborators" class=" col-md-3"><?php echo app_lang('collaborators'); ?></label>
                         <div class="col-md-9" id="dropdown-apploader-section">
                             <?php
@@ -568,7 +585,42 @@
         setDatePicker("#start_date");
 
         setDatePicker("#deadline", {
-            endDate: "<?php echo $project_deadline; ?>"
+            endDate: "<?php echo $project_deadline; ?>",
+            beforeShowDay: function (date) {
+                let day = date.getDate();
+                let deadline = `${date.getFullYear()}-${date.getMonth() + 1}-${day}`;
+
+                return {
+                    content: '<div data-deadline="'+ deadline +'">'+ day +'</div><div class="badge rounded-pill text-bg-light font-monospace mt-0"></div>'
+                };
+            },
+        });
+
+        $('#deadline').datepicker().on("show", function(e) {
+            $(".datepicker-days .day").each(function(i, el){
+                let timestamp = $(el).data('date');
+                let date = new Date(timestamp);
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                let day = date.getDate();
+
+                let deadline = `${year}-${month}-${day}`;
+                let user_id = $("#assigned_to").val();
+
+                if (user_id && deadline) {
+                    $.ajax({
+                        url: '<?php echo_uri("tasks/get_count_tasks") ?>',
+                        type: "POST",
+                        data: {
+                            deadline: deadline,
+                            user_id: user_id,
+                        },
+                        success: (response) => {
+                            $("div[data-deadline="+ deadline +"]").next(".badge").text(response);
+                        }
+                    });
+                }
+            });
         });
 
         setTimePicker("#start_time, #end_time");
@@ -587,8 +639,6 @@
         setDatePicker("#next_recurring_date", {
             startDate: moment().add(1, 'days').format("YYYY-MM-DD") //set min date = tomorrow
         });
-
-
     });
 </script>
 

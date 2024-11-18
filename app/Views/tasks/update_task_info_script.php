@@ -18,7 +18,8 @@ foreach ($points_dropdown as $key => $value) {
                     showbuttons = false,
                     placement = "bottom",
                     editableType = "select2",
-                    datepicker = {};
+                    datepicker = {},
+                    assigned_to = $('[data-act-type=assigned_to]').attr('data-value');
 
             if (type === "status_id") {
                 source = <?php echo json_encode($statuses_dropdown); ?>;
@@ -32,7 +33,7 @@ foreach ($points_dropdown as $key => $value) {
             } else if (type === "points") {
                 source = <?php echo json_encode($points_dropdown_for_update); ?>;
                 select2Option = {data: source};
-            } else if (type === "collaborators") {
+            } else if (type === "collaborators" || type === "executors") {
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -76,7 +77,8 @@ foreach ($points_dropdown as $key => $value) {
                             url: '<?php echo_uri("tasks/get_count_tasks") ?>',
                             type: "POST",
                             data: {
-                                deadline: deadline
+                                deadline: deadline,
+                                user_id: assigned_to,
                             },
                             success: (response) => {
                                 $("div[data-deadline="+ deadline +"]").next(".badge").text(response);
@@ -156,6 +158,12 @@ foreach ($points_dropdown as $key => $value) {
                             }, 50);
                         }
 
+                        if (type === "executors" && response.executors) {
+                            setTimeout(function () {
+                                $instance.html(response.executors);
+                            }, 50);
+                        }
+
                         if ((type === "start_date" || type === "deadline") && response.date) {
                             setTimeout(function () {
                                 $instance.html(response.date);
@@ -216,7 +224,8 @@ foreach ($points_dropdown as $key => $value) {
                                 url: '<?php echo_uri("tasks/get_count_tasks") ?>',
                                 type: "POST",
                                 data: {
-                                    deadline: `${year}-${month}-${day}`
+                                    deadline: `${year}-${month}-${day}`,
+                                    user_id: assigned_to,
                                 },
                                 success: (response) => {
                                     const tooltip = new bootstrap.Tooltip(el, {
