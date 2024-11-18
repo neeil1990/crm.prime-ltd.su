@@ -1414,7 +1414,7 @@ class Tasks extends Security_Controller {
 
         if ($data->assigned_to) {
             $image_url = get_avatar($data->assigned_to_avatar);
-            $assigned_to_user = "<span class='avatar avatar-xs mr10'><img src='$image_url' alt='...'></span> $data->assigned_to_user";
+            $assigned_to_user = "<span class='avatar avatar-xs mr10'><img src='$image_url' alt='...' title='$data->assigned_to_user'></span>";
             $assigned_to = get_team_member_profile_link($data->assigned_to, $assigned_to_user);
 
             if ($data->user_type != "staff") {
