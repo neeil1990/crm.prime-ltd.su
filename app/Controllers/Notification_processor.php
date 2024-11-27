@@ -4,10 +4,10 @@ namespace App\Controllers;
 
 /*
  * To process the notifications we'll use this.
- * This controller will be called via curl 
- * 
+ * This controller will be called via curl
+ *
  * Purpose of this process is to reduce the processing time in main thread.
- * 
+ *
  */
 
 class Notification_processor extends App_Controller {
@@ -24,7 +24,7 @@ class Notification_processor extends App_Controller {
 
     function create_notification($data = array()) {
 
-        ini_set('max_execution_time', 300); //300 seconds 
+        ini_set('max_execution_time', 300); //300 seconds
         //error_log(date('[Y-m-d H:i:s e] ') . " Process Notification: " . serialize($_POST) . PHP_EOL, 3, "error.log");
         //validate notification request
 
@@ -92,7 +92,7 @@ class Notification_processor extends App_Controller {
             $notify_to_array = $this->_clasified_task_modification($event, $options, $activity_log_id);
 
             /*
-             * for custom field changes, we've to check if the field has any restrictions 
+             * for custom field changes, we've to check if the field has any restrictions
              * like 'visible to admins only' or 'hide from clients'
              * but there might be changed other things along with the secret custom fields
              * so, we've to show only that fields. then, we need to create notification for all users
@@ -219,7 +219,7 @@ class Notification_processor extends App_Controller {
 
     //to prevent multiple reminder, we'll save the reminder date
     private function _save_reminder_date(&$event, &$options) {
-        //save invoices reminder dates 
+        //save invoices reminder dates
         $invoice_id = get_array_value($options, "invoice_id");
         if ($invoice_id) {
             $invoice_reminder_date = array();

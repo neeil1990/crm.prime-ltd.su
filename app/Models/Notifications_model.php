@@ -81,7 +81,7 @@ class Notifications_model extends Crud_model {
 
         $extra_data = array();
 
-        //prepare notifiy to terms 
+        //prepare notifiy to terms
         if ($notify_to_terms) {
             $notify_to_terms = explode(",", $notify_to_terms);
         } else {
@@ -93,8 +93,6 @@ class Notifications_model extends Crud_model {
          * team_members, team,
          * project_members, client_primary_contact, client_all_contacts, task_assignee, task_collaborators, comment_creator, leave_applicant, ticket_creator, ticket_assignee, estimate_request_assignee, post_creator
          */
-
-
 
         //find team members
         if ($notification_settings->notify_to_team_members) {
@@ -119,8 +117,8 @@ class Notifications_model extends Crud_model {
         //find  task_collaborators
         if (in_array("task_collaborators", $notify_to_terms) && $task_id) {
             $where .= " OR (FIND_IN_SET($users_table.id, (SELECT $tasks_table.collaborators FROM $tasks_table WHERE $tasks_table.id=$task_id))) ";
+            $where .= " OR (FIND_IN_SET($users_table.id, (SELECT $tasks_table.executors FROM $tasks_table WHERE $tasks_table.id=$task_id))) ";
         }
-
 
         //find client_all_contacts by project
         if (in_array("client_all_contacts", $notify_to_terms) && $project_id) {
@@ -296,7 +294,7 @@ class Notifications_model extends Crud_model {
             //we are saving the share with data like this:
             //member:1,member:2,team:1
             //all
-            //so, we've to retrive the users 
+            //so, we've to retrive the users
 
 
             if ($event_info->share_with === "all") {
@@ -339,7 +337,6 @@ class Notifications_model extends Crud_model {
                 }
             }
         }
-
 
         //find announcement recipient
         if (in_array("recipient", $notify_to_terms) && $announcement_id) {
@@ -504,32 +501,32 @@ class Notifications_model extends Crud_model {
             foreach ($notify_to->getResult() as $user) {
 
 
-                //check ticket type permission for team mebers before preparing the notifcation 
+                //check ticket type permission for team mebers before preparing the notifcation
                 if ($ticket_info && !$this->notify_to_this_user_for_this_ticket($ticket_info, $user)) {
                     continue; //skip next lines for this loop
                 }
 
-                //check task permission for team mebers before preparing the notifcation 
+                //check task permission for team mebers before preparing the notifcation
                 if ($task_info && !$this->notify_to_this_user_for_this_task($task_info, $user)) {
                     continue; //skip next lines for this loop
                 }
 
-                //check project permission for team mebers before preparing the notifcation 
+                //check project permission for team mebers before preparing the notifcation
                 if ($project_info && !$this->notify_to_this_user_for_this_project($project_info, $user)) {
                     continue; //skip next lines for this loop
                 }
 
-                //check estimate permission for team mebers before preparing the notifcation 
+                //check estimate permission for team mebers before preparing the notifcation
                 if ($estimate_info && !$this->notify_to_this_user_for_this_estimate($estimate_info, $user)) {
                     continue; //skip next lines for this loop
                 }
 
-                //check post permission for team mebers before preparing the notifcation 
+                //check post permission for team mebers before preparing the notifcation
                 if ($post_info && !$this->notify_to_this_user_for_this_post($post_info, $user)) {
                     continue; //skip next lines for this loop
                 }
 
-                //check client/lead permission for team mebers before preparing the notifcation 
+                //check client/lead permission for team mebers before preparing the notifcation
                 if ($client_info && !$this->notify_to_this_user_for_this_client($client_info, $user)) {
                     continue; //skip next lines for this loop
                 }
@@ -537,8 +534,8 @@ class Notifications_model extends Crud_model {
                 //check if email sending to client
                 if ($user->user_type == "client") {
                     if ($announcement_id || $contract_id || $event_id || $proposal_id || $estimate_id || $invoice_id || $invoice_payment_id || $subscription_id || $project_id || $task_id || $order_id || $ticket_id) {
-                        $check_module = true; 
-                        
+                        $check_module = true;
+
                         if ($announcement_id) {
                             $context = "announcement";
                         } else if ($event_id) {
@@ -897,7 +894,7 @@ class Notifications_model extends Crud_model {
                     return true; //can access only own clients
                 }
             } else if ($client_permission == "read_only") {
-                return true; //can access notifications 
+                return true; //can access notifications
             } else if ($client_permission == "specific") {
                 //user has access to specific client groups
                 $allowed_client_groups = explode(",", get_array_value($permissions, "client_specific"));

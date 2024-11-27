@@ -20,7 +20,7 @@ if (!function_exists('get_change_logs')) {
 
         $from_value = is_null($from_value) ? "" : $from_value;
         $to_value = is_null($to_value) ? "" : $to_value;
-        
+
         $changes = "";
 
         $ci = new App_Controller();
@@ -53,7 +53,7 @@ if (!function_exists('get_change_logs')) {
                     $changes = "<del>" . $from_value . "</del> <ins>" . $to_value . "</ins>";
                 }
             } else if (get_array_value($schema_info, "type") === "text") {
-               
+
                 $from_value = htmlspecialchars_decode(htmlentities($from_value));
                 $to_value = htmlspecialchars_decode(htmlentities($to_value));
 //                $from_value = mb_convert_encoding($from_value, 'HTML-ENTITIES', 'UTF-8');
@@ -262,7 +262,7 @@ if (!function_exists('get_logs_of_bitbucket_or_github_commit')) {
 
 /*
  * get the array of change logs
- * 
+ *
  * @param array $changes
  * @param string $log_type
  * @param string $action
