@@ -58,7 +58,7 @@ if (count($notifications)) {
             }
         }
 
-        //for custom field changes, we've to check if the field has any restrictions 
+        //for custom field changes, we've to check if the field has any restrictions
         //like 'visible to admins only' or 'hide from clients'
         $changes_array = array();
         if ($notification->activity_log_changes !== "") {
@@ -83,7 +83,9 @@ if (count($notifications)) {
                     <div class="w100p">
                         <div class="mb5">
                             <strong><?php echo $title; ?></strong>
-                            <span class="text-off float-end"><small><?php echo format_to_relative_time($notification->created_at); ?></small></span>
+                            <span class="text-off float-end">
+                                <small><?php echo format_to_relative_time($notification->created_at); ?></small>
+                            </span>
                         </div>
                         <div class="m0 text-break">
                             <?php
@@ -93,6 +95,9 @@ if (count($notifications)) {
                             echo preg_replace('#<a.*?>(.*?)</a>#i', '\1', view("notifications/notification_description", array("notification" => $notification, "changes_array" => $changes_array)));
                             ?>
                         </div>
+                        <? if (str_starts_with($notification_class, 'unread-notification')): ?>
+                            <small class="read-notification badge rounded-pill bg-primary">Прочитать</small>
+                        <? endif; ?>
                     </div>
                 </div>
             </a>
@@ -118,17 +123,33 @@ if (count($notifications)) {
     }
 } else {
     ?>
-    <span class="list-group-item"><?php echo app_lang("no_new_notifications"); ?></span>               
+    <span class="list-group-item"><?php echo app_lang("no_new_notifications"); ?></span>
 <?php } ?>
-
 
 <script type="text/javascript">
     $(document).ready(function () {
         $(".unread-notification").click(function (e) {
-            $.ajax({
-                url: '<?php echo get_uri("notifications/set_notification_status_as_read") ?>/' + $(this).attr("data-notification-id")
-            });
-            $(this).removeClass("unread-notification");
+            notificationStatusAsRead($(this));
         });
+
+        $(".read-notification").click(function (e) {
+
+            notificationStatusAsRead($(this).closest('.list-group-item'));
+
+            $(this).remove();
+
+            return false;
+        });
+
+        function notificationStatusAsRead(el)
+        {
+            $.ajax({
+                url: '<?php echo get_uri("notifications/set_notification_status_as_read") ?>/' + el.attr("data-notification-id")
+            });
+
+            el.removeClass("unread-notification");
+
+            el.blur();
+        }
     });
 </script>
