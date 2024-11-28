@@ -244,7 +244,7 @@ class Tasks_model extends Crud_model {
 
         $specific_user_id = $this->_get_clean_value($options, "specific_user_id");
         if ($specific_user_id) {
-            $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
+            $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators) OR FIND_IN_SET('$specific_user_id', $tasks_table.executors))";
         }
 
         $member_user_ids = $this->_get_clean_value($options, "member_user_ids");
@@ -692,7 +692,7 @@ class Tasks_model extends Crud_model {
 
         $specific_user_id = $this->_get_clean_value($options, "specific_user_id");
         if ($specific_user_id) {
-            $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators))";
+            $where .= " AND ($tasks_table.assigned_to=$specific_user_id OR FIND_IN_SET('$specific_user_id', $tasks_table.collaborators) OR FIND_IN_SET('$specific_user_id', $tasks_table.executors))";
         }
 
         $member_user_ids = $this->_get_clean_value($options, "member_user_ids");
@@ -1049,7 +1049,7 @@ class Tasks_model extends Crud_model {
 
         $show_assigned_tasks_only_user_id = $this->_get_clean_value($options, "show_assigned_tasks_only_user_id");
         if ($show_assigned_tasks_only_user_id) {
-            $where .= " AND ($tasks_table.assigned_to=$show_assigned_tasks_only_user_id OR FIND_IN_SET('$show_assigned_tasks_only_user_id', $tasks_table.collaborators))";
+            $where .= " AND ($tasks_table.assigned_to=$show_assigned_tasks_only_user_id OR FIND_IN_SET('$show_assigned_tasks_only_user_id', $tasks_table.collaborators) OR FIND_IN_SET('$show_assigned_tasks_only_user_id', $tasks_table.executors))";
         }
 
         if ($search) {
