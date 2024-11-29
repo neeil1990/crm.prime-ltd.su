@@ -96,7 +96,7 @@ if (count($notifications)) {
                             ?>
                         </div>
                         <? if (str_starts_with($notification_class, 'unread-notification')): ?>
-                            <small class="read-notification badge rounded-pill bg-primary">Прочитать</small>
+                            <small class="read-notification badge rounded-pill bg-primary" style="font-size: 80%;">Прочитать</small>
                         <? endif; ?>
                     </div>
                 </div>
