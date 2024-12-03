@@ -8,5 +8,7 @@ $lang["copy_checklist_item"] = "Копировать элемент контро
 $lang["saved_note"] = "Заметка сохранена";
 $lang["personal_labels"] = "Личные ярлыки";
 $lang["executors"] = "Исполнители";
+$lang["enable_filter"] = "Включить фильтр";
+$lang["notification_filter"] = "Фильтр уведомлений";
 
 return $lang;

@@ -13,7 +13,7 @@
                     <h4> <?php echo app_lang('notification_settings'); ?></h4>
                 </div>
                 <div class="table-responsive">
-                    <table id="notification-settings-table" class="display" cellspacing="0" width="100%">            
+                    <table id="notification-settings-table" class="display" cellspacing="0" width="100%">
                     </table>
                 </div>
             </div>
@@ -31,6 +31,7 @@
                 {title: '<?php echo app_lang("event"); ?>', class: "w30p"},
                 {title: '<?php echo app_lang("notify_to"); ?>'},
                 {title: '<?php echo app_lang("category"); ?>', class: "w10p"},
+                {title: '<?php echo app_lang("enable_filter"); ?>', class: "w10p text-center"},
                 {title: '<?php echo app_lang("enable_email"); ?>', class: "w10p text-center"},
                 {title: '<?php echo app_lang("enable_web"); ?>', class: "w10p text-center"},
                 {title: '<?php echo app_lang("enable_slack"); ?>', class: "w10p text-center"},

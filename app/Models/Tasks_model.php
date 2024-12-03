@@ -65,6 +65,13 @@ class Tasks_model extends Crud_model {
                 "linked_model" => model("App\Models\Labels_model"),
                 "label_fields" => array("label_group_name"),
             ),
+            "private_labels" => array(
+                "label" => app_lang("personal_labels"),
+                "type" => "foreign_key",
+                "link_type" => "label_group_list",
+                "linked_model" => model("App\Models\Labels_model"),
+                "label_fields" => array("label_group_name"),
+            ),
             "status" => array(
                 "label" => app_lang("status"),
                 "type" => "language_key" //we'are not using this field from 1.9 but don't delete it for existing data.

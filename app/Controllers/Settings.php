@@ -533,6 +533,7 @@ class Settings extends Security_Controller
             app_lang($data->event),
             $notify_to,
             app_lang($data->category),
+            $data->enable_filter ? $yes : $no,
             $data->enable_email ? $yes : $no,
             $data->enable_web ? $yes : $no,
             $data->enable_slack ? $yes : $no,
@@ -551,6 +552,7 @@ class Settings extends Security_Controller
         $data = array(
             "enable_web" => $this->request->getPost("enable_web"),
             "enable_email" => $this->request->getPost("enable_email"),
+            "enable_filter" => $this->request->getPost("enable_filter"),
             "enable_slack" => $this->request->getPost("enable_slack"),
             "notify_to_team" => "",
             "notify_to_team_members" => "",
@@ -1550,12 +1552,12 @@ class Settings extends Security_Controller
                 $this->Subscriptions_model->save_initial_number_of_subscription($value);
             }
         }
-        
+
         if($this->request->getPost("enable_stripe_subscription")){
             $webhook_listener_link_of_stripe_subscription = $this->request->getPost("webhook_listener_link_of_stripe_subscription");
             $this->save_stripe_webhook($webhook_listener_link_of_stripe_subscription);
         }
-    
+
         echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
     }
 

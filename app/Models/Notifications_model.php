@@ -663,6 +663,12 @@ class Notifications_model extends Crud_model {
         app_hooks()->do_action('app_hook_post_notification', $notification_id);
     }
 
+    function get_notification_settings_filter() {
+        $notification_settings_table = $this->db->prefixTable('notification_settings');
+
+        return $this->db->query("SELECT * FROM $notification_settings_table WHERE $notification_settings_table.enable_filter")->getResult();
+    }
+
     private function prepare_announcement_receipients_query($announcements_table, $clients_table, $users_table, $announcement_id = 0) {
         if (!$announcement_id) {
             return false;
@@ -914,7 +920,7 @@ class Notifications_model extends Crud_model {
 
     /* prepare notifications of new events */
 
-    function get_notifications($user_id, $offset = 0, $limit = 20) {
+    function get_notifications($user_id, $offset = 0, $limit = 20, $options = []) {
         $notifications_table = $this->db->prefixTable('notifications');
         $users_table = $this->db->prefixTable('users');
         $projects_table = $this->db->prefixTable('projects');
@@ -938,6 +944,23 @@ class Notifications_model extends Crud_model {
         $expenses_table = $this->db->prefixTable('expenses');
         $subscriptions_table = $this->db->prefixTable('subscriptions');
         $proposal_comments_table = $this->db->prefixTable('proposal_comments');
+
+        $where = "";
+
+        $event = $this->_get_clean_value($options, "event");
+        if ($event) {
+            $in = "'" . str_replace(',', "','", $event) . "'";
+
+            $where .= " AND $notifications_table.event IN($in)";
+        }
+
+        $read = $this->_get_clean_value($options, "read");
+        if ($read === "1") {
+            $where .= " AND FIND_IN_SET('$user_id', $notifications_table.read_by)";
+        }
+        if ($read === "0") {
+            $where .= " AND FIND_IN_SET('$user_id', $notifications_table.read_by) = 0";
+        }
 
         $sql = "SELECT SQL_CALC_FOUND_ROWS $notifications_table.*, CONCAT($users_table.first_name, ' ', $users_table.last_name) AS user_name, $users_table.image AS user_image,
                  $projects_table.title AS project_title,
@@ -993,7 +1016,7 @@ class Notifications_model extends Crud_model {
             FROM $invoices_table
             WHERE $invoices_table.deleted=0
         ) AS payment_invoice_table ON payment_invoice_table.id=$invoice_payments_table.invoice_id
-        WHERE $notifications_table.deleted=0 AND FIND_IN_SET($user_id, $notifications_table.notify_to) != 0
+        WHERE $notifications_table.deleted=0 AND FIND_IN_SET($user_id, $notifications_table.notify_to) != 0 $where 
         ORDER BY $notifications_table.id DESC LIMIT $offset, $limit";
 
         $data = new \stdClass();
