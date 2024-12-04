@@ -86,6 +86,13 @@ class Notifications extends Security_Controller {
         }
     }
 
+    function set_notification_status_as_unread($notification_id = 0) {
+        if ($notification_id) {
+            validate_numeric_value($notification_id);
+            $this->Notifications_model->set_notification_status_as_unread($notification_id, $this->login_user->id);
+        }
+    }
+
     private function _prepare_notification_list($offset = 0) {
         $options = [];
         $options["event"] = $this->Settings_model->get_setting($this->notification_event_filter_setting);

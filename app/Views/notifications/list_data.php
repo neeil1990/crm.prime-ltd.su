@@ -95,8 +95,10 @@ if (count($notifications)) {
                             echo preg_replace('#<a.*?>(.*?)</a>#i', '\1', view("notifications/notification_description", array("notification" => $notification, "changes_array" => $changes_array)));
                             ?>
                         </div>
-                        <? if (str_starts_with($notification_class, 'unread-notification')): ?>
-                            <small class="read-notification badge rounded-pill bg-primary" style="font-size: 80%;">Прочитать</small>
+                        <? if ($notification->is_read): ?>
+                            <small class="read-notify badge rounded-pill bg-info" style="font-size: 80%;">Прочитанное</small>
+                        <? else: ?>
+                            <small class="unread-notify badge rounded-pill bg-primary" style="font-size: 80%;">Непрочитанное</small>
                         <? endif; ?>
                     </div>
                 </div>
@@ -128,15 +130,36 @@ if (count($notifications)) {
 
 <script type="text/javascript">
     $(document).ready(function () {
+        let $body = $("body");
+        let readNotifyClass = "read-notify";
+        let unreadNotifyClass = "unread-notify";
+        let bgInfoClass = "bg-info";
+        let bgPrimaryClass = "bg-primary";
+
         $(".unread-notification").click(function (e) {
-            notificationStatusAsRead($(this));
+            notificationStatusAsRead( $(this) );
         });
 
-        $(".read-notification").click(function (e) {
+        $body.on("click", "." + readNotifyClass, function () {
+            let self = $(this);
 
-            notificationStatusAsRead($(this).closest('.list-group-item'));
+            notificationStatusAsUnRead(self.closest(".list-group-item"));
 
-            $(this).remove();
+            self.removeClass([readNotifyClass, bgInfoClass]);
+            self.addClass([unreadNotifyClass, bgPrimaryClass]);
+            self.text("Непрочитанное");
+
+            return false;
+        });
+
+        $body.on("click", "." + unreadNotifyClass, function () {
+            let self = $(this);
+
+            notificationStatusAsRead(self.closest(".list-group-item"));
+
+            self.removeClass([unreadNotifyClass, bgPrimaryClass]);
+            self.addClass([readNotifyClass, bgInfoClass]);
+            self.text("Прочитанное");
 
             return false;
         });
@@ -148,6 +171,17 @@ if (count($notifications)) {
             });
 
             el.removeClass("unread-notification");
+
+            el.blur();
+        }
+
+        function notificationStatusAsUnRead(el)
+        {
+            $.ajax({
+                url: '<?php echo get_uri("notifications/set_notification_status_as_unread") ?>/' + el.attr("data-notification-id")
+            });
+
+            el.addClass("unread-notification");
 
             el.blur();
         }

@@ -1141,6 +1141,21 @@ class Notifications_model extends Crud_model {
 
         $sql = "UPDATE $notifications_table SET $notifications_table.read_by = CONCAT($notifications_table.read_by,',',$user_id)
         WHERE FIND_IN_SET($user_id, $notifications_table.read_by) = 0 $where";
+
+        return $this->db->query($sql);
+    }
+
+    function set_notification_status_as_unread($notification_id, $user_id = 0) {
+        $notifications_table = $this->db->prefixTable('notifications');
+
+        $where = "";
+        if ($notification_id) {
+            $where = " AND $notifications_table.id=$notification_id";
+        }
+
+        $sql = "UPDATE $notifications_table SET $notifications_table.read_by = REPLACE($notifications_table.read_by, ',$user_id', '')
+        WHERE FIND_IN_SET($user_id, $notifications_table.read_by) $where";
+
         return $this->db->query($sql);
     }
 
