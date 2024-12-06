@@ -16,11 +16,21 @@
         </div>
         <div class="form-group">
             <div class="row">
+                <label for="enable_email" class="col-md-3"><?php echo app_lang('enable_filter'); ?></label>
+                <div class="col-md-9">
+                    <?php
+                    echo form_checkbox("enable_filter", "1", $model_info->enable_filter ? true : false, "id='enable_filter' class='form-check-input'");
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
                 <label for="enable_email" class="col-md-3"><?php echo app_lang('enable_email'); ?></label>
                 <div class="col-md-9">
                     <?php
                     echo form_checkbox("enable_email", "1", $model_info->enable_email ? true : false, "id='enable_email' class='form-check-input'");
-                    ?>                       
+                    ?>
                 </div>
             </div>
         </div>
@@ -30,7 +40,7 @@
                 <div class="col-md-9">
                     <?php
                     echo form_checkbox("enable_web", "1", $model_info->enable_web ? true : false, "id='enable_web' class='form-check-input'");
-                    ?>                       
+                    ?>
                 </div>
             </div>
         </div>
@@ -42,7 +52,7 @@
                     <div class="col-md-9">
                         <?php
                         echo form_checkbox("enable_slack", "1", $model_info->enable_slack ? true : false, "id='enable_slack' class='form-check-input'");
-                        ?>                       
+                        ?>
                     </div>
                 </div>
             </div>
@@ -60,14 +70,14 @@
                             <div class="pb10">
                                 <label for="notify_to_team"><?php echo app_lang('team'); ?></label>
                                 <div>
-                                    <input type="text" value="<?php echo $model_info->notify_to_team; ?>" name="team" id="team_dropdown" class="w100p"  placeholder="<?php echo app_lang('team'); ?>"  />    
+                                    <input type="text" value="<?php echo $model_info->notify_to_team; ?>" name="team" id="team_dropdown" class="w100p"  placeholder="<?php echo app_lang('team'); ?>"  />
                                 </div>
                             </div>
                         <?php } else if ($notify_optoin === "team_members") { ?>
                             <div class="pb10">
                                 <label for="notify_to_team_members"><?php echo app_lang('team_members'); ?></label>
                                 <div>
-                                    <input type="text" value="<?php echo $model_info->notify_to_team_members; ?>" name="team_members" id="team_members_dropdown" class="w100p"  placeholder="<?php echo app_lang('team_members'); ?>"  />    
+                                    <input type="text" value="<?php echo $model_info->notify_to_team_members; ?>" name="team_members" id="team_members_dropdown" class="w100p"  placeholder="<?php echo app_lang('team_members'); ?>"  />
                                 </div>
                             </div>
                         <?php } else {
@@ -123,4 +133,4 @@
         });
 
     });
-</script>    
+</script>
