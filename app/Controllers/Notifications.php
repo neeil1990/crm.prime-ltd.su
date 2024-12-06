@@ -4,52 +4,31 @@ namespace App\Controllers;
 
 class Notifications extends Security_Controller {
 
-    public $notification_event_filter_setting;
-    public $notification_is_read_filter_setting;
+    public $notifications_filters;
 
     function __construct() {
         parent::__construct();
 
         helper('notifications');
 
-        $user_id = $this->login_user->id;
-        $this->notification_event_filter_setting = "user_" . $user_id . "_notification_event_filter";
-        $this->notification_is_read_filter_setting = "user_" . $user_id . "_notification_is_read_filter";
+        $this->notifications_filters = "user_" . $this->login_user->id . "_notifications_filters";
     }
 
     //load notifications view
     function index() {
+
         $view_data = $this->_prepare_notification_list();
-        $view_data["filter_options"] = json_encode($this->event_filter_options());
-        $view_data["notification_event_filter_value"] = $this->Settings_model->get_setting($this->notification_event_filter_setting);
-        $view_data["notification_is_read_filter_value"] = $this->Settings_model->get_setting($this->notification_is_read_filter_setting);
+        $view_data["notifications_filters"] = [];
+        $view_data["event_dropdown"] = $this->event_dropdown();
+        $view_data["is_read_dropdown"] = $this->is_read_dropdown();
+        $view_data["projects_dropdown"] = $this->projects_dropdown();
+        $view_data["team_members_dropdown"] = $this->team_members_dropdown();
 
-        return $this->template->rander("notifications/index", $view_data);
-    }
-
-    function event_filter_options() {
-        $options = [];
-        $events = $this->Notifications_model->get_notification_settings_filter();
-
-        foreach ($events as $event) {
-            $options[] = ['id' => $event->event, 'text' => app_lang("notification_" . $event->event)];
+        if ($notifications_filters = $this->Settings_model->get_setting($this->notifications_filters)) {
+            $view_data["notifications_filters"] = unserialize($notifications_filters);
         }
 
-        return $options;
-    }
-
-    function save_event_filter_options() {
-        $notification_event_filter = $this->request->getPost("notification_event_filter");
-
-        $value = ($notification_event_filter) ? implode(",", $notification_event_filter) : "";
-
-        $this->Settings_model->save_setting($this->notification_event_filter_setting, $value, "user");
-    }
-
-    function save_is_read_filter_options() {
-        $value = $this->request->getPost("notification_is_read_filter");
-
-        $this->Settings_model->save_setting($this->notification_is_read_filter_setting, $value, "user");
+        return $this->template->rander("notifications/index", $view_data);
     }
 
     function load_more($offset = 0) {
@@ -93,10 +72,55 @@ class Notifications extends Security_Controller {
         }
     }
 
+    function save_filter_modal_form() {
+        $data_view["params"] = $this->request->getGet();
+
+        return $this->template->view("notifications/save_filter_modal_form", $data_view);
+    }
+
+    function store_user_filter() {
+        $title = $this->request->getPost("title");
+
+        $new_filter = [
+            "title" => $title,
+            "params" => $this->request->getGet(),
+        ];
+
+        $filters = [];
+
+        if ($settings = $this->Settings_model->get_setting($this->notifications_filters)) {
+            $filters = unserialize($settings);
+        }
+
+        $filters[sha1($title)] = $new_filter;
+
+        $this->Settings_model->save_setting($this->notifications_filters, serialize($filters), "user");
+
+        echo json_encode(array("success" => true, 'message' => app_lang('success')));
+    }
+
+    function delete_user_filter() {
+        $index = $this->request->getGet("index");
+
+        if ($settings = $this->Settings_model->get_setting($this->notifications_filters)) {
+            $filters = unserialize($settings);
+
+            if (isset($filters[$index])) {
+                unset($filters[$index]);
+                $this->Settings_model->save_setting($this->notifications_filters, serialize($filters), "user");
+            }
+        }
+
+        return redirect('notifications');
+    }
+
     private function _prepare_notification_list($offset = 0) {
-        $options = [];
-        $options["event"] = $this->Settings_model->get_setting($this->notification_event_filter_setting);
-        $options["read"] = $this->Settings_model->get_setting($this->notification_is_read_filter_setting);
+        $options = [
+            "event" => $this->request->getGet('notification_event_filter'),
+            "is_read" => $this->request->getGet('notification_is_read_filter'),
+            "team_member" => $this->request->getGet('notification_team_members_filter'),
+            "project_id" => $this->request->getGet('notification_projects_filter'),
+        ];
 
         $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset, 100, $options);
         $view_data['notifications'] = $notifiations->result;
@@ -105,6 +129,53 @@ class Notifications extends Security_Controller {
         $view_data['next_page_offset'] = $next_page_offset;
         $view_data['result_remaining'] = $notifiations->found_rows > $next_page_offset;
         return $view_data;
+    }
+
+    function team_members_dropdown() {
+        $team_members_dropdown = [
+            ["id" => "", "text" => "- " . app_lang("team_member") . " -"]
+        ];
+        $members_list = $this->Users_model->get_dropdown_list(array("first_name", "last_name"), "id", array("deleted" => 0, "user_type" => "staff"));
+
+        foreach ($members_list as $id => $text) {
+            $team_members_dropdown[] = ["id" => $id, "text" => $text];
+        }
+
+        return $team_members_dropdown;
+    }
+
+    function projects_dropdown() {
+        $projects_dropdown = [
+            ["id" => "", "text" => "- " . app_lang("projects") . " -"]
+        ];
+        $projects_list = $this->Projects_model->get_projects_id_and_name()->getResult();
+
+        foreach ($projects_list as $project) {
+            $projects_dropdown[] = ["id" => $project->id, "text" => $project->title];
+        }
+
+        return $projects_dropdown;
+    }
+
+    function event_dropdown() {
+        $event_dropdown = [];
+        $events = $this->Notifications_model->get_notification_settings_filter();
+
+        foreach ($events as $event) {
+            $event_dropdown[] = ['id' => $event->event, 'text' => app_lang("notification_" . $event->event)];
+        }
+
+        return $event_dropdown;
+    }
+
+    function is_read_dropdown() {
+        $is_read_dropdown = [
+            ["id" => "", "text" => "- " . app_lang("status") . " -"],
+            ["id" => "0", "text" => "Непрочитанные"],
+            ["id" => "1", "text" => "Прочитанные"],
+        ];
+
+        return $is_read_dropdown;
     }
 
 }

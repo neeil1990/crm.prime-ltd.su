@@ -10,5 +10,6 @@ $lang["personal_labels"] = "Личные ярлыки";
 $lang["executors"] = "Исполнители";
 $lang["enable_filter"] = "Включить фильтр";
 $lang["notification_filter"] = "Фильтр уведомлений";
+$lang["apply"] = "Применить";
 
 return $lang;

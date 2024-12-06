@@ -1,39 +1,75 @@
+<div class="page-wrapper clearfix">
+    <?php foreach ($notifications_filters as $index => $notifications_filter): ?>
+    <div class="btn-group" role="group">
+        <a href="<?php echo get_uri("notifications" .'?'. http_build_query($notifications_filter["params"])); ?>" class="btn btn-default round" title="<?php echo $notifications_filter["title"]; ?>"><?php echo $notifications_filter["title"]; ?></a>
+        <a href="<?php echo get_uri("notifications/delete_user_filter" .'?index='. $index); ?>" class="btn btn-default round" title=""><i data-feather='delete' class='icon-16'></i></a>
+    </div>
+    <? endforeach; ?>
+</div>
+
 <div id="page-content" class="page-wrapper clearfix">
-    <div class="card dashed-row">
+    <div class="card">
 
         <div class="page-title clearfix">
             <h4> <?php echo app_lang('notifications'); ?></h4>
         </div>
 
+        <?php echo form_open(get_uri("notifications"), array("role" => "form", "method" => "get")); ?>
         <div class="form-group mt-4">
             <div class="row">
-                <div class="col-6 ps-4">
+                <div class="col-4 ps-4">
                     <?php
                     echo form_input(array(
                         "id" => "notification_event_filter",
                         "name" => "notification_event_filter",
-                        "value" => $notification_event_filter_value,
+                        "value" => request()->getGet("notification_event_filter"),
                         "class" => "form-control",
                         "placeholder" => app_lang('notification_filter')
                     ));
                     ?>
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                     <?php
                     echo form_input(array(
                         "id" => "notification_is_read_filter",
                         "name" => "notification_is_read_filter",
-                        "value" => $notification_is_read_filter_value,
+                        "value" => request()->getGet("notification_is_read_filter"),
                         "class" => "form-control",
                         "placeholder" => app_lang('status')
                     ));
                     ?>
                 </div>
-                <div class="col-3">
-                    <a href="javascript:window.location.reload();" class="btn btn-default">Обновить</a>
+                <div class="col-2">
+                    <?php
+                    echo form_input(array(
+                        "id" => "notification_team_members_filter",
+                        "name" => "notification_team_members_filter",
+                        "value" => request()->getGet("notification_team_members_filter"),
+                        "class" => "form-control",
+                        "placeholder" => app_lang('team_members')
+                    ));
+                    ?>
+                </div>
+                <div class="col-2">
+                    <?php
+                    echo form_input(array(
+                        "id" => "notification_projects_filter",
+                        "name" => "notification_projects_filter",
+                        "value" => request()->getGet("notification_projects_filter"),
+                        "class" => "form-control",
+                        "placeholder" => app_lang('projects')
+                    ));
+                    ?>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-default"><? echo app_lang('apply'); ?></button>
+                    <? if($params = request()->getGet()): ?>
+                        <?php echo modal_anchor(get_uri("notifications/save_filter_modal_form" .'?'. http_build_query($params)), "<i data-feather='tag' class='icon-16'></i> " . app_lang('save'), array("class" => "btn btn-outline-light")); ?>
+                    <? endif; ?>
                 </div>
             </div>
         </div>
+        <?php echo form_close(); ?>
 
         <div>
             <?php
@@ -47,36 +83,9 @@
 
 <script>
     $(document).ready(function () {
-        let $notification_event_filter = $('#notification_event_filter');
-
-        $notification_event_filter.select2({multiple: true, data: <?php echo $filter_options; ?>});
-
-        $notification_event_filter.on('change.select2', function (e) {
-            $.ajax({
-                url: '<?php echo_uri("notifications/save_event_filter_options") ?>',
-                type: "POST",
-                data: {
-                    notification_event_filter: e.val,
-                }
-            });
-        });
-
-        let $notification_is_read_filter = $('#notification_is_read_filter');
-
-        $notification_is_read_filter.select2({data: [
-                {id: "", text: "По умолчанию"},
-                {id: "0", text: "Непрочитанные"},
-                {id: "1", text: "Прочитанные"},
-            ]});
-
-        $notification_is_read_filter.on('change.select2', function (e) {
-            $.ajax({
-                url: '<?php echo_uri("notifications/save_is_read_filter_options") ?>',
-                type: "POST",
-                data: {
-                    notification_is_read_filter: e.val,
-                }
-            });
-        });
+        $('#notification_event_filter').select2({multiple: true, data: <?php echo json_encode($event_dropdown); ?>});
+        $('#notification_is_read_filter').select2({data: <?php echo json_encode($is_read_dropdown); ?>});
+        $('#notification_projects_filter').select2({data: <?php echo json_encode($projects_dropdown); ?>});
+        $('#notification_team_members_filter').select2({data: <?php echo json_encode($team_members_dropdown); ?>});
     });
 </script>

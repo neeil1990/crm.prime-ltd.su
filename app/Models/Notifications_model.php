@@ -954,12 +954,22 @@ class Notifications_model extends Crud_model {
             $where .= " AND $notifications_table.event IN($in)";
         }
 
-        $read = $this->_get_clean_value($options, "read");
-        if ($read === "1") {
+        $is_read = $this->_get_clean_value($options, "is_read");
+        if ($is_read === "1") {
             $where .= " AND FIND_IN_SET('$user_id', $notifications_table.read_by)";
         }
-        if ($read === "0") {
+        if ($is_read === "0") {
             $where .= " AND FIND_IN_SET('$user_id', $notifications_table.read_by) = 0";
+        }
+
+        $team_members = $this->_get_clean_value($options, "team_member");
+        if ($team_members) {
+            $where .= " AND (FIND_IN_SET('$team_members', $notifications_table.notify_to) OR $notifications_table.user_id = $team_members)";
+        }
+
+        $project_id = $this->_get_clean_value($options, "project_id");
+        if ($project_id) {
+            $where .= " AND $notifications_table.project_id = $project_id";
         }
 
         $sql = "SELECT SQL_CALC_FOUND_ROWS $notifications_table.*, CONCAT($users_table.first_name, ' ', $users_table.last_name) AS user_name, $users_table.image AS user_image,
