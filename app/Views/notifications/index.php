@@ -1,13 +1,13 @@
-<div class="page-wrapper clearfix">
-    <?php foreach ($notifications_filters as $index => $notifications_filter): ?>
-    <div class="btn-group" role="group">
-        <a href="<?php echo get_uri("notifications" .'?'. http_build_query($notifications_filter["params"])); ?>" class="btn btn-default round" title="<?php echo $notifications_filter["title"]; ?>"><?php echo $notifications_filter["title"]; ?></a>
-        <a href="<?php echo get_uri("notifications/delete_user_filter" .'?index='. $index); ?>" class="btn btn-default round" title=""><i data-feather='delete' class='icon-16'></i></a>
-    </div>
-    <? endforeach; ?>
-</div>
-
 <div id="page-content" class="page-wrapper clearfix">
+    <div class="mb-4">
+        <?php foreach ($notifications_filters as $index => $notifications_filter): ?>
+            <div class="btn-group" role="group">
+                <a href="<?php echo get_uri("notifications" .'?'. http_build_query($notifications_filter["params"])); ?>" class="btn btn-default round" title="<?php echo $notifications_filter["title"]; ?>"><?php echo $notifications_filter["title"]; ?></a>
+                <a href="<?php echo get_uri("notifications/delete_user_filter" .'?index='. $index); ?>" class="btn btn-default round" title=""><i data-feather='delete' class='icon-16'></i></a>
+            </div>
+        <? endforeach; ?>
+    </div>
+
     <div class="card">
 
         <div class="page-title clearfix">
