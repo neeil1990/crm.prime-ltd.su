@@ -14,9 +14,13 @@
     <button type="button" class="btn btn-default close-manage-modal" data-bs-dismiss="modal"><span data-feather="x" class="icon-16"></span> <?php echo app_lang('close'); ?></button>
 </div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.4.0/css/rowReorder.dataTables.css">
-<script type='text/javascript'  src='https://cdn.datatables.net/rowreorder/1.4.0/js/dataTables.rowReorder.js'></script>
-<script type='text/javascript'  src='https://cdn.datatables.net/rowreorder/1.4.0/js/rowReorder.dataTables.js'></script>
+<?php
+    load_css(["assets/js/datatable/css/rowReorder.dataTables.css"]);
+    load_js([
+        "assets/js/datatable/js/dataTables.rowReorder.js",
+        "assets/js/datatable/js/rowReorder.dataTables.js"
+    ]);
+?>
 
 <script type="text/javascript">
     $(document).ready(function () {
