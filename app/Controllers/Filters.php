@@ -49,7 +49,10 @@ class Filters extends Security_Controller {
         }
         $filters = unserialize($filters);
 
+        $sort = array_column($filters, 'sort');
+
         $filter_data = array(
+            "sort" => empty($sort) ? 1 : max($sort) + 1,
             "context" => $context,
             "id" => $id,
             "title" => $title,
@@ -60,14 +63,12 @@ class Filters extends Security_Controller {
             $filter_data["context"] = $filter_data["context"] . "_" . $context_id;
         }
 
-
         if ($bookmark != "_remove") {
             $filter_data["bookmark"] = $bookmark;
         }
         if ($icon != "_remove") {
             $filter_data["icon"] = $icon;
         }
-
 
         $is_existing_filter = $this->_get_filter($id);
         if ($is_existing_filter) {
@@ -149,6 +150,21 @@ class Filters extends Security_Controller {
         return $result;
     }
 
+    function set_sort_filters() {
+        $order = $this->request->getPost('order');
+
+        $filters = get_setting("user_" . $this->login_user->id . "_filters");
+        $filters = unserialize($filters);
+
+        foreach ($filters as &$filter) {
+            if (isset($order[$filter['id']])) {
+                $filter['sort'] = $order[$filter['id']];
+            }
+        }
+
+        $this->_save_custom_filters($filters);
+    }
+
     private function _get_filter($id = "") {
         $custom_filters_array = $this->_get_custom_filters();
 
@@ -172,7 +188,7 @@ class Filters extends Security_Controller {
 
     private function _make_row($data, $context) {
         $id = get_array_value($data, 'id');
-        $option_links = js_anchor("<i data-feather='sliders' class='icon-16 mr10'></i>" . app_lang('change_filters'), array('title' => app_lang('change_filters'), "class" => "btn non-round-option-button js-change-filter-$context", "data-id" => $id))
+        $option_links = js_anchor("<i data-feather='sliders' class='icon-16'></i>", array('title' => app_lang('change_filters'), "class" => "js-change-filter-$context", "data-id" => $id))
                 . modal_anchor(get_uri("filters/modal_form"), "<i data-feather='edit' class='icon-16'></i>", array("class" => "edit", "title" => app_lang('edit'), "data-post-id" => $id))
                 . js_anchor("<i data-feather='x' class='icon-16'></i>", array('title' => app_lang('delete'), "class" => "delete", "data-id" => $id, "data-undo" => "0", "data-action-url" => get_uri("filters/delete"), "data-action" => "delete"));
 
@@ -187,9 +203,9 @@ class Filters extends Security_Controller {
             $bookmark_icon_content = "<i data-feather='" . $icon . "' class='icon-16'></i>";
         }
 
-
-
         return array(
+            get_array_value($data, 'sort'),
+            $id,
             get_array_value($data, 'title'),
             $bookmark_content,
             $bookmark_icon_content,
