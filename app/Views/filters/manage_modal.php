@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="card"
              <div class="table-responsive">
-            <table id="filters-table" class="display" cellspacing="0" width="100%">            
+            <table id="filters-table" class="display" cellspacing="0" width="100%">
             </table>
         </div>
     </div>
@@ -14,19 +14,48 @@
     <button type="button" class="btn btn-default close-manage-modal" data-bs-dismiss="modal"><span data-feather="x" class="icon-16"></span> <?php echo app_lang('close'); ?></button>
 </div>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.4.0/css/rowReorder.dataTables.css">
+<script type='text/javascript'  src='https://cdn.datatables.net/rowreorder/1.4.0/js/dataTables.rowReorder.js'></script>
+<script type='text/javascript'  src='https://cdn.datatables.net/rowreorder/1.4.0/js/rowReorder.dataTables.js'></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var context = "<?php echo $context; ?>";
+
+        $.extend( $.fn.dataTable.defaults, {
+            rowReorder: {
+                selector: 'tr'
+            }
+        } );
+
         $("#filters-table").appTable({
             source: '<?php echo_uri("filters/list_data/" . $context . "/" . $context_id) ?>',
-            order: [[0, 'asc']],
             columns: [
-                {title: "<?php echo app_lang('title') ?> "},
-                {title: "<?php echo app_lang('bookmark') ?> ", "class": "text-center"},
-                {title: "<?php echo app_lang('bookmark_icon') ?> ", "class": "text-center"},
-                {title: "<i data-feather='menu' class='icon-16'></i>", "class": "text-center option w250"}
+                { visible: false },
+                { visible: false },
+                { title: "<?php echo app_lang('title') ?> " },
+                { title: "<?php echo app_lang('bookmark') ?> ", "class": "text-center" },
+                { title: "<?php echo app_lang('bookmark_icon') ?> ", "class": "text-center" },
+                { title: "<i data-feather='menu' class='icon-16'></i>", "class": "text-center option w250" }
             ]
         });
+
+        $('#filters-table').on( 'draw.dt', function (e, ctx) {
+            let api = new $.fn.dataTable.Api(ctx);
+            let rows = api.rows().data();
+            let data = {};
+
+            $.each(rows, (i, val) => {
+                data[val[1]] = i + 1;
+            });
+
+            $.ajax({
+                url: '<?php echo_uri("filters/set_sort_filters") ?>',
+                type: "POST",
+                data: { order: data }
+            });
+        } );
+
 
         if (!window.changeFilterInitialized) {
             window.changeFilterInitialized = [];
