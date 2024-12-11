@@ -126,7 +126,7 @@
             <?php } ?>
 
             <!-- Assign to only visible to team members -->
-            <?php if ($login_user->user_type == "staff") { ?>    
+            <?php if ($login_user->user_type == "staff") { ?>
                 <div class="form-group">
                     <div class="row">
                         <label for="assigned_to" class=" col-md-3"><?php echo app_lang('assign_to'); ?></label>
@@ -156,7 +156,27 @@
                 </div>
             <?php } ?>
 
-            <?php echo view("custom_fields/form/prepare_context_fields", array("custom_fields" => $custom_fields, "label_column" => "col-md-3", "field_column" => " col-md-9")); ?> 
+            <div class="form-group">
+                <div class="row">
+                    <label for="title" class=" col-md-3"><?php echo app_lang('deadline'); ?></label>
+                    <div class=" col-md-9">
+                        <?php
+                        echo form_input(array(
+                            "id" => "deadline",
+                            "name" => "deadline",
+                            "autocomplete" => "off",
+                            "value" => is_date_exists($model_info->deadline) ? date("Y-m-d", strtotime($model_info->deadline)) : "",
+                            "class" => "form-control",
+                            "placeholder" => "YYYY-MM-DD",
+                            "data-rule-greaterThanOrEqual" => "#start_date",
+                            "data-msg-greaterThanOrEqual" => app_lang("deadline_must_be_equal_or_greater_than_start_date")
+                        ));
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php echo view("custom_fields/form/prepare_context_fields", array("custom_fields" => $custom_fields, "label_column" => "col-md-3", "field_column" => " col-md-9")); ?>
 
             <?php echo view("includes/dropzone_preview"); ?>
         </div>
@@ -214,9 +234,13 @@
 
             }
         });
+
+        setDatePicker("#deadline");
+
         setTimeout(function () {
             $("#title").focus();
         }, 200);
+
         $("#ticket-form .select2").select2();
 
         $("#ticket_labels").select2({multiple: true, data: <?php echo json_encode($label_suggestions); ?>});

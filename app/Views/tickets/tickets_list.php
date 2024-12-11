@@ -97,14 +97,24 @@
                     options: <?php echo $ticket_labels_dropdown; ?>
                 }
             ],
-            singleDatepicker: [{name: "created_at", defaultText: "<?php echo app_lang('created') ?>",
+            singleDatepicker: [
+                {name: "created_at", defaultText: "<?php echo app_lang('created') ?>",
                     options: [
                         {value: moment().subtract(2, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_days'), 2); ?>"},
                         {value: moment().subtract(7, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_days'), 7); ?>"},
                         {value: moment().subtract(15, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_days'), 15); ?>"},
                         {value: moment().subtract(1, 'months').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_month'), 1); ?>"},
                         {value: moment().subtract(3, 'months').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_last_number_of_months'), 3); ?>"}
-                    ]}],
+                    ]},
+                {name: "deadline", class: "w200", defaultText: "<?php echo app_lang('deadline') ?>",
+                    options: [
+                        {value: "expired", text: "<?php echo app_lang('expired') ?>", isSelected: false},
+                        {value: moment().format("YYYY-MM-DD"), text: "<?php echo app_lang('today') ?>"},
+                        {value: moment().add(1, 'days').format("YYYY-MM-DD"), text: "<?php echo app_lang('tomorrow') ?>"},
+                        {value: moment().add(7, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_number_of_days'), 7); ?>"},
+                        {value: moment().add(15, 'days').format("YYYY-MM-DD"), text: "<?php echo sprintf(app_lang('in_number_of_days'), 15); ?>"}
+                    ]}
+                ],
             columns: [
                 {visible: false, searchable: false, order_by: "id"},
                 {title: '<?php echo app_lang("ticket_id") ?>', "iDataSort": 0, "class": "w10p all", order_by: "id"},
@@ -113,8 +123,10 @@
                 {title: '<?php echo app_lang("project") ?>', "class": "w15p", visible: projectVisibility, order_by: "project"},
                 {title: '<?php echo app_lang("ticket_type") ?>', "class": "w10p", order_by: "ticket_type"},
                 {title: '<?php echo app_lang("assigned_to") ?>', "class": "w10p", order_by: "assigned_to"},
+                {visible: false, searchable: false, order_by: "deadline"},
+                {title: '<?php echo app_lang("deadline") ?>', "iDataSort": 7, "class": "w10p", order_by: "deadline"},
                 {visible: false, searchable: false, order_by: "last_activity"},
-                {title: '<?php echo app_lang("last_activity") ?>', "iDataSort": 7, "class": "w10p", order_by: "last_activity"},
+                {title: '<?php echo app_lang("last_activity") ?>', "iDataSort": 9, "class": "w10p", order_by: "last_activity"},
                 {title: '<?php echo app_lang("status") ?>', "class": "w5p"}
                 <?php echo $custom_field_headers; ?>,
                 {title: '<i data-feather="menu" class="icon-16"></i>', "class": "text-center dropdown-option w10p", visible: optionsVisibility}
