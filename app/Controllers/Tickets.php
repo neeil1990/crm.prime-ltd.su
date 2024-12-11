@@ -216,6 +216,7 @@ class Tickets extends Security_Controller {
             "created_at" => $now,
             "last_activity_at" => $now,
             "labels" => $this->request->getPost('labels'),
+            "deadline" => $this->request->getPost('deadline'),
             "assigned_to" => $assigned_to ? $assigned_to : 0,
             "requested_by" => $requested_by ? $requested_by : 0
         );
@@ -297,6 +298,7 @@ class Tickets extends Security_Controller {
         $options = array("status" => $status,
             "ticket_types" => $this->allowed_ticket_types,
             "ticket_labels" => $ticket_label,
+            "deadline" => $this->request->getPost('deadline'),
             "assigned_to" => $assigned_to,
             "custom_fields" => $custom_fields,
             "created_at" => $this->request->getPost('created_at'),
@@ -418,6 +420,18 @@ class Tickets extends Security_Controller {
             $assigned_to = get_team_member_profile_link($data->assigned_to, $assigned_to_user);
         }
 
+        $deadline_text = "-";
+        if ($data->deadline && is_date_exists($data->deadline)) {
+
+            $deadline_text = format_to_date($data->deadline, false);
+
+            if (get_my_local_time("Y-m-d") > $data->deadline) {
+                $deadline_text = "<span class='text-danger'>" . $deadline_text . "</span> ";
+            } else if (format_to_date(get_my_local_time(), false) == format_to_date($data->deadline, false)) {
+                $deadline_text = "<span class='text-warning'>" . $deadline_text . "</span> ";
+            }
+        }
+
         $row_data = array(
             $data->id,
             anchor(get_uri("tickets/view/" . $data->id), get_ticket_id($data->id), array("class" => "js-ticket", "data-id" => $data->id, "title" => "")),
@@ -426,6 +440,8 @@ class Tickets extends Security_Controller {
             $data->project_title ? anchor(get_uri("projects/view/" . $data->project_id), $data->project_title) : "-",
             $data->ticket_type ? $data->ticket_type : "-",
             $assigned_to,
+            $data->deadline,
+            $deadline_text,
             $data->last_activity_at,
             format_to_relative_time($data->last_activity_at),
             $ticket_status

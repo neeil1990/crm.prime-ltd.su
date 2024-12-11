@@ -51,6 +51,19 @@ class Tickets_model extends Crud_model {
             }
         }
 
+        $deadline = $this->_get_clean_value($options, "deadline");
+        if ($deadline) {
+            $now = get_my_local_time("Y-m-d");
+            if ($deadline === "expired") {
+                $where .= " AND $tickets_table.deadline<'$now'";
+            } else if ($deadline == $now) { //today
+                $where .= " AND $tickets_table.deadline='$deadline'";
+            } else { //future deadlines, extract today's
+                $now = add_period_to_date($now, 1);
+                $where .= " AND $tickets_table.deadline BETWEEN '$now' AND '$deadline'";
+            }
+        }
+
         $assigned_to = $this->_get_clean_value($options, "assigned_to");
         if ($assigned_to) {
             $where .= " AND $tickets_table.assigned_to=$assigned_to";
@@ -121,6 +134,7 @@ class Tickets_model extends Crud_model {
             "ticket_type" => "ticket_type",
             "assigned_to" => "assigned_to_user",
             "last_activity" => $tickets_table . ".last_activity_at",
+            "deadline" => $tickets_table . ".deadline",
         );
 
         $order_by = get_array_value($available_order_by_list, $this->_get_clean_value($options, "order_by"));
