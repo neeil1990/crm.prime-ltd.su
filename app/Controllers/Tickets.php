@@ -228,6 +228,10 @@ class Tickets extends Security_Controller {
 
         $ticket_data = clean_data($ticket_data);
 
+        if (!$ticket_data["deadline"]) {
+            $ticket_data["deadline"] = NULL;
+        }
+
         if ($id) {
             //client can't update ticket
             if ($this->login_user->user_type === "client") {
@@ -240,7 +244,6 @@ class Tickets extends Security_Controller {
             unset($ticket_data['created_at']);
             unset($ticket_data['last_activity_at']);
         }
-
 
         $ticket_id = $this->Tickets_model->ci_save($ticket_data, $id);
 
@@ -562,6 +565,41 @@ class Tickets extends Security_Controller {
                 show_404();
             }
         }
+    }
+
+    function update_ticket_info($id = 0, $data_field = "") {
+        if (!$id) {
+            return false;
+        }
+
+        validate_numeric_value($id);
+
+        $value = $this->request->getPost('value');
+
+        $data = array(
+            $data_field => $value
+        );
+
+        $save_id = $this->Tickets_model->ci_save($data, $id);
+
+        if (!$save_id) {
+            echo json_encode(array("success" => false, app_lang('error_occurred')));
+            return false;
+        }
+
+        $ticket_info = $this->Tickets_model->get_details(array("id" => $save_id))->getRow();
+
+        $success_array = array("success" => true, "data" => $this->_row_data($save_id), 'id' => $save_id, "message" => app_lang('record_saved'));
+
+        if ($data_field == "deadline") {
+            $date = "-";
+            if (is_date_exists($ticket_info->$data_field)) {
+                $date = format_to_date($ticket_info->$data_field, false);
+            }
+            $success_array["date"] = $date;
+        }
+
+        echo json_encode($success_array);
     }
 
     //delete ticket and sub comments

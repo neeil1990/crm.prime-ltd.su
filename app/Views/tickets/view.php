@@ -324,5 +324,42 @@
                 container.append(comment);
             });
         }
+
+        $("body").on('click', '[data-act=update-ticket-info]', function (e) {
+            let $instance = $(this),
+                type = $(this).attr('data-act-type'),
+                source = "",
+                select2Option = {},
+                showbuttons = false,
+                placement = "bottom",
+                editableType = "",
+                datepicker = {};
+
+            if (type === "deadline") {
+                editableType = "date";
+            }
+
+            $(this).appModifier({
+                actionType: editableType,
+                value: $(this).attr('data-value'),
+                actionUrl: '<?php echo_uri("tickets/update_ticket_info") ?>/' + $(this).attr('data-id') + '/' + $(this).attr('data-act-type'),
+                showbuttons: showbuttons,
+                datepicker: datepicker,
+                select2Option: select2Option,
+                placement: placement,
+                onSuccess: function (response, newValue) {
+                    if (response.success) {
+
+                        if (type === "deadline" && response.date) {
+                            setTimeout(function () {
+                                $instance.html(response.date);
+                            }, 50);
+                        }
+                    }
+                }
+            });
+
+            return false;
+        });
     });
 </script>
