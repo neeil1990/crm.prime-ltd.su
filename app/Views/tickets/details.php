@@ -69,6 +69,18 @@
                             </div>
                         <?php } ?>
 
+                        <div class="col-md-12 mb15">
+                            <strong><?php echo app_lang("deadline") . ": "; ?></strong>
+                            <?php
+                            $deadline = "<span class='text-off'>" . app_lang("add") . " " . app_lang("deadline") . "<span>";
+                            if ($ticket_info->deadline) {
+                                $deadline = format_to_date($ticket_info->deadline, false);
+                            }
+
+                            echo js_anchor($deadline, array('title' => "", "class" => "", "data-id" => $ticket_info->id, "data-value" => $ticket_info->deadline ? date("Y-m-d", strtotime($ticket_info->deadline)) : "", "data-act" => "update-ticket-info", "data-act-type" => "deadline"));
+                            ?>
+                        </div>
+
                         <?php if ($ticket_info->ticket_type) { ?>
                             <div class="col-md-12 mb15">
                                 <strong><?php echo app_lang("ticket_type") . ": "; ?></strong>
