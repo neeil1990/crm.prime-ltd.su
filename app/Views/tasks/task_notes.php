@@ -7,7 +7,8 @@
             "class" => "form-control",
             "value" => $text,
             "placeholder" => app_lang('description'),
-            "autocomplete" => "off"
+            "autocomplete" => "off",
+            "style" => "min-height:400px",
         ));
         ?>
     </div>
