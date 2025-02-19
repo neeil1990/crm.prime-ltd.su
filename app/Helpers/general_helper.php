@@ -2750,7 +2750,7 @@ if (!function_exists('process_images_from_content')) {
                     $images[] = "<a href='$source_url' class='mfp-image' data-title='" . $actual_file_name . "'>$image_tag</a>";
                 } else {
                     //anchor tag exists from before or anchor tag isn't necessary
-                    $images[] = $image_tag;
+                    $images[] = "<a href='$source_url' target='_blank' style='display: flex;width: 100px;height: 100px;'><img src='$source_url'></a>";
                 }
             }
         }
