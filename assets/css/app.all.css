@@ -4656,6 +4656,7 @@ body.modal-open {
   float: right;
 }
 .timeline-images img {
+  max-width: 100%;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -o-transition: all 500ms ease;
