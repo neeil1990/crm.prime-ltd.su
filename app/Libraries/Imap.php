@@ -198,7 +198,7 @@ class Imap {
     //save tickets comment
     private function _save_tickets_comment($ticket_id, $message_info, $client_info, $is_reply = false) {
         if ($ticket_id) {
-            $description = $message_info->getBodyText();
+            $description = $message_info->getBodyHtml();
             if ($is_reply) {
                 $description = $this->_prepare_replying_message($description);
             }
@@ -219,7 +219,7 @@ class Imap {
                         $description = isset($body_matches[1]) ? $body_matches[1] : $description;
                     }
                 } catch (\Exception $ex) {
-                    
+
                 }
 
                 if (!$description) {
@@ -244,9 +244,17 @@ class Imap {
                 "created_at" => get_current_utc_time()
             );
 
-            $comment_data = clean_data($comment_data);
+            // $comment_data = clean_data($comment_data);
 
             $files_data = $this->_prepare_attachment_data_of_mail($message_info);
+
+            foreach ($files_data as $cid => $file) {
+                if (preg_match("/cid:$cid/", $comment_data["description"])) {
+                    $comment_data["description"] = str_replace("cid:$cid", "/" . get_setting("timeline_file_path") . $file["file_name"], $comment_data["description"]);
+                    unset($files_data[$cid]);
+                }
+            }
+
             $comment_data["files"] = serialize($files_data);
 
             //add client_replied status when it's a reply
@@ -291,10 +299,20 @@ class Imap {
             $attachments = $message_info->getAttachments();
 
             foreach ($attachments as $attachment) {
-                //move files to the directory
-                $file_data = move_temp_file($attachment->getFilename(), get_setting("timeline_file_path"), "imap_ticket", NULL, "", $attachment->getDecodedContent());
 
-                array_push($files_data, $file_data);
+                $structure = $attachment->getStructure();
+
+                //move files to the directory
+                $file_data = move_temp_file(
+                    $attachment->getFilename(),
+                    get_setting("timeline_file_path"),
+                    "imap_ticket",
+                    NULL,
+                    "",
+                    $attachment->getDecodedContent()
+                );
+
+                $files_data[$structure->id] = $file_data;
             }
 
             return $files_data;

@@ -61,9 +61,8 @@ if ($comment->pinned_comment_status) {
                     <div class="block text-off"><?php echo $comment->creator_email; ?></div>
                 <?php } ?>
             </div>
-            <p><?php echo $comment->description ? nl2br(link_it(process_images_from_content($comment->description))) : ""; ?></p>
+            <p><?php echo $comment->description; ?></p>
             <div class="comment-image-box clearfix">
-
                 <?php
                 $files = unserialize($comment->files);
                 $total_files = count($files);
