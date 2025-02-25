@@ -301,6 +301,7 @@ class Imap {
             foreach ($attachments as $attachment) {
 
                 $structure = $attachment->getStructure();
+                $cid = trim($structure->id, '<>');
 
                 //move files to the directory
                 $file_data = move_temp_file(
@@ -312,7 +313,7 @@ class Imap {
                     $attachment->getDecodedContent()
                 );
 
-                $files_data[$structure->id] = $file_data;
+                $files_data[$cid] = $file_data;
             }
 
             return $files_data;
