@@ -298,10 +298,10 @@ class Imap {
             $files_data = array();
             $attachments = $message_info->getAttachments();
 
-            foreach ($attachments as $attachment) {
+            foreach ($attachments as $idx => $attachment) {
 
                 $structure = $attachment->getStructure();
-                $cid = trim($structure->id, '<>');
+                $cid = (isset($structure->id)) ? trim($structure->id, '<>') : $idx;
 
                 //move files to the directory
                 $file_data = move_temp_file(
