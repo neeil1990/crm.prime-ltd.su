@@ -109,7 +109,7 @@ class Imap {
             $last_number = $messages[$key];
 
             //Skip already seen messages Nothing to do there.
-            //if ($saved_last_message <= $last_number) {
+            if ($saved_last_message <= $last_number) {
                 //create tickets for unread mails
                 if (!$message->isSeen()) {
 
@@ -118,7 +118,7 @@ class Imap {
                     //mark the mail as read
                     $message->markAsSeen();
                 }
-            //}
+            }
         }
 
         $this->ci->Settings_model->save_setting($last_seen_settings_name, $last_number);
