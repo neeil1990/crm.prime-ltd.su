@@ -202,6 +202,7 @@ class Imap {
 
             if (!$description) {
                 $description = $message_info->getBodyText();
+                $description = str_replace("\n", "<br>", $description);
             }
 
             // if ($is_reply) {
@@ -243,7 +244,6 @@ class Imap {
             }
 
             $description = preg_replace('/<(style|script)\b[^>]*>(.*?)<\/\1>/is', '', $description);
-            $description = str_replace("\n", "<br>", $description);
 
             $comment_data = array(
                 "description" => $description,
