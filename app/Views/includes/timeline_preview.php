@@ -3,7 +3,7 @@ if ($files && count($files)) {
 
     $group_id = make_random_string();
 
-    $box_class = "mb15";
+    $box_class = "";
     $caption_class = "more";
     $caption_lang = " " . app_lang('more');
     if (isset($is_message_row)) {
@@ -56,7 +56,7 @@ if ($files && count($files)) {
             if (is_viewable_image_file($file_name)) {
 
                 if (!$file_count) {
-                    $preview_image = "<img src='$thumbnail' alt='$file_name'/>";
+                    $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
                     $image = $preview_image;
                 }
                 $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='image'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
