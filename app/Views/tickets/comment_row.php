@@ -62,18 +62,20 @@ if ($comment->pinned_comment_status) {
                 <?php } ?>
             </div>
             <p><?php echo $comment->description; ?></p>
-            <div class="comment-image-box clearfix">
+            <hr />
+            <div class="comment-image-box clearfix d-flex align-items-center">
                 <?php
                 $files = unserialize($comment->files);
                 $total_files = count($files);
                 echo view("includes/timeline_preview", array("files" => $files));
 
                 if ($total_files) {
-                    $download_caption = app_lang('download');
+                    $icon = "<i data-feather='paperclip' class='icon-16'></i>";
+                    $download_caption = $icon ." ". app_lang('download');
                     if ($total_files > 1) {
-                        $download_caption = sprintf(app_lang('download_files'), $total_files);
+                        $download_caption = sprintf($icon ." ". app_lang('download_files'), $total_files);
                     }
-                    echo "<i data-feather='paperclip' class='icon-16'></i>";
+
                     echo anchor(get_uri("tickets/download_comment_files/" . $comment->id), $download_caption, array("class" => "ms-2", "title" => $download_caption));
                 }
                 ?>
