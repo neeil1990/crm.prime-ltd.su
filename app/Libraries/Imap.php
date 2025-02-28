@@ -109,7 +109,7 @@ class Imap {
             $last_number = $messages[$key];
 
             //Skip already seen messages Nothing to do there.
-            if ($saved_last_message <= $last_number) {
+            //if ($saved_last_message <= $last_number) {
                 //create tickets for unread mails
                 if (!$message->isSeen()) {
 
@@ -118,7 +118,7 @@ class Imap {
                     //mark the mail as read
                     $message->markAsSeen();
                 }
-            }
+            //}
         }
 
         $this->ci->Settings_model->save_setting($last_seen_settings_name, $last_number);
@@ -199,9 +199,14 @@ class Imap {
     private function _save_tickets_comment($ticket_id, $message_info, $client_info, $is_reply = false) {
         if ($ticket_id) {
             $description = $message_info->getBodyHtml();
-            if ($is_reply) {
-                $description = $this->_prepare_replying_message($description);
+
+            if (!$description) {
+                $description = $message_info->getBodyText();
             }
+
+            // if ($is_reply) {
+                // $description = $this->_prepare_replying_message($description);
+            // }
 
             if (!$description) {
                 //parse email content if the predefined method returns empty
@@ -236,6 +241,9 @@ class Imap {
                     }
                 }
             }
+
+            $description = preg_replace('/<(style|script)\b[^>]*>(.*?)<\/\1>/is', '', $description);
+            $description = str_replace("\n", "<br>", $description);
 
             $comment_data = array(
                 "description" => $description,
