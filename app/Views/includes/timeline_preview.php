@@ -63,7 +63,7 @@ if ($files && count($files)) {
                 if (!$file_count) {
 
                     if ($view_type == "project") {
-                        $preview_image = "<img src='$thumbnail' alt='$file_name' style='max-width: 20rem'/>";
+                        $preview_image = "<img src='$thumbnail' alt='$file_name'/>";
                     } else {
                         $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
                     }
