@@ -90,7 +90,7 @@ foreach ($comments as $comment) {
                         <?php
                         $files = unserialize($comment->files);
                         $total_files = count($files);
-                        echo view("includes/timeline_preview", array("files" => $files));
+                        echo view("includes/timeline_preview", array("files" => $files, "view" => "project"));
                         ?>
 
                         <div class="mb15 clearfix">

@@ -12,6 +12,11 @@ if ($files && count($files)) {
         $caption_lang = "";
     }
 
+    $view_type = "";
+    if (isset($view)) {
+        $view_type = $view;
+    }
+
     $file_count = 0;
 
     echo "<div class='timeline-images app-modal-view " . $box_class . "'>";
@@ -56,7 +61,13 @@ if ($files && count($files)) {
             if (is_viewable_image_file($file_name)) {
 
                 if (!$file_count) {
-                    $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
+
+                    if ($view_type == "project") {
+                        $preview_image = "<img src='$thumbnail' alt='$file_name' style='max-width: 10rem'/>";
+                    } else {
+                        $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
+                    }
+
                     $image = $preview_image;
                 }
                 $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='image'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
