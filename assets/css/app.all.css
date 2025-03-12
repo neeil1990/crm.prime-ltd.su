@@ -5714,6 +5714,9 @@ svg:not(.gantt) {
   background-color: #f5325c;
   color: #fff;
 }
+.checklist-items .list-group-item span {
+  display: table;
+}
 .text-line-through {
   text-decoration: line-through;
 }
