@@ -244,6 +244,7 @@ class Imap {
             }
 
             $description = preg_replace('/<(style|script)\b[^>]*>(.*?)<\/\1>/is', '', $description);
+            $description = preg_replace('/[\x{10000}-\x{10FFFF}]/u', ' :)', $description);
 
             $comment_data = array(
                 "description" => $description,
