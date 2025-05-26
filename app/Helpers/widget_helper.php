@@ -40,7 +40,7 @@ if (!function_exists('activity_logs_widget')) {
         $params["client_id"] = $ci->login_user->client_id;
 
         //check if user has restriction to view only assigned tasks
-        $params["show_assigned_tasks_only"] = get_array_value($ci->login_user->permissions, "show_assigned_tasks_only");
+        $params["show_assigned_tasks_only"] = 1; // get_array_value($ci->login_user->permissions, "show_assigned_tasks_only");
 
         $logs = $ci->Activity_logs_model->get_details($params);
 
@@ -138,7 +138,7 @@ if (!function_exists('announcements_alert_widget')) {
 
 /**
  * get tasks widget of loged in user
- * 
+ *
  * @return html
  */
 if (!function_exists('my_open_tasks_widget')) {
@@ -155,7 +155,7 @@ if (!function_exists('my_open_tasks_widget')) {
 
 /**
  * get tasks status widteg of loged in user
- * 
+ *
  * @return html
  */
 if (!function_exists('my_task_stataus_widget')) {
@@ -174,7 +174,7 @@ if (!function_exists('my_task_stataus_widget')) {
 
 /**
  * get todays event widget
- * 
+ *
  * @return html
  */
 if (!function_exists('events_today_widget')) {
@@ -201,7 +201,7 @@ if (!function_exists('events_today_widget')) {
 
 /**
  * get new posts widget
- * 
+ *
  * @return html
  */
 if (!function_exists('new_posts_widget')) {
@@ -232,7 +232,7 @@ if (!function_exists('new_posts_widget')) {
 
 /**
  * get event list widget
- * 
+ *
  * @return html
  */
 if (!function_exists('events_widget')) {
@@ -256,8 +256,8 @@ if (!function_exists('events_widget')) {
 
 
 /**
- * get event icons based on event sharing 
- * 
+ * get event icons based on event sharing
+ *
  * @return html
  */
 if (!function_exists('get_event_icon')) {
@@ -279,7 +279,7 @@ if (!function_exists('get_event_icon')) {
 
 /**
  * get open timers widget
- * 
+ *
  * @return html
  */
 if (!function_exists('has_my_open_timers')) {
@@ -295,7 +295,7 @@ if (!function_exists('has_my_open_timers')) {
 
 /**
  * get income expense widget
- * 
+ *
  * @return html
  */
 if (!function_exists('income_vs_expenses_widget')) {
@@ -322,7 +322,7 @@ if (!function_exists('income_vs_expenses_widget')) {
 
 /**
  * get ticket status widget
- * 
+ *
  * @return html
  */
 if (!function_exists('ticket_status_widget')) {
@@ -404,7 +404,7 @@ if (!function_exists('ticket_status_widget')) {
 
 /**
  * get invoice statistics widget
- * 
+ *
  * @return html
  */
 if (!function_exists('invoice_statistics_widget')) {
@@ -469,7 +469,7 @@ if (!function_exists('invoice_statistics_widget')) {
 
 /**
  * get projects statistics widget
- * 
+ *
  * @return html
  */
 if (!function_exists('project_timesheet_statistics_widget')) {
@@ -538,7 +538,7 @@ if (!function_exists('project_timesheet_statistics_widget')) {
 
 /**
  * get timecard statistics
- * 
+ *
  * @return html
  */
 if (!function_exists('timecard_statistics_widget')) {
@@ -585,7 +585,7 @@ if (!function_exists('timecard_statistics_widget')) {
 /**
  * get project count status widteg
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('count_project_status_widget')) {
@@ -616,7 +616,7 @@ if (!function_exists('count_project_status_widget')) {
 /**
  * count total time widget
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('count_total_time_widget')) {
@@ -656,7 +656,7 @@ if (!function_exists('count_total_time_widget')) {
  * count total time widget
  * @param integer $user_id
  * @param string $widget_type
- * 
+ *
  * @return html
  */
 if (!function_exists('count_total_time_widget_small')) {
@@ -678,7 +678,7 @@ if (!function_exists('count_total_time_widget_small')) {
 /**
  * get social links widget
  * @param object $weblinks
- * 
+ *
  * @return html
  */
 if (!function_exists('social_links_widget')) {
@@ -724,7 +724,7 @@ if (!function_exists('count_new_tickets')) {
 
 /**
  * get all tasks kanban widget
- * 
+ *
  * @return html
  */
 if (!function_exists('all_tasks_kanban_widget')) {
@@ -780,7 +780,7 @@ if (!function_exists('all_tasks_kanban_widget')) {
 
 /**
  * get todo lists widget
- * 
+ *
  * @return html
  */
 if (!function_exists('todo_list_widget')) {
@@ -795,7 +795,7 @@ if (!function_exists('todo_list_widget')) {
 
 /**
  * get invalid access widget
- * 
+ *
  * @return html
  */
 if (!function_exists('invalid_access_widget')) {
@@ -811,7 +811,7 @@ if (!function_exists('invalid_access_widget')) {
 /**
  * get open projects widget
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('open_projects_widget')) {
@@ -840,7 +840,7 @@ if (!function_exists('open_projects_widget')) {
 /**
  * get completed projects widget
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('completed_projects_widget')) {
@@ -867,7 +867,7 @@ if (!function_exists('completed_projects_widget')) {
 
 /**
  * get count of clocked in/out users widget
- * 
+ *
  * @return html
  */
 if (!function_exists('count_clock_in_out_widget_small')) {
@@ -900,7 +900,7 @@ if (!function_exists('count_clock_in_out_widget_small')) {
 
 /**
  * get user's open project list widget
- * 
+ *
  * @return html
  */
 if (!function_exists('my_open_projects_widget')) {
@@ -931,7 +931,7 @@ if (!function_exists('my_open_projects_widget')) {
 /**
  * get user's starred project list widget
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('my_starred_projects_widget')) {
@@ -955,7 +955,7 @@ if (!function_exists('my_starred_projects_widget')) {
 /**
  * get sticky note widget for logged in user
  * @param string $custom_class
- * 
+ *
  * @return html
  */
 if (!function_exists('sticky_note_widget')) {
@@ -972,7 +972,7 @@ if (!function_exists('sticky_note_widget')) {
  * get ticket status small widget for current logged in user
  * @param integer $user_id
  * @param string $type ($type should be new/open/closed)
- * 
+ *
  * @return html
  */
 if (!function_exists('ticket_status_widget_small')) {
@@ -1002,7 +1002,7 @@ if (!function_exists('ticket_status_widget_small')) {
 
 /**
  * get all team members widget
- * 
+ *
  * @return html
  */
 if (!function_exists('all_team_members_widget')) {
@@ -1021,7 +1021,7 @@ if (!function_exists('all_team_members_widget')) {
 /**
  * get all clocked in team members widget
  * @param array $data containing access permissions
- * 
+ *
  * @return html
  */
 if (!function_exists('clocked_in_team_members_widget')) {
@@ -1048,7 +1048,7 @@ if (!function_exists('clocked_in_team_members_widget')) {
 /**
  * get all clocked out team members widget
  * @param array $data containing access permissions
- * 
+ *
  * @return html
  */
 if (!function_exists('clocked_out_team_members_widget')) {
@@ -1072,7 +1072,7 @@ if (!function_exists('clocked_out_team_members_widget')) {
 
 /**
  * get active members widget
- * 
+ *
  * @return html
  */
 if (!function_exists('active_members_and_clients_widget')) {
@@ -1094,7 +1094,7 @@ if (!function_exists('active_members_and_clients_widget')) {
 /**
  * get total invoices/payments/due value widget
  * @param string $type
- * 
+ *
  * @return html
  */
 if (!function_exists('get_invoices_value_widget')) {
@@ -1125,7 +1125,7 @@ if (!function_exists('get_invoices_value_widget')) {
 
 /**
  * get my tasks list widget
- * 
+ *
  * @return html
  */
 if (!function_exists('my_tasks_list_widget')) {
@@ -1141,7 +1141,7 @@ if (!function_exists('my_tasks_list_widget')) {
 
 /**
  * get pending leave approval widget
- * 
+ *
  * @return html
  */
 if (!function_exists('pending_leave_approval_widget')) {
@@ -1165,7 +1165,7 @@ if (!function_exists('pending_leave_approval_widget')) {
 
 /**
  * get total clients
- * 
+ *
  * @return html
  */
 if (!function_exists('total_clients_widget')) {
@@ -1181,7 +1181,7 @@ if (!function_exists('total_clients_widget')) {
 
 /**
  * get total client contacts
- * 
+ *
  * @return html
  */
 if (!function_exists('total_contacts_widget')) {
@@ -1197,7 +1197,7 @@ if (!function_exists('total_contacts_widget')) {
 
 /**
  * get active members on projects widget
- * 
+ *
  * @return html
  */
 if (!function_exists('active_members_on_projects_widget')) {
@@ -1214,7 +1214,7 @@ if (!function_exists('active_members_on_projects_widget')) {
 
 /**
  * get open tickets list widget
- * 
+ *
  * @return html
  */
 if (!function_exists('open_tickets_list_widget')) {
@@ -1346,7 +1346,7 @@ if (!function_exists('client_estimates_widget')) {
 
 /**
  * get clients has open tickets count
- * 
+ *
  * @return html
  */
 if (!function_exists('clients_has_open_tickets_widget')) {
@@ -1366,7 +1366,7 @@ if (!function_exists('clients_has_open_tickets_widget')) {
 
 /**
  * get clients has new orders count
- * 
+ *
  * @return html
  */
 if (!function_exists('clients_has_new_orders_widget')) {
@@ -1434,7 +1434,7 @@ if (!function_exists('company_widget')) {
 /**
  * get projects overview widget
  * @param integer $user_id
- * 
+ *
  * @return html
  */
 if (!function_exists('projects_overview_widget')) {
@@ -1497,7 +1497,7 @@ if (!function_exists('reminders_widget')) {
 
 /**
  * get estimate sent statistics widget
- * 
+ *
  * @return html
  */
 if (!function_exists('estimate_sent_statistics_widget')) {
@@ -1567,7 +1567,7 @@ if (!function_exists('last_announcement_widget')) {
 
 /**
  * get team members overview
- * 
+ *
  * @return html
  */
 if (!function_exists('team_members_overview_widget')) {
@@ -1603,7 +1603,7 @@ if (!function_exists('team_members_overview_widget')) {
 
 /**
  * get all task overview widget of loged in user
- * 
+ *
  * @return html
  */
 if (!function_exists('tasks_overview_widget')) {
@@ -1638,7 +1638,7 @@ if (!function_exists('tasks_overview_widget')) {
 /**
  * get total invoices overview widget
  * @param string $type
- * 
+ *
  * @return html
  */
 if (!function_exists('invoice_overview_widget')) {
@@ -1712,7 +1712,7 @@ if (!function_exists('invoice_overview_widget')) {
 
 /**
  * get next reminder widget
- * 
+ *
  * @return html
  */
 if (!function_exists('next_reminder_widget')) {
@@ -1748,7 +1748,7 @@ if (!function_exists('next_reminder_widget')) {
 /**
  * get total leads overview widget
  * @param string $type
- * 
+ *
  * @return html
  */
 if (!function_exists('leads_overview_widget')) {
@@ -1775,7 +1775,7 @@ if (!function_exists('leads_overview_widget')) {
 
 /**
  * get projects widget for clients
- * 
+ *
  * @return html
  */
 if (!function_exists('projects_widget')) {
