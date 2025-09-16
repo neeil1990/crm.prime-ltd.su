@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Libraries\NotificationGrouper;
+
 class Notifications extends Security_Controller {
 
     public $notifications_filters;
@@ -57,7 +59,18 @@ class Notifications extends Security_Controller {
     function set_notification_status_as_read($notification_id = 0) {
         if ($notification_id) {
             validate_numeric_value($notification_id);
-            $this->Notifications_model->set_notification_status_as_read($notification_id, $this->login_user->id);
+
+            $notification = $this->Notifications_model->get_one($notification_id);
+
+            if ($notification->task_id) {
+                $notifications = $this->Notifications_model->get_all_where(["task_id" => $notification->task_id])->getResultObject();
+
+                foreach ($notifications as $notification) {
+                    $this->Notifications_model->set_notification_status_as_read($notification->id, $this->login_user->id);
+                }
+            } else {
+                $this->Notifications_model->set_notification_status_as_read($notification_id, $this->login_user->id);
+            }
         } else {
             //mark all notification as read
             $this->Notifications_model->set_notification_status_as_read(0, $this->login_user->id);
@@ -123,7 +136,11 @@ class Notifications extends Security_Controller {
         ];
 
         $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset, 100, $options);
-        $view_data['notifications'] = $notifiations->result;
+
+        $group = new NotificationGrouper($notifiations->result);
+        $group->group_unread_by_task();
+
+        $view_data['notifications'] = $group->get();
         $view_data['found_rows'] = $notifiations->found_rows;
         $next_page_offset = $offset + 100;
         $view_data['next_page_offset'] = $next_page_offset;
