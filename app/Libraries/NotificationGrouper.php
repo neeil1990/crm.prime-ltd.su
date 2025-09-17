@@ -21,6 +21,8 @@ class NotificationGrouper
 
         $current_group_leader = $this->notifications[0];
 
+        $this->initialize_task_count($current_group_leader);
+
         for ($i = 1; $i < $length; $i++) {
 
             $notification = $this->notifications[$i];
