@@ -23,6 +23,7 @@ class Notifications extends Security_Controller {
         $view_data["notifications_filters"] = [];
         $view_data["event_dropdown"] = $this->event_dropdown();
         $view_data["is_read_dropdown"] = $this->is_read_dropdown();
+        $view_data["grouped_dropdown"] = $this->grouped_dropdown();
         $view_data["projects_dropdown"] = $this->projects_dropdown();
         $view_data["team_members_dropdown"] = $this->team_members_dropdown();
 
@@ -131,16 +132,20 @@ class Notifications extends Security_Controller {
         $options = [
             "event" => $this->request->getGet('notification_event_filter'),
             "is_read" => $this->request->getGet('notification_is_read_filter'),
+            "grouped" => $this->request->getGet('notification_grouped_filter'),
             "team_member" => $this->request->getGet('notification_team_members_filter'),
             "project_id" => $this->request->getGet('notification_projects_filter'),
         ];
 
         $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset, 100, $options);
 
-        $group = new NotificationGrouper($notifiations->result);
-        $group->group_unread_by_task();
+        $view_data['notifications'] = $notifiations->result;
 
-        $view_data['notifications'] = $group->get();
+        if (empty($options['grouped'])) {
+            $group = new NotificationGrouper($notifiations->result);
+            $view_data['notifications'] = $group->get_grouped_unread_by_task();
+        }
+
         $view_data['found_rows'] = $notifiations->found_rows;
         $next_page_offset = $offset + 100;
         $view_data['next_page_offset'] = $next_page_offset;
@@ -193,6 +198,14 @@ class Notifications extends Security_Controller {
         ];
 
         return $is_read_dropdown;
+    }
+
+    function grouped_dropdown(): array
+    {
+        return [
+            ["id" => "", "text" => app_lang("grouped_unread")],
+            ["id" => "1", "text" => "Убрать группировку"],
+        ];
     }
 
 }

@@ -112,6 +112,7 @@ $lang["edit_team_member"] = "Редактировать специалиста";
 $lang["delete_team_member"] = "Удалить специалиста";
 $lang["team_member"] = "Участники";
 $lang["team_members"] = "Команда";
+$lang["grouped_unread"] = "Группировать непрочитанные";
 $lang["active_members"] = "Активные участники";
 $lang["inactive_members"] = "Неактивные участники";
 $lang["first_name"] = "Имя";

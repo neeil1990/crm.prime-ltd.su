@@ -11,32 +11,39 @@ class NotificationGrouper
         $this->notifications = $notifications;
     }
 
-    public function group_unread_by_task(): void
+    public function get_grouped_unread_by_task(): array
     {
-        $first_task_in_group = null;
+        $current_group_leader = null;
 
         foreach ($this->notifications as $key => $notification) {
 
-            $notification->task_count_in_group = 0;
+            $this->initialize_task_count($notification);
 
-            if ($this->is_unread_task($notification) && $first_task_in_group == null) {
-                $first_task_in_group = $notification;
-            } elseif ($this->is_unread_task($notification) && $first_task_in_group->task_id == $notification->task_id) {
-                $first_task_in_group->task_count_in_group += 1;
-                unset($this->notifications[$key]);
+            if ($this->is_unread_task($notification) && $current_group_leader === null) {
+                $current_group_leader = $notification;
+            } elseif ($this->is_unread_task($notification) && $current_group_leader->task_id === $notification->task_id) {
+                $current_group_leader->task_count_in_group += 1;
+                $this->delete_notification($key);
             } else {
-                $first_task_in_group = null;
+                $current_group_leader = null;
             }
         }
-    }
 
-    public function get(): array
-    {
         return $this->notifications;
     }
 
-    private function is_unread_task($notification)
+    private function initialize_task_count(object $notification): void
     {
-        return ($notification->task_id && $notification->is_read == "0");
+        $notification->task_count_in_group = 0;
+    }
+
+    private function is_unread_task($notification): bool
+    {
+        return !empty($notification->task_id) && $notification->is_read === "0";
+    }
+
+    private function delete_notification(int $index): void
+    {
+        unset($this->notifications[$index]);
     }
 }
