@@ -13,19 +13,25 @@ class NotificationGrouper
 
     public function get_grouped_unread_by_task(): array
     {
-        $current_group_leader = null;
+        $length = count($this->notifications);
 
-        foreach ($this->notifications as $key => $notification) {
+        if ($length < 1) {
+            return [];
+        }
+
+        $current_group_leader = $this->notifications[0];
+
+        for ($i = 1; $i < $length; $i++) {
+
+            $notification = $this->notifications[$i];
 
             $this->initialize_task_count($notification);
 
-            if ($this->is_unread_task($notification) && $current_group_leader === null) {
-                $current_group_leader = $notification;
-            } elseif ($this->is_unread_task($notification) && $current_group_leader->task_id === $notification->task_id) {
+            if ($this->is_unread($notification) && $this->has_task_id($current_group_leader->task_id, $notification)) {
                 $current_group_leader->task_count_in_group += 1;
-                $this->delete_notification($key);
+                $this->delete_notification($i);
             } else {
-                $current_group_leader = null;
+                $current_group_leader = $notification;
             }
         }
 
@@ -37,9 +43,14 @@ class NotificationGrouper
         $notification->task_count_in_group = 0;
     }
 
-    private function is_unread_task($notification): bool
+    private function is_unread($notification): bool
     {
-        return !empty($notification->task_id) && $notification->is_read === "0";
+        return empty($notification->is_read);
+    }
+
+    private function has_task_id(int $task_id, object $notification): bool
+    {
+        return $task_id === intval($notification->task_id);
     }
 
     private function delete_notification(int $index): void
