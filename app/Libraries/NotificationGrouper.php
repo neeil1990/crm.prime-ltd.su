@@ -19,6 +19,8 @@ class NotificationGrouper
             return [];
         }
 
+        // dd($this->notifications);
+
         $current_group_leader = $this->notifications[0];
 
         $this->initialize_task_count($current_group_leader);
@@ -29,7 +31,8 @@ class NotificationGrouper
 
             $this->initialize_task_count($notification);
 
-            if ($this->is_unread($notification) && $this->has_task_id($current_group_leader->task_id, $notification)) {
+            if ($this->is_unread($notification) &&
+                ($this->has_task_id($current_group_leader->task_id, $notification) || $this->has_ticket_id($current_group_leader->ticket_id, $notification))) {
                 $current_group_leader->task_count_in_group += 1;
                 $this->delete_notification($i);
             } else {
@@ -42,7 +45,7 @@ class NotificationGrouper
 
     private function initialize_task_count(object $notification): void
     {
-        $notification->task_count_in_group = 0;
+        $notification->task_count_in_group = 1;
     }
 
     private function is_unread($notification): bool
@@ -52,7 +55,12 @@ class NotificationGrouper
 
     private function has_task_id(int $task_id, object $notification): bool
     {
-        return $task_id === intval($notification->task_id);
+        return $task_id > 0 && $task_id === intval($notification->task_id);
+    }
+
+    private function has_ticket_id(int $ticket_id, object $notification): bool
+    {
+        return $ticket_id > 0 && $ticket_id === intval($notification->ticket_id);
     }
 
     private function delete_notification(int $index): void
