@@ -60,18 +60,7 @@ class Notifications extends Security_Controller {
     function set_notification_status_as_read($notification_id = 0) {
         if ($notification_id) {
             validate_numeric_value($notification_id);
-
-            $notification = $this->Notifications_model->get_one($notification_id);
-
-            if ($notification->task_id) {
-                $notifications = $this->Notifications_model->get_all_where(["task_id" => $notification->task_id])->getResultObject();
-
-                foreach ($notifications as $notification) {
-                    $this->Notifications_model->set_notification_status_as_read($notification->id, $this->login_user->id);
-                }
-            } else {
-                $this->Notifications_model->set_notification_status_as_read($notification_id, $this->login_user->id);
-            }
+            $this->Notifications_model->set_notification_status_as_read($notification_id, $this->login_user->id);
         } else {
             //mark all notification as read
             $this->Notifications_model->set_notification_status_as_read(0, $this->login_user->id);

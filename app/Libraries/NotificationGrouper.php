@@ -16,12 +16,12 @@ class NotificationGrouper
         $notifications = [];
 
         foreach ($this->notifications as $notification) {
-            $this->initialize_count_in_group($notification);
+            $this->initialize_notification_ids_in_group($notification);
 
             $index = $this->create_new_index($notification);
 
             if (array_key_exists($index, $notifications)) {
-                $this->increment_count_in_group($notifications[$index]);
+                $this->add_notification_id_in_group($notifications[$index], $notification->id);
             } else {
                 $notifications[$index] = $notification;
             }
@@ -61,14 +61,14 @@ class NotificationGrouper
         return $ticket_id > 0;
     }
 
-    private function initialize_count_in_group(object $notification): void
+    private function initialize_notification_ids_in_group(object $notification): void
     {
-        $notification->count_in_group = 1;
+        $notification->notification_ids_in_group = [];
     }
 
-    private function increment_count_in_group(object $notification): void
+    private function add_notification_id_in_group(object $notification, int $id): void
     {
-        $notification->count_in_group += 1;
+        $notification->notification_ids_in_group[] = $id;
     }
 
     private function is_read($notification): bool

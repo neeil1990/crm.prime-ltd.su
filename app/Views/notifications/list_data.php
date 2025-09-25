@@ -13,6 +13,12 @@ if (count($notifications)) {
             $notification_class = "unread-notification";
         }
 
+        $notification_ids = [intval($notification->id)];
+
+        if (property_exists($notification, 'notification_ids_in_group')) {
+            $notification_ids = array_merge($notification_ids, $notification->notification_ids_in_group);
+        }
+
         if ((!$url || $url == "#") && $url_attributes == "href='$url'") {
             $notification_class .= " not-clickable";
         } else {
@@ -72,7 +78,8 @@ if (count($notifications)) {
         if ($notification->activity_log_changes == "" || ($notification->activity_log_changes !== "" && count($changes_array))) {
             ?>
 
-            <a class="list-group-item border-bottom dropdown-item <?php echo $notification_class; ?>" data-notification-id="<?php echo $notification->id; ?>" <?php echo $url_attributes; ?> >
+            <a class="list-group-item border-bottom dropdown-item <?php echo $notification_class; ?>"
+               data-notification-id='<?php echo json_encode($notification_ids); ?>' <?php echo $url_attributes; ?> >
                 <div class="d-flex text-wrap">
                     <div class="flex-shrink-0 me-2">
                         <span class="avatar avatar-xs">
@@ -100,8 +107,8 @@ if (count($notifications)) {
                         <? else: ?>
                             <small class="unread-notify badge rounded-pill bg-primary" style="font-size: 80%;">
                                 Непрочитанное
-                                <? if(isset($notification->count_in_group) && $notification->count_in_group > 1): ?>
-                                    ( <?php echo $notification->count_in_group; ?> )
+                                <? if(count($notification_ids) > 1): ?>
+                                    ( <?php echo count($notification_ids); ?> )
                                 <? endif; ?>
                             </small>
                         <? endif; ?>
@@ -152,8 +159,6 @@ if (count($notifications)) {
 
             notificationStatusAsUnRead(self.closest(".list-group-item"));
 
-            mark_as_unread(self);
-
             return false;
         });
 
@@ -167,8 +172,12 @@ if (count($notifications)) {
 
         function notificationStatusAsRead(el)
         {
-            $.ajax({
-                url: '<?php echo get_uri("notifications/set_notification_status_as_read") ?>/' + el.attr("data-notification-id")
+            let ids = JSON.parse(el.attr("data-notification-id"));
+
+            ids.forEach((id) => {
+                $.ajax({
+                    url: '<?php echo get_uri("notifications/set_notification_status_as_read") ?>/' + id
+                });
             });
 
             mark_as_read(el.find("." + unreadNotifyClass));
@@ -180,9 +189,15 @@ if (count($notifications)) {
 
         function notificationStatusAsUnRead(el)
         {
-            $.ajax({
-                url: '<?php echo get_uri("notifications/set_notification_status_as_unread") ?>/' + el.attr("data-notification-id")
+            let ids = JSON.parse(el.attr("data-notification-id"));
+
+            ids.forEach((id) => {
+                $.ajax({
+                    url: '<?php echo get_uri("notifications/set_notification_status_as_unread") ?>/' + id
+                });
             });
+
+            mark_as_unread(el.find("." + readNotifyClass), ids.length);
 
             el.addClass("unread-notification");
 
@@ -196,11 +211,12 @@ if (count($notifications)) {
             $badge.text("Прочитанное");
         }
 
-        function mark_as_unread($badge)
+        function mark_as_unread($badge, quantity)
         {
             $badge.removeClass([readNotifyClass, bgInfoClass]);
             $badge.addClass([unreadNotifyClass, bgPrimaryClass]);
-            $badge.text("Непрочитанное");
+
+            $badge.text("Непрочитанное" + ` ( ${quantity} )`);
         }
     });
 </script>
