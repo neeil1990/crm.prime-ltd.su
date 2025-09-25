@@ -100,8 +100,8 @@ if (count($notifications)) {
                         <? else: ?>
                             <small class="unread-notify badge rounded-pill bg-primary" style="font-size: 80%;">
                                 Непрочитанное
-                                <? if(isset($notification->task_count_in_group) && $notification->task_count_in_group > 1): ?>
-                                    ( <?php echo $notification->task_count_in_group; ?> )
+                                <? if(isset($notification->count_in_group) && $notification->count_in_group > 1): ?>
+                                    ( <?php echo $notification->count_in_group; ?> )
                                 <? endif; ?>
                             </small>
                         <? endif; ?>
