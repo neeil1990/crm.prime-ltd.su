@@ -13,58 +13,66 @@ class NotificationGrouper
 
     public function get_grouped_unread_by_task(): array
     {
-        $length = count($this->notifications);
+        $notifications = [];
 
-        if ($length < 1) {
-            return [];
-        }
+        foreach ($this->notifications as $notification) {
+            $this->initialize_count_in_group($notification);
 
-        // dd($this->notifications);
+            $index = $this->create_new_index($notification);
 
-        $current_group_leader = $this->notifications[0];
-
-        $this->initialize_task_count($current_group_leader);
-
-        for ($i = 1; $i < $length; $i++) {
-
-            $notification = $this->notifications[$i];
-
-            $this->initialize_task_count($notification);
-
-            if ($this->is_unread($notification) &&
-                ($this->has_task_id($current_group_leader->task_id, $notification) || $this->has_ticket_id($current_group_leader->ticket_id, $notification))) {
-                $current_group_leader->task_count_in_group += 1;
-                $this->delete_notification($i);
+            if (array_key_exists($index, $notifications)) {
+                $this->increment_count_in_group($notifications[$index]);
             } else {
-                $current_group_leader = $notification;
+                $notifications[$index] = $notification;
             }
         }
 
-        return $this->notifications;
+        return $notifications;
     }
 
-    private function initialize_task_count(object $notification): void
+    private function create_new_index(object $notification): int
     {
-        $notification->task_count_in_group = 1;
+        $index = $notification->id;
+
+        if ($this->is_read($notification)) {
+            return $index;
+        }
+
+        if ($this->is_task($notification)) {
+            $index = $notification->task_id;
+        } elseif ($this->is_ticket($notification)) {
+            $index = $notification->ticket_id;
+        }
+
+        return $index;
     }
 
-    private function is_unread($notification): bool
+    private function is_task(object $notification): bool
     {
-        return empty($notification->is_read);
+        $task_id = intval($notification->task_id);
+
+        return $task_id > 0;
     }
 
-    private function has_task_id(int $task_id, object $notification): bool
+    private function is_ticket(object $notification): bool
     {
-        return $task_id > 0 && $task_id === intval($notification->task_id);
+        $ticket_id = intval($notification->ticket_id);
+
+        return $ticket_id > 0;
     }
 
-    private function has_ticket_id(int $ticket_id, object $notification): bool
+    private function initialize_count_in_group(object $notification): void
     {
-        return $ticket_id > 0 && $ticket_id === intval($notification->ticket_id);
+        $notification->count_in_group = 1;
     }
 
-    private function delete_notification(int $index): void
+    private function increment_count_in_group(object $notification): void
     {
-        unset($this->notifications[$index]);
+        $notification->count_in_group += 1;
+    }
+
+    private function is_read($notification): bool
+    {
+        return $notification->is_read;
     }
 }
