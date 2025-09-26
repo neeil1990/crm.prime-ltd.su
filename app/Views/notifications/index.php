@@ -28,7 +28,7 @@
                     ));
                     ?>
                 </div>
-                <div class="col-2">
+                <div class="col-1">
                     <?php
                     echo form_input(array(
                         "id" => "notification_is_read_filter",
@@ -68,7 +68,18 @@
                             "name" => "notification_grouped_filter",
                             "value" => request()->getGet("notification_grouped_filter"),
                             "class" => "form-control",
-                            "placeholder" => app_lang('grouped_unread')
+                            "placeholder" => app_lang('grouped')
+                    ));
+                    ?>
+                </div>
+                <div class="col-1">
+                    <?php
+                    echo form_input(array(
+                            "id" => "notification_order_by_filter",
+                            "name" => "notification_order_by_filter",
+                            "value" => request()->getGet("notification_order_by_filter"),
+                            "class" => "form-control",
+                            "placeholder" => app_lang('order_by')
                     ));
                     ?>
                 </div>
@@ -99,5 +110,6 @@
         $('#notification_grouped_filter').select2({data: <?php echo json_encode($grouped_dropdown); ?>});
         $('#notification_projects_filter').select2({data: <?php echo json_encode($projects_dropdown); ?>});
         $('#notification_team_members_filter').select2({data: <?php echo json_encode($team_members_dropdown); ?>});
+        $('#notification_order_by_filter').select2({data: <?php echo json_encode($order_by_dropdown); ?>});
     });
 </script>
