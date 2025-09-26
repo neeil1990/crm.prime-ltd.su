@@ -972,6 +972,11 @@ class Notifications_model extends Crud_model {
             $where .= " AND $notifications_table.project_id = $project_id";
         }
 
+        $order_by = "DESC";
+        if ($new_order_by = $this->_get_clean_value($options, "order_by")) {
+            $order_by = $new_order_by;
+        }
+
         $sql = "SELECT SQL_CALC_FOUND_ROWS $notifications_table.*, CONCAT($users_table.first_name, ' ', $users_table.last_name) AS user_name, $users_table.image AS user_image,
                  $projects_table.title AS project_title,
                  $project_comments_table.description AS project_comment_title,
@@ -1027,7 +1032,7 @@ class Notifications_model extends Crud_model {
             WHERE $invoices_table.deleted=0
         ) AS payment_invoice_table ON payment_invoice_table.id=$invoice_payments_table.invoice_id
         WHERE $notifications_table.deleted=0 AND FIND_IN_SET($user_id, $notifications_table.notify_to) != 0 $where 
-        ORDER BY $notifications_table.id DESC LIMIT $offset, $limit";
+        ORDER BY $notifications_table.id $order_by LIMIT $offset, $limit";
 
         $data = new \stdClass();
         $data->result = $this->db->query($sql)->getResult();

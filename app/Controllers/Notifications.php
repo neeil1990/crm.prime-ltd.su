@@ -18,12 +18,12 @@ class Notifications extends Security_Controller {
 
     //load notifications view
     function index() {
-
         $view_data = $this->_prepare_notification_list();
         $view_data["notifications_filters"] = [];
         $view_data["event_dropdown"] = $this->event_dropdown();
         $view_data["is_read_dropdown"] = $this->is_read_dropdown();
         $view_data["grouped_dropdown"] = $this->grouped_dropdown();
+        $view_data["order_by_dropdown"] = $this->order_by_dropdown();
         $view_data["projects_dropdown"] = $this->projects_dropdown();
         $view_data["team_members_dropdown"] = $this->team_members_dropdown();
 
@@ -124,17 +124,16 @@ class Notifications extends Security_Controller {
             "grouped" => $this->request->getGet('notification_grouped_filter'),
             "team_member" => $this->request->getGet('notification_team_members_filter'),
             "project_id" => $this->request->getGet('notification_projects_filter'),
+            "order_by" => $this->request->getGet('notification_order_by_filter'),
         ];
 
         $notifiations = $this->Notifications_model->get_notifications($this->login_user->id, $offset, 100, $options);
 
-        $view_data['notifications'] = $notifiations->result;
-
         if (empty($options['grouped'])) {
-            $group = new NotificationGrouper($notifiations->result);
-            $view_data['notifications'] = $group->get_grouped_unread_by_task();
+            $notifiations->result = (new NotificationGrouper($notifiations->result))->get_grouped_unread_by_task();
         }
 
+        $view_data['notifications'] = $notifiations->result;
         $view_data['found_rows'] = $notifiations->found_rows;
         $next_page_offset = $offset + 100;
         $view_data['next_page_offset'] = $next_page_offset;
@@ -192,8 +191,18 @@ class Notifications extends Security_Controller {
     function grouped_dropdown(): array
     {
         return [
-            ["id" => "", "text" => app_lang("grouped_unread")],
-            ["id" => "1", "text" => "Убрать группировку"],
+            ["id" => "", "text" => "- " . app_lang("grouped") . " -"],
+            ["id" => "0", "text" => "Да"],
+            ["id" => "1", "text" => "Нет"],
+        ];
+    }
+
+    function order_by_dropdown(): array
+    {
+        return [
+            ["id" => "", "text" => "- " . app_lang("order_by") . " -"],
+            ["id" => "DESC", "text" => "Новые"],
+            ["id" => "ASC", "text" => "Старые"],
         ];
     }
 
