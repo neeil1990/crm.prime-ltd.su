@@ -42,6 +42,14 @@ if ($comment->pinned_comment_status) {
                 ?>
                 <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
+                <?php if ($comment->is_send): ?>
+                    <i data-feather="check" class="icon-16" style="color:green"></i>
+                <?php endif; ?>
+
+                <?php if ($comment->is_read): ?>
+                    <i data-feather="check" class="icon-16" style="color:green"></i>
+                <?php endif; ?>
+
                 <?php if ($login_user->user_type == "staff") { ?>
                     <span class="float-end dropdown comment-dropdown">
                         <div class="text-off dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" >

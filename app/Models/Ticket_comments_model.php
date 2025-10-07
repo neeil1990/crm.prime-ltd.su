@@ -60,4 +60,11 @@ class Ticket_comments_model extends Crud_model {
         return $this->db->query($sql);
     }
 
+    function mark_as_read(int $id) {
+        $this->update_where(["is_read" => 1], ["id" => $id]);
+    }
+
+    function mark_as_send(int $id) {
+        $this->update_where(["is_send" => 1], ["id" => $id]);
+    }
 }
