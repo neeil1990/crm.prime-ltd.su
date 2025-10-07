@@ -66,7 +66,7 @@ class Webhooks_listener extends App_Controller {
                 $commit_url = $commit->links->html->href;
                 $commit_message = $commit->message;
 
-                //get the task id 
+                //get the task id
                 $position = strpos($commit_message, "#");
                 $task_id = (int) substr($commit_message, $position + 1, strlen($commit_message));
 
@@ -176,7 +176,7 @@ class Webhooks_listener extends App_Controller {
                 $commit_url = $commit->url;
                 $commit_message = $commit->message;
 
-                //get the task id 
+                //get the task id
                 $position = strpos($commit_message, "#");
                 $task_id = (int) substr($commit_message, $position + 1, strlen($commit_message));
 
@@ -298,7 +298,7 @@ class Webhooks_listener extends App_Controller {
             show_404();
         }
 
-        //as receiving payment for the invoice, we'll remove the 'draft' status from the invoice 
+        //as receiving payment for the invoice, we'll remove the 'draft' status from the invoice
         $this->Invoices_model->update_invoice_status($invoice_id);
 
         log_notification("invoice_payment_confirmation", array("invoice_payment_id" => $invoice_payment_id, "invoice_id" => $invoice_id), "0");
@@ -326,7 +326,11 @@ class Webhooks_listener extends App_Controller {
         $this->Subscriptions_model->ci_save($subscription_data, $subscription_info->id);
     }
 
+    function mark_ticket_comment_as_read(int $ticket_comment_id)
+    {
+        $this->Ticket_comments_model->mark_as_read($ticket_comment_id);
+    }
 }
 
 /* End of file Webhooks_listener.php */
-/* Location: ./app/Controllers/Webhooks_listener.php */    
+/* Location: ./app/Controllers/Webhooks_listener.php */

@@ -615,6 +615,12 @@ if (!function_exists('send_notification_emails')) {
                 $email_options["attachments"] = prepare_attachment_of_files(get_setting("timeline_file_path"), $comment_info->files);
             }
 
+            if ($comments_options["id"]) {
+                $ticket_comment_id = $comments_options["id"];
+                $mark_ticket_comment_as_read_url = site_url("/webhooks_listener/mark_ticket_comment_as_read/$ticket_comment_id");
+                $parser_data["TICKET_CONTENT"] .= nl2br("<img src='$mark_ticket_comment_as_read_url' style='height: 1px; width: 1px;'>");
+            }
+
             //add imap email as reply-to email address, if it's enabled
             if (get_setting("enable_email_piping") && get_setting("imap_authorized")) {
                 $imap_email = get_setting("imap_email");
@@ -924,7 +930,7 @@ if (!function_exists('send_notification_emails')) {
         // error_log("event: " . $notification->event . PHP_EOL, 3, "notification.txt");
         // error_log("subject: " . $subject . PHP_EOL, 3, "notification.txt");
         // error_log("message: " . $message . PHP_EOL, 3, "notification.txt");
-        // 
+        //
         //for task reminder notifications, we've to send different emails to different users
         if ($notification_multiple_tasks_user_wise && ($notification->event == "project_task_deadline_pre_reminder" || $notification->event == "project_task_reminder_on_the_day_of_deadline" || $notification->event == "project_task_deadline_overdue_reminder")) {
             //task reminders
@@ -980,7 +986,7 @@ if (!function_exists('send_notification_emails')) {
                         $invoice_data = get_invoice_making_data($notification->invoice_id);
                         $invoice_info = get_array_value($invoice_data, "invoice_info");
                         $contact_id = $user->id;
-                        //add public pay invoice url 
+                        //add public pay invoice url
                         if (get_setting("client_can_pay_invoice_without_login") && strpos($message, "PUBLIC_PAY_INVOICE_URL")) {
                             $verification_data = array(
                                 "type" => "invoice_payment",
@@ -1021,7 +1027,13 @@ if (!function_exists('send_notification_emails')) {
                     $parser_data["LOGO_URL"] = get_logo_url();
                     $parser_data["EVENT_TITLE"] = $notification->user_name . " " . sprintf(app_lang("notification_" . $notification->event), $notification->to_user_name);
 
-                    send_app_mail($user_email_address, $subject, $message, $email_options);
+                    $send_mail = send_app_mail($user_email_address, $subject, $message, $email_options);
+
+                    if ($send_mail) {
+                        if ($notification->category == "ticket" && $notification->event == "ticket_commented") {
+                            $ci->Ticket_comments_model->mark_as_send($notification->ticket_comment_id);
+                        }
+                    }
                 }
             } else if ($email_notify_to) { //keep previous method
                 try {
@@ -1206,7 +1218,7 @@ if (!function_exists('get_notification_multiple_tasks_data')) {
                 $user_wise_tasks[$task->assigned_to][] = $task_data;
             }
 
-            //add project members 
+            //add project members
             if (!in_array($task->project_id, $project_ids) && in_array("project_members", $notify_to_terms_array)) {
                 $options = array("project_id" => $task->project_id);
                 $project_members = $ci->Project_members_model->get_details($options)->getResult();
