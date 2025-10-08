@@ -329,6 +329,7 @@ class Webhooks_listener extends App_Controller {
     function mark_ticket_comment_as_read(int $ticket_comment_id)
     {
         $this->Ticket_comments_model->mark_as_read($ticket_comment_id);
+        $this->Ticket_comments_model->set_read_at($ticket_comment_id);
     }
 }
 

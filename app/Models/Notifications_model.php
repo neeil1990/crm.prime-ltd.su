@@ -592,7 +592,6 @@ class Notifications_model extends Crud_model {
             }
         }
 
-
         $data = array(
             "user_id" => $user_id,
             "description" => "",

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use CodeIgniter\I18n\Time;
+
 class Ticket_comments_model extends Crud_model {
 
     protected $table = null;
@@ -47,6 +49,7 @@ class Ticket_comments_model extends Crud_model {
 
         $sql = "SELECT $ticket_comments_table.*, CONCAT($users_table.first_name, ' ',$users_table.last_name) AS created_by_user,
         $users_table.image as created_by_avatar,
+        $users_table.email as created_by_email,
         $users_table.user_type,
         $tickets_table.creator_name,
         $tickets_table.creator_email
@@ -66,5 +69,27 @@ class Ticket_comments_model extends Crud_model {
 
     function mark_as_send(int $id) {
         $this->update_where(["is_send" => 1], ["id" => $id]);
+    }
+
+    function set_read_at(int $id) {
+        $comment = $this->get_one($id);
+
+        if (is_null($comment->read_at)) {
+            $now = get_current_utc_time();
+            $this->update_where(["read_at" => $now], ["id" => $id]);
+        }
+    }
+
+    function set_sent_at(int $id) {
+        $comment = $this->get_one($id);
+
+        if (is_null($comment->sent_at)) {
+            $now = get_current_utc_time();
+            $this->update_where(["sent_at" => $now], ["id" => $id]);
+        }
+    }
+
+    function update_sent_to(string $sent_to, int $id) {
+        $this->update_where(["sent_to" => $sent_to], ["id" => $id]);
     }
 }

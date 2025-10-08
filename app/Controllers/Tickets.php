@@ -1131,6 +1131,54 @@ class Tickets extends Security_Controller {
         }
     }
 
+    function check_ticket_mail_is_sent(int $comment_id) {
+        $comment = $this->Ticket_comments_model->get_one($comment_id);
+
+        if ($comment->is_send) {
+            return $comment->id;
+        }
+
+        return false;
+    }
+
+    function mail_ticket_modal_form() {
+
+        $ticket_id = $this->request->getPost('ticket_id');
+        $this->validate_ticket_access($ticket_id);
+
+        $ticket_comment_id = $this->request->getPost('ticket_comment_id');
+        $this->validate_ticket_access($ticket_comment_id);
+
+        $comments_options = array(
+            "id" => $ticket_comment_id,
+            "ticket_id" => $ticket_id,
+            "sort_as_decending" => 1,
+            "login_user_id" => $this->login_user->id
+        );
+
+        $comment = $this->Ticket_comments_model->get_details($comments_options)->getRow();
+
+        $view_data["comment"] = $comment;
+
+        $sent_to_users = explode(",", $comment->sent_to);
+
+        $view_data["sent_to_user"] = "";
+
+        foreach ($sent_to_users as $user_id) {
+            $user = $this->Users_model->get_one($user_id);
+
+            if ($user->user_type == "client") {
+                $user_link = get_client_contact_profile_link($user->id, $user->first_name . " " . $user->last_name, array("class" => "dark strong"));
+            } else {
+                $user_link = get_team_member_profile_link($user->id, $user->first_name . " " . $user->last_name, array("class" => "dark strong"));
+            }
+
+            $view_data["sent_to_user"] .= $user_link . " [$user->email] ";
+        }
+
+        return $this->template->view('tickets/mail_ticket_modal_form', $view_data);
+    }
+
     //load merge tickt modal
     function merge_ticket_modal_form() {
         $this->validate_submitted_data(array(

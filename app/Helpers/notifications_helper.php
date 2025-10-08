@@ -968,6 +968,8 @@ if (!function_exists('send_notification_emails')) {
             }
         } else {
             if ($email_notify_to && is_array($email_notify_to)) {
+                $web_sent_to = "";
+
                 foreach ($email_notify_to as $user) {
                     if (is_string($user)) {
                         $user_email_address = $user;
@@ -1030,8 +1032,16 @@ if (!function_exists('send_notification_emails')) {
                     $send_mail = send_app_mail($user_email_address, $subject, $message, $email_options);
 
                     if ($send_mail) {
+
+                        if ($web_sent_to) {
+                            $web_sent_to .= ",";
+                        }
+                        $web_sent_to .= $user->id;
+
                         if ($notification->category == "ticket" && $notification->event == "ticket_commented") {
                             $ci->Ticket_comments_model->mark_as_send($notification->ticket_comment_id);
+                            $ci->Ticket_comments_model->set_sent_at($notification->ticket_comment_id);
+                            $ci->Ticket_comments_model->update_sent_to($web_sent_to, $notification->ticket_comment_id);
                         }
                     }
                 }

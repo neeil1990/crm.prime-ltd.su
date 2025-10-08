@@ -10,6 +10,7 @@ if ($comment->pinned_comment_status) {
     $unpin_status = "hide";
 }
 ?>
+
 <div id="ticket-comment-container-<?php echo $comment->id; ?>" class="b-b p10 m0 text-break bg-white comment-container ticket-comment-container <?php echo $comment->is_note ? "note-background" : "" ?> comment-highlight-section">
     <div class="d-flex">
         <div class="flex-shrink-0 mr10">
@@ -42,13 +43,23 @@ if ($comment->pinned_comment_status) {
                 ?>
                 <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
-                <?php if ($comment->is_send): ?>
-                    <i data-feather="check" class="icon-16" style="color:green"></i>
-                <?php endif; ?>
+                <span class="icon-box">
+                    <?php if ($comment->is_send): ?>
+                        <i data-feather="check" class="icon-16 is-send" style="color:green"></i>
+                    <?php endif; ?>
 
-                <?php if ($comment->is_read): ?>
-                    <i data-feather="check" class="icon-16" style="color:green"></i>
-                <?php endif; ?>
+                    <?php if ($comment->is_read): ?>
+                        <?php
+                        echo modal_anchor(
+                                get_uri("tickets/mail_ticket_modal_form"),
+                                '<i data-feather="check" class="icon-16 is-read" style="color:green"></i>',
+                                array("title" => "Отчет об отправке уведомлений",
+                                        "data-post-ticket_id" => $comment->ticket_id,
+                                        "data-post-ticket_comment_id" => $comment->id)
+                        );
+                        ?>
+                    <?php endif; ?>
+                </span>
 
                 <?php if ($login_user->user_type == "staff") { ?>
                     <span class="float-end dropdown comment-dropdown">
