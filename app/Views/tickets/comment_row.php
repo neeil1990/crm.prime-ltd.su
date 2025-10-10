@@ -43,23 +43,15 @@ if ($comment->pinned_comment_status) {
                 ?>
                 <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
-                <span class="icon-box">
-                    <?php if ($comment->is_send): ?>
-                        <i data-feather="check" class="icon-16 is-send" style="color:green"></i>
-                    <?php endif; ?>
+                <?php
+                $ticket_mail_show = $comment->sent_mails > 0 ?: "d-none";
 
-                    <?php if ($comment->is_read): ?>
-                        <?php
-                        echo modal_anchor(
-                                get_uri("tickets/mail_ticket_modal_form"),
-                                '<i data-feather="check" class="icon-16 is-read" style="color:green"></i>',
-                                array("title" => "Отчет об отправке уведомлений",
-                                        "data-post-ticket_id" => $comment->ticket_id,
-                                        "data-post-ticket_comment_id" => $comment->id)
-                        );
-                        ?>
-                    <?php endif; ?>
-                </span>
+                echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
+                        '<span class="badge bg-info"><i data-feather="mail" class="icon-14"></i> '.$comment->sent_mails.'</span>',
+                        array("title" => "Отчет об отправке уведомлений",
+                                "class" => "ticket-mail $ticket_mail_show",
+                                "data-post-ticket_comment_id" => $comment->id));
+                ?>
 
                 <?php if ($login_user->user_type == "staff") { ?>
                     <span class="float-end dropdown comment-dropdown">

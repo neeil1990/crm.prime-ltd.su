@@ -3,28 +3,21 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Отправлено</th>
                 <th>От кого</th>
                 <th>Кому</th>
+                <th>Отправлено</th>
                 <th>Прочитано</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td><?php echo format_to_relative_time($comment->sent_at); ?></td>
-                <td>
-                    <?php
-                    if ($comment->user_type === "staff") {
-                        echo get_team_member_profile_link($comment->created_by, $comment->created_by_user, array("class" => "dark strong"));
-                    } else {
-                        echo get_client_contact_profile_link($comment->created_by, $comment->created_by_user, array("class" => "dark strong"));
-                    }
-                    ?>
-                    [<?php echo $comment->created_by_email; ?>]
-                </td>
-                <td><?php echo $sent_to_user; ?></td>
-                <td><?php echo format_to_relative_time($comment->read_at); ?></td>
-            </tr>
+            <?php foreach ($mails as $mail): ?>
+                <tr>
+                    <td><?php echo $mail["user_from_link"]; ?> [<?php echo $mail["user_from_email"]; ?>]</td>
+                    <td><?php echo $mail["user_to_link"]; ?> [<?php echo $mail["user_to_email"]; ?>]</td>
+                    <td><?php echo $mail["sent_at"]; ?></td>
+                    <td><?php echo $mail["read_at"]; ?></td>
+                </tr>
+            <? endforeach; ?>
             </tbody>
         </table>
     </div>

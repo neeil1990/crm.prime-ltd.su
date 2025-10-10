@@ -36,3 +36,7 @@
 .app-popover {
     z-index: 1080;
 }
+
+.d-none {
+    display: none !important;
+}

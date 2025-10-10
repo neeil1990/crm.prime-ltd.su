@@ -326,10 +326,14 @@ class Webhooks_listener extends App_Controller {
         $this->Subscriptions_model->ci_save($subscription_data, $subscription_info->id);
     }
 
-    function mark_ticket_comment_as_read(int $ticket_comment_id)
-    {
-        $this->Ticket_comments_model->mark_as_read($ticket_comment_id);
-        $this->Ticket_comments_model->set_read_at($ticket_comment_id);
+    function mark_ticket_comment_as_read(int $ticket_comment_id, int $to_user_id) {
+        $where = ["ticket_comment_id" => $ticket_comment_id, "to_user_id" => $to_user_id];
+
+        $mail = $this->Ticket_mails_model->get_one_where($where);
+
+        if (is_null($mail->read_at)) {
+            $this->Ticket_mails_model->update_where(["read_at" => get_current_utc_time()], $where);
+        }
     }
 }
 

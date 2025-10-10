@@ -3,7 +3,9 @@
 namespace Config;
 
 use CodeIgniter\Events\Events;
+use App\Controllers\App_Controller;
 use CodeIgniter\Exceptions\FrameworkException;
+
 
 /*
  * --------------------------------------------------------------------
@@ -21,6 +23,26 @@ use CodeIgniter\Exceptions\FrameworkException;
  * Example:
  *      Events::on('create', [$myInstance, 'myMethod']);
  */
+
+Events::on('sent_app_mail', static function ($user_notify_to, $notification) {
+    Events::trigger($notification->event . "_and_mail_sent", $user_notify_to, $notification);
+});
+
+Events::on('ticket_commented_and_mail_sent', static function ($user_notify_to, $notification) {
+
+    $data = [
+        "ticket_comment_id" => $notification->ticket_comment_id,
+        "from_user_id" => $notification->user_id,
+        "to_user_id" => $user_notify_to->id,
+        "created_at" => get_current_utc_time()
+    ];
+
+    $data = clean_data($data);
+
+    $ci = new App_Controller();
+
+    $ci->Ticket_mails_model->ci_save($data);
+});
 
 Events::on('pre_system', static function () {
     if (ENVIRONMENT !== 'testing') {

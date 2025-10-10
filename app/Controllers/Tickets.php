@@ -1131,49 +1131,30 @@ class Tickets extends Security_Controller {
         }
     }
 
-    function check_ticket_mail_is_sent(int $comment_id) {
-        $comment = $this->Ticket_comments_model->get_one($comment_id);
-
-        if ($comment->is_send) {
-            return $comment->id;
-        }
-
-        return false;
+    function check_ticket_mail(int $ticket_comment_id) {
+        echo $this->Ticket_mails_model->get_all_where(["ticket_comment_id" => $ticket_comment_id])->getNumRows();
     }
 
     function mail_ticket_modal_form() {
-
-        $ticket_id = $this->request->getPost('ticket_id');
-        $this->validate_ticket_access($ticket_id);
-
         $ticket_comment_id = $this->request->getPost('ticket_comment_id');
         $this->validate_ticket_access($ticket_comment_id);
 
-        $comments_options = array(
-            "id" => $ticket_comment_id,
-            "ticket_id" => $ticket_id,
-            "sort_as_decending" => 1,
-            "login_user_id" => $this->login_user->id
-        );
+        $ticket_mails = $this->Ticket_mails_model->get_all_where(["ticket_comment_id" => $ticket_comment_id])->getResult();
 
-        $comment = $this->Ticket_comments_model->get_details($comments_options)->getRow();
+        $view_data = [];
 
-        $view_data["comment"] = $comment;
+        foreach ($ticket_mails as $mail) {
+            $from = $this->Users_model->get_one($mail->from_user_id);
+            $to = $this->Users_model->get_one($mail->to_user_id);
 
-        $sent_to_users = explode(",", $comment->sent_to);
-
-        $view_data["sent_to_user"] = "";
-
-        foreach ($sent_to_users as $user_id) {
-            $user = $this->Users_model->get_one($user_id);
-
-            if ($user->user_type == "client") {
-                $user_link = get_client_contact_profile_link($user->id, $user->first_name . " " . $user->last_name, array("class" => "dark strong"));
-            } else {
-                $user_link = get_team_member_profile_link($user->id, $user->first_name . " " . $user->last_name, array("class" => "dark strong"));
-            }
-
-            $view_data["sent_to_user"] .= $user_link . " [$user->email] ";
+            $view_data["mails"][] = [
+                "user_from_link" => get_profile_link_by_type($from->user_type, $from->id, $from->first_name . " " .$from->last_name, ["class" => "dark strong"]),
+                "user_to_link" => get_profile_link_by_type($to->user_type, $to->id, $to->first_name . " " .$to->last_name, ["class" => "dark strong"]),
+                "user_from_email" => $from->email,
+                "user_to_email" => $to->email,
+                "sent_at" => format_to_relative_time($mail->created_at),
+                "read_at" => $mail->read_at ? format_to_relative_time($mail->read_at) : " - ",
+            ];
         }
 
         return $this->template->view('tickets/mail_ticket_modal_form', $view_data);

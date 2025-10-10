@@ -2,6 +2,8 @@
 
 use App\Controllers\Security_Controller;
 use App\Controllers\App_Controller;
+use CodeIgniter\Events\Events;
+
 
 /*
  * Define who are allowed to receive notifications
@@ -615,12 +617,6 @@ if (!function_exists('send_notification_emails')) {
                 $email_options["attachments"] = prepare_attachment_of_files(get_setting("timeline_file_path"), $comment_info->files);
             }
 
-            if ($comments_options["id"]) {
-                $ticket_comment_id = $comments_options["id"];
-                $mark_ticket_comment_as_read_url = site_url("/webhooks_listener/mark_ticket_comment_as_read/$ticket_comment_id");
-                $parser_data["TICKET_CONTENT"] .= nl2br("<img src='$mark_ticket_comment_as_read_url' style='height: 1px; width: 1px;'>");
-            }
-
             //add imap email as reply-to email address, if it's enabled
             if (get_setting("enable_email_piping") && get_setting("imap_authorized")) {
                 $imap_email = get_setting("imap_email");
@@ -968,8 +964,6 @@ if (!function_exists('send_notification_emails')) {
             }
         } else {
             if ($email_notify_to && is_array($email_notify_to)) {
-                $web_sent_to = "";
-
                 foreach ($email_notify_to as $user) {
                     if (is_string($user)) {
                         $user_email_address = $user;
@@ -1029,20 +1023,13 @@ if (!function_exists('send_notification_emails')) {
                     $parser_data["LOGO_URL"] = get_logo_url();
                     $parser_data["EVENT_TITLE"] = $notification->user_name . " " . sprintf(app_lang("notification_" . $notification->event), $notification->to_user_name);
 
-                    $send_mail = send_app_mail($user_email_address, $subject, $message, $email_options);
+                    if ($notification->event === "ticket_commented") {
+                        $mark_ticket_comment_as_read_url = site_url("/webhooks_listener/mark_ticket_comment_as_read/$notification->ticket_comment_id/$user->id");
+                        $message .= nl2br("<img src='$mark_ticket_comment_as_read_url' style='height: 1px; width: 1px;'>");
+                    }
 
-                    if ($send_mail) {
-
-                        if ($web_sent_to) {
-                            $web_sent_to .= ",";
-                        }
-                        $web_sent_to .= $user->id;
-
-                        if ($notification->category == "ticket" && $notification->event == "ticket_commented") {
-                            $ci->Ticket_comments_model->mark_as_send($notification->ticket_comment_id);
-                            $ci->Ticket_comments_model->set_sent_at($notification->ticket_comment_id);
-                            $ci->Ticket_comments_model->update_sent_to($web_sent_to, $notification->ticket_comment_id);
-                        }
+                    if (send_app_mail($user_email_address, $subject, $message, $email_options)) {
+                        Events::trigger('sent_app_mail', $user, $notification);
                     }
                 }
             } else if ($email_notify_to) { //keep previous method
