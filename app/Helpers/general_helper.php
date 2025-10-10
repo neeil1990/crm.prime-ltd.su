@@ -675,6 +675,16 @@ if (!function_exists('get_team_member_profile_link')) {
     }
 }
 
+if (!function_exists('get_profile_link_by_type')) {
+    function get_profile_link_by_type($type = "", $id = 0, $name = "", $attributes = array()) {
+        if ($type === "staff") {
+            return get_team_member_profile_link($id, $name, $attributes);
+        } else {
+            return get_client_contact_profile_link($id, $name, $attributes);
+        }
+    }
+}
+
 
 /**
  * team members profile anchor. only clickable to team members

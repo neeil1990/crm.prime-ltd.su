@@ -16,6 +16,7 @@ class Ticket_comments_model extends Crud_model {
     function get_details($options = array()) {
         $tickets_table = $this->db->prefixTable('tickets');
         $ticket_comments_table = $this->db->prefixTable('ticket_comments');
+        $ticket_mails_table = $this->db->prefixTable('ticket_mails');
         $users_table = $this->db->prefixTable('users');
         $pin_ticket_comments_table = $this->db->prefixTable('pin_ticket_comments');
         $where = "";
@@ -52,7 +53,8 @@ class Ticket_comments_model extends Crud_model {
         $users_table.email as created_by_email,
         $users_table.user_type,
         $tickets_table.creator_name,
-        $tickets_table.creator_email
+        $tickets_table.creator_email,
+        (SELECT COUNT(*) FROM $ticket_mails_table WHERE $ticket_mails_table.ticket_comment_id = $ticket_comments_table.id) as sent_mails 
         $extra_select
         FROM $ticket_comments_table
         LEFT JOIN $users_table ON $users_table.id= $ticket_comments_table.created_by
@@ -61,35 +63,5 @@ class Ticket_comments_model extends Crud_model {
         ORDER BY $ticket_comments_table.created_at $sort";
 
         return $this->db->query($sql);
-    }
-
-    function mark_as_read(int $id) {
-        $this->update_where(["is_read" => 1], ["id" => $id]);
-    }
-
-    function mark_as_send(int $id) {
-        $this->update_where(["is_send" => 1], ["id" => $id]);
-    }
-
-    function set_read_at(int $id) {
-        $comment = $this->get_one($id);
-
-        if (is_null($comment->read_at)) {
-            $now = get_current_utc_time();
-            $this->update_where(["read_at" => $now], ["id" => $id]);
-        }
-    }
-
-    function set_sent_at(int $id) {
-        $comment = $this->get_one($id);
-
-        if (is_null($comment->sent_at)) {
-            $now = get_current_utc_time();
-            $this->update_where(["sent_at" => $now], ["id" => $id]);
-        }
-    }
-
-    function update_sent_to(string $sent_to, int $id) {
-        $this->update_where(["sent_to" => $sent_to], ["id" => $id]);
     }
 }

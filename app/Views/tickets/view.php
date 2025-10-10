@@ -362,30 +362,21 @@
             return false;
         });
 
-        setInterval(checkMailIsSent, 5000);
+        // setInterval(CheckTicketMail, 5000);
 
-        function checkMailIsSent() {
-            $(".comment-container").each(function (i, el) {
+        function CheckTicketMail() {
+            $(".ticket-mail.d-none").each(function (i, el) {
                 $el = $(el);
 
-                let isSent = $el.find(".is-send").length;
+                let comment_id = $el.attr('data-post-ticket_comment_id');
 
-                if (! isSent) {
-                    let comment_id = $el.attr('id').split("-").pop();
-
-                    $.ajax({
-                        url: "<?php echo get_uri("tickets/check_ticket_mail_is_sent/"); ?>" + comment_id,
-                        type: 'POST',
-                        dataType: "json",
-                        success: function(id) {
-                            if (id) {
-                                let $origin_el = $('#ticket-comment-container-' + id);
-
-                                $origin_el.find(".icon-box").append('<i data-feather="check" class="icon-16 is-send" style="color:green"></i>');
-                            }
-                        }
-                    });
-                }
+                $.ajax({
+                    url: "<?php echo get_uri("tickets/check_ticket_mail/"); ?>" + comment_id,
+                    data: {comment_id: comment_id},
+                    success: function(num) {
+                        console.log(num, this);
+                    }
+                });
             });
         }
     });

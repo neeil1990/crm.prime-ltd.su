@@ -40,6 +40,7 @@ class App_Controller extends Controller {
     public $Ticket_types_model;
     public $Tickets_model;
     public $Ticket_comments_model;
+    public $Ticket_mails_model;
     public $Items_model;
     public $Invoices_model;
     public $Invoice_items_model;
@@ -152,6 +153,7 @@ class App_Controller extends Controller {
             'Ticket_types_model',
             'Tickets_model',
             'Ticket_comments_model',
+            'Ticket_mails_model',
             'Items_model',
             'Invoices_model',
             'Invoice_items_model',
@@ -242,9 +244,9 @@ class App_Controller extends Controller {
 
     /**
      * download files. If there is one file then don't archive the file otherwise archive the files.
-     * 
+     *
      * @param string $directory_path
-     * @param string $serialized_file_data 
+     * @param string $serialized_file_data
      * @return download files
      */
     protected function download_app_files($directory_path, $serialized_file_data) {
