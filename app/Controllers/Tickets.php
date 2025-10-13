@@ -1131,8 +1131,28 @@ class Tickets extends Security_Controller {
         }
     }
 
-    function check_ticket_mail(int $ticket_comment_id) {
-        echo $this->Ticket_mails_model->get_all_where(["ticket_comment_id" => $ticket_comment_id])->getNumRows();
+    function get_ticket_comment_mails(int $ticket_comment_id) {
+
+        $data = [
+            "ticket_comment_id" => $ticket_comment_id,
+            "sent_emails" => [],
+            "number_sent_emails" => 0,
+        ];
+
+        $comment_mails = $this->Ticket_mails_model->get_all_where(["ticket_comment_id" => $ticket_comment_id])->getResult();
+
+        if (count($comment_mails) > 0) {
+
+            foreach ($comment_mails as $mail) {
+                $mail->to_user = $this->Users_model->get_one($mail->to_user_id);
+
+                $data["sent_emails"][] = $mail;
+
+                $data["number_sent_emails"]++;
+            }
+        }
+
+        echo json_encode($data);
     }
 
     function mail_ticket_modal_form() {
@@ -1152,6 +1172,7 @@ class Tickets extends Security_Controller {
                 "user_to_link" => get_profile_link_by_type($to->user_type, $to->id, $to->first_name . " " .$to->last_name, ["class" => "dark strong"]),
                 "user_from_email" => $from->email,
                 "user_to_email" => $to->email,
+                "is_primary_contact" => $to->is_primary_contact,
                 "sent_at" => format_to_relative_time($mail->created_at),
                 "read_at" => $mail->read_at ? format_to_relative_time($mail->read_at) : " - ",
             ];
