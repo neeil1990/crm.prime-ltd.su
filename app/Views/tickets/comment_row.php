@@ -44,13 +44,15 @@ if ($comment->pinned_comment_status) {
                 <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
                 <?php
-                $ticket_mail_show = $comment->sent_mails > 0 ?: "d-none";
+                if (empty($comment->is_note)) {
+                    $hidden_ticket_mail = $comment->sent_mails <= 0 ? "d-none" : "";
 
-                echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
-                        '<span class="badge bg-info"><i data-feather="mail" class="icon-14"></i> '.$comment->sent_mails.'</span>',
-                        array("title" => "Отчет об отправке уведомлений",
-                                "class" => "ticket-mail $ticket_mail_show",
-                                "data-post-ticket_comment_id" => $comment->id));
+                    echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
+                            '<span class="badge bg-danger"><i data-feather="mail" class="icon-14"></i> <span class="number-sent-emails">'.$comment->sent_mails.'</span></span>',
+                            array("title" => "Отчет об отправке уведомлений",
+                                    "class" => "ticket-email $hidden_ticket_mail",
+                                    "data-post-ticket_comment_id" => $comment->id));
+                }
                 ?>
 
                 <?php if ($login_user->user_type == "staff") { ?>

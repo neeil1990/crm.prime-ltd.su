@@ -362,22 +362,46 @@
             return false;
         });
 
-        // setInterval(CheckTicketMail, 5000);
+        check_ticket_email();
+        setInterval(check_ticket_email, 5000);
 
-        function CheckTicketMail() {
-            $(".ticket-mail.d-none").each(function (i, el) {
-                $el = $(el);
+        function check_ticket_email() {
+            $(".ticket-email .bg-danger").each(function (i, el) {
+                let $badge = $(el);
+                let $link_badge_wrapper = $badge.closest(".ticket-email");
+                let comment_id = $link_badge_wrapper.attr('data-post-ticket_comment_id');
 
-                let comment_id = $el.attr('data-post-ticket_comment_id');
-
-                $.ajax({
-                    url: "<?php echo get_uri("tickets/check_ticket_mail/"); ?>" + comment_id,
-                    data: {comment_id: comment_id},
-                    success: function(num) {
-                        console.log(num, this);
-                    }
-                });
+                get_ticket_comment_mails(comment_id)
             });
+        }
+
+        function get_ticket_comment_mails(comment_id) {
+            $.ajax({
+                url: "<?php echo get_uri("tickets/get_ticket_comment_mails/"); ?>" + comment_id,
+                type: 'POST',
+                dataType: "json",
+                success: function(response) {
+                    let $comment = $(`a[data-post-ticket_comment_id="${response.ticket_comment_id}"]`);
+
+                    $comment.find(".number-sent-emails").text(response.number_sent_emails);
+
+                    if (response.number_sent_emails > 0) {
+                        $comment.removeClass("d-none");
+                    }
+
+                    $.each(response.sent_emails, function (i, el) {
+
+                        if (el.to_user.is_primary_contact > 0 && el.read_at) {
+                            mark_email_badge_as_read($comment.find(".badge"))
+                        }
+                    })
+                }
+            });
+        }
+
+        function mark_email_badge_as_read($badge) {
+            $badge.removeClass("bg-danger");
+            $badge.addClass("bg-info");
         }
     });
 </script>

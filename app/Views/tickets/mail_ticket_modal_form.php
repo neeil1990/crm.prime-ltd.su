@@ -13,7 +13,9 @@
             <?php foreach ($mails as $mail): ?>
                 <tr>
                     <td><?php echo $mail["user_from_link"]; ?> [<?php echo $mail["user_from_email"]; ?>]</td>
-                    <td><?php echo $mail["user_to_link"]; ?> [<?php echo $mail["user_to_email"]; ?>]</td>
+                    <td><?php echo $mail["user_to_link"]; ?> [<?php echo $mail["user_to_email"]; ?>]
+                        <?php if ($mail["is_primary_contact"]): ?> <i data-feather="star" class="icon-16"></i> <?php endif; ?>
+                    </td>
                     <td><?php echo $mail["sent_at"]; ?></td>
                     <td><?php echo $mail["read_at"]; ?></td>
                 </tr>
