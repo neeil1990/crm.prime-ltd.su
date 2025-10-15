@@ -41,16 +41,17 @@ if ($comment->pinned_comment_status) {
                     }
                 }
                 ?>
-                <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
+                <small class="mr10"><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
                 <?php
                 if (ticket_comment_is_not_note($comment)) {
-                    $hidden_ticket_mail = $comment->sent_mails <= 0 ? "d-none" : "";
+                    $badge_color = $comment->sent_mails > 0 ? "bg-danger" : "bg-secondary";
+                    $title_text = $comment->sent_mails > 0 ? "Отчет об отправке уведомлений" : "Уведомления не отправлялись";
 
                     echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
-                            '<span class="badge bg-danger"><i data-feather="mail" class="icon-14"></i> <span class="number-sent-emails">'.$comment->sent_mails.'</span></span>',
-                            array("title" => "Отчет об отправке уведомлений",
-                                    "class" => "ticket-email $hidden_ticket_mail",
+                            '<span class="badge '.$badge_color.'"><i data-feather="mail" class="icon-14"></i> <span class="number-sent-emails">'.$comment->sent_mails.'</span></span>',
+                            array("title" => $title_text,
+                                    "class" => "ticket-email",
                                     "data-post-ticket_comment_id" => $comment->id));
                 }
                 ?>
