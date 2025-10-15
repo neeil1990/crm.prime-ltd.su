@@ -1160,7 +1160,39 @@ if (!function_exists('get_team_members_and_teams_select2_data_list')) {
     }
 }
 
+/**
+ * Check if the ticket comment is a note
+ *
+ * @params Object $comment
+ */
+if (!function_exists('ticket_comment_is_note')) {
 
+    function ticket_comment_is_note($comment)
+    {
+        if ($comment->is_note) {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+/**
+ *  Check if the ticket comment is not a note
+ *
+ * @params Object $comment
+ */
+if (!function_exists('ticket_comment_is_not_note')) {
+
+    function ticket_comment_is_not_note($comment)
+    {
+        if (!$comment->is_note) {
+            return true;
+        }
+
+        return false;
+    }
+}
 
 /**
  * submit data for notification

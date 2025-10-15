@@ -1155,6 +1155,23 @@ class Tickets extends Security_Controller {
         echo json_encode($data);
     }
 
+    function notify_ticket_comment() {
+        $ticket_id = $this->request->getPost('ticket_id');
+        $this->validate_ticket_access($ticket_id);
+
+        $ticket_comment_id = $this->request->getPost('ticket_comment_id');
+        $this->validate_ticket_access($ticket_comment_id);
+
+        if (empty($ticket_id) || empty($ticket_comment_id)) {
+            echo json_encode(array("success" => false, 'message' => app_lang('error_occurred')));
+            return false;
+        }
+
+        log_notification("ticket_commented", array("ticket_id" => $ticket_id, "ticket_comment_id" => $ticket_comment_id), $this->login_user->id);
+
+        echo json_encode(array("success" => true, 'message' => app_lang('comment_submited')));
+    }
+
     function mail_ticket_modal_form() {
         $ticket_comment_id = $this->request->getPost('ticket_comment_id');
         $this->validate_ticket_access($ticket_comment_id);

@@ -11,7 +11,7 @@ if ($comment->pinned_comment_status) {
 }
 ?>
 
-<div id="ticket-comment-container-<?php echo $comment->id; ?>" class="b-b p10 m0 text-break bg-white comment-container ticket-comment-container <?php echo $comment->is_note ? "note-background" : "" ?> comment-highlight-section">
+<div id="ticket-comment-container-<?php echo $comment->id; ?>" class="card p15 text-break comment-container ticket-comment-container <?php echo $comment->is_note ? "note-background" : "" ?> comment-highlight-section">
     <div class="d-flex">
         <div class="flex-shrink-0 mr10">
             <span class="avatar avatar-sm">
@@ -44,7 +44,7 @@ if ($comment->pinned_comment_status) {
                 <small><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
                 <?php
-                if (empty($comment->is_note)) {
+                if (ticket_comment_is_not_note($comment)) {
                     $hidden_ticket_mail = $comment->sent_mails <= 0 ? "d-none" : "";
 
                     echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
@@ -63,6 +63,17 @@ if ($comment->pinned_comment_status) {
                         <ul class="dropdown-menu dropdown-menu-end" role="menu">
                             <li role="presentation"><?php echo ajax_anchor(get_uri("tickets/pin_comment/" . $comment->id), "<i data-feather='map-pin' class='icon-16'></i> " . app_lang('unpin_comment'), array("id" => "unpin-comment-button-$comment->id", "class" => "dropdown-item unpin-comment-button $unpin_status", 'title' => app_lang('unpin_comment'), "data-pin-comment-id" => $comment->id, "data-fade-out-on-success" => "#pinned-comment-$comment->id")); ?> </li>
                             <li role="presentation"><?php echo js_anchor("<i data-feather='map-pin' class='icon-16'></i> " . app_lang('pin_comment'), array("id" => "pin-comment-button-$comment->id", "class" => "dropdown-item pin-comment-button $pin_status", 'title' => app_lang('pin_comment'), "data-action-url" => get_uri("tickets/pin_comment/" . $comment->id), "data-pin-comment-id" => $comment->id)); ?> </li>
+                           <?php if (ticket_comment_is_not_note($comment)) { ?>
+                            <li>
+                                <?php echo ajax_anchor(
+                                        get_uri("tickets/notify_ticket_comment"),
+                                        "<i data-feather='send' class='icon-16'></i> " . app_lang('send_notification'),
+                                        array("class" => "dropdown-item", "title" => app_lang('send_notification'),
+                                                "data-post-ticket_id" => "$comment->ticket_id",
+                                                "data-post-ticket_comment_id" => "$comment->id")
+                                ); ?>
+                            </li>
+                            <?php } ?>
                             <li role="presentation">
                                 <?php echo ajax_anchor(get_uri("tickets/delete_comment/$comment->id"), "<i data-feather='x' class='icon-16'></i> " . app_lang('delete'), array("class" => "dropdown-item", "title" => app_lang('delete'), "data-fade-out-on-success" => "#ticket-comment-container-$comment->id")); ?>
                             </li>
@@ -74,8 +85,9 @@ if ($comment->pinned_comment_status) {
                     <div class="block text-off"><?php echo $comment->creator_email; ?></div>
                 <?php } ?>
             </div>
+
             <p><?php echo $comment->description; ?></p>
-            <hr />
+
             <div class="comment-image-box clearfix d-flex align-items-center">
                 <?php
                 $files = unserialize($comment->files);

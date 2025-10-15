@@ -11,5 +11,7 @@ $lang["executors"] = "Исполнители";
 $lang["enable_filter"] = "Включить фильтр";
 $lang["notification_filter"] = "Фильтр уведомлений";
 $lang["apply"] = "Применить";
+$lang["send_notification"] = "Отправить уведомление";
+$lang["error_occurred"] = "Произошла ошибка";
 
 return $lang;

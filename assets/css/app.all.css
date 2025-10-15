@@ -4833,8 +4833,9 @@ svg:not(.gantt) {
   display: none;
 }
 .comment-container {
-  margin: 15px 0;
-  overflow: auto;
+    min-height: 170px;
+    margin: 15px 0;
+    overflow: auto;
 }
 .comment-container:hover .comment-dropdown, .comment-container:hover .comment-like-top {
   display: block;
