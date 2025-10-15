@@ -385,14 +385,12 @@
 
                     $comment.find(".number-sent-emails").text(response.number_sent_emails);
 
-                    if (response.number_sent_emails > 0) {
-                        $comment.removeClass("d-none");
-                    }
-
+                    //check if any primary contact email read the email
+                    //if yes, then mark the badge as read
                     $.each(response.sent_emails, function (i, el) {
-
                         if (el.to_user.is_primary_contact > 0 && el.read_at) {
                             mark_email_badge_as_read($comment.find(".badge"))
+                            return false;
                         }
                     })
                 }
