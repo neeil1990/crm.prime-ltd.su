@@ -366,12 +366,12 @@
         setInterval(check_ticket_email, 5000);
 
         function check_ticket_email() {
-            $(".ticket-email .bg-danger").each(function (i, el) {
-                let $badge = $(el);
-                let $link_badge_wrapper = $badge.closest(".ticket-email");
-                let comment_id = $link_badge_wrapper.attr('data-post-ticket_comment_id');
+            $(".ticket-email").each(function (i, el) {
+                let $el = $(el);
 
-                get_ticket_comment_mails(comment_id)
+                if (! $el.find(".badge").hasClass("bg-info")) {
+                    get_ticket_comment_mails($el.attr('data-post-ticket_comment_id'))
+                }
             });
         }
 
