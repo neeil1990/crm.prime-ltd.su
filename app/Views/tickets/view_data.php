@@ -7,7 +7,7 @@ if (!$sort_as_decending) {
 }
 ?>
 
-<div id="comment-form-container" >
+<div class="card" id="comment-form-container" >
     <?php echo form_open(get_uri("tickets/save_comment"), array("id" => "comment-form", "class" => "general-form", "role" => "form")); ?>
     <div class="p15 d-flex">
         <div class="flex-shrink-0 hidden-xs">
@@ -58,8 +58,6 @@ if (!$sort_as_decending) {
 </div>
 
 <div id="comment-pin-container" class="mb-4"></div>
-
-<div class="box-title"><span>Комментарии</span></div>
 
 <?php
 //for decending mode, show the comment box at the bottom

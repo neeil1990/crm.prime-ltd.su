@@ -1,7 +1,7 @@
 <div class="clearfix ">
     <div class="row">
         <div class="col-md-9 d-flex align-items-stretch">
-            <div class="card p15 b-t w-100" id="subscription-item-section">
+            <div class="w-100" id="subscription-item-section">
                 <?php echo view("tickets/view_data"); ?>
             </div>
         </div>
