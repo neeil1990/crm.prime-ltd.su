@@ -54,7 +54,8 @@ class Ticket_comments_model extends Crud_model {
         $users_table.user_type,
         $tickets_table.creator_name,
         $tickets_table.creator_email,
-        (SELECT COUNT(*) FROM $ticket_mails_table WHERE $ticket_mails_table.ticket_comment_id = $ticket_comments_table.id) as sent_mails 
+        (SELECT COUNT(*) FROM $ticket_mails_table WHERE $ticket_mails_table.ticket_comment_id = $ticket_comments_table.id) as sent_mails, 
+        (SELECT COUNT(*) FROM $ticket_mails_table WHERE $ticket_mails_table.ticket_comment_id = $ticket_comments_table.id AND $ticket_mails_table.read_at IS NOT NULL) as read_mails
         $extra_select
         FROM $ticket_comments_table
         LEFT JOIN $users_table ON $users_table.id= $ticket_comments_table.created_by
