@@ -9,7 +9,8 @@ use App\Libraries\Imap;
 class Dev extends App_Controller
 {
     public function index() {
-        $this->send_mail_by_ticket_comment();
+       // $this->send_mail_by_ticket_comment();
+        $this->imap();
     }
 
     function send_mail_by_ticket_comment(): void {

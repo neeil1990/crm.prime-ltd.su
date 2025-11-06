@@ -26,11 +26,18 @@ if ($comment->pinned_comment_status) {
         </div>
         <div class="w-100">
             <div>
+                <?php if (is_undefined_client_from_email($comment) && $ticket_info->client_id === "0"): ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Является неопределенным клиентом, полученным из электронной почты.</strong> Добавьте клиента для отправления и отслеживания уведомлений.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php endif; ?>
+
                 <?php
                 if ($comment->created_by == 999999999) {
                     //user is an app boot for auto reply tickets
                     echo "<span class='dark strong'>" . get_setting('app_title') . "</span>";
-                } else if (!$comment->created_by && $comment->creator_email) {
+                } else if (is_undefined_client_from_email($comment)) {
                     //user is an undefined client from email
                     echo "<span class='dark strong'>" . $comment->creator_name . " [" . app_lang("unknown_client") . "]" . "</span>";
                 } else {
@@ -44,21 +51,19 @@ if ($comment->pinned_comment_status) {
                 <small class="mr10"><span class="text-off"><?php echo format_to_relative_time($comment->created_at); ?></span></small>
 
                 <?php
-                if (ticket_comment_is_not_note($comment)) {
-                    $badge_color = $comment->sent_mails > 0 ? "bg-danger" : "bg-secondary";
+                if (ticket_comment_is_not_note($comment) && $comment->sent_mails) {
+                    $badge_color = "bg-danger";
 
                     if ($comment->read_mails > 0) {
                         $badge_color = "bg-info";
                     }
-
-                    $title_text = $comment->sent_mails > 0 ? "Отчет об отправке уведомлений" : "Уведомления не отправлялись";
 
                     echo modal_anchor(get_uri("tickets/mail_ticket_modal_form"),
                             '<span class="badge '.$badge_color.'">
                                         <i data-feather="mail" class="icon-14"></i> '.$comment->sent_mails.'  
                                         <i data-feather="eye" class="icon-14"></i> '.$comment->read_mails.'
                                     </span>',
-                            array("title" => $title_text,
+                            array("title" => "Отчет об отправке уведомлений",
                                     "class" => "ticket-email",
                                     "data-post-ticket_comment_id" => $comment->id));
                 }
