@@ -1195,6 +1195,18 @@ if (!function_exists('ticket_comment_is_not_note')) {
 }
 
 /**
+ *  User is an undefined client from email
+ *
+ * @params Object $comment
+ */
+if (!function_exists('is_undefined_client_from_email')) {
+    function is_undefined_client_from_email($comment)
+    {
+        return (!$comment->created_by && $comment->creator_email);
+    }
+}
+
+/**
  * submit data for notification
  *
  * @return array
