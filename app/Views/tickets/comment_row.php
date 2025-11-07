@@ -28,7 +28,7 @@ if ($comment->pinned_comment_status) {
             <div>
                 <?php if (is_undefined_client_from_email($comment) && $ticket_info->client_id === "0"): ?>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Является неопределенным клиентом, полученным из электронной почты.</strong> Добавьте клиента для отправления и отслеживания уведомлений.
+                    <strong>Является неопределенным клиентом, полученным из электронной почты.</strong> Добавьте клиента для отслеживания уведомлений при отправке сообщений.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <?php endif; ?>
