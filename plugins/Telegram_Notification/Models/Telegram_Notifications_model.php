@@ -15,14 +15,17 @@ class Telegram_Notifications_model extends \App\Models\Crud_model {
 
     function create_notification($notification_id) {
         $notification_info = $this->Notifications_model->get_one_where(array("id" => $notification_id));
-
         $telegram_notification_settings_table = $this->db->prefixTable('telegram_notification_settings');
+        $query = "SELECT * FROM $telegram_notification_settings_table 
+                WHERE $telegram_notification_settings_table.event='$notification_info->event' 
+                AND $telegram_notification_settings_table.enable_telegram";
 
-        $telegram_notification_settings = $this->db->query("SELECT * FROM $telegram_notification_settings_table WHERE  $telegram_notification_settings_table.event='$notification_info->event' AND $telegram_notification_settings_table.enable_telegram")->getRow();
+        $telegram_notification_settings = $this->db->query($query)->getRow();
+
         if (!$telegram_notification_settings) {
-            return false; //no notification settings found
+            return false;
         }
-        
+
         send_telegram_notification($notification_info->event, $notification_info->user_id, $notification_id);
     }
 

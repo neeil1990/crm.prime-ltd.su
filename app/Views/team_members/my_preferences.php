@@ -63,7 +63,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group <?php echo get_setting("enable_push_notification") && $user_info->enable_web_notification ? '' : 'hide'; ?>" id="disable-push-notification-area">
                 <div class="row">
                     <label for="disable_push_notification" class="col-md-2"><?php echo app_lang('disable_push_notification'); ?></label>
@@ -82,7 +81,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row">
                     <label for="enable_email_notification" class=" col-md-2"><?php echo app_lang('enable_email_notification'); ?></label>
@@ -98,7 +96,6 @@
                     </div>
                 </div>
             </div>
-
             <?php if (count($language_dropdown) && !get_setting("disable_language_selector_for_team_members")) { ?>
                 <div class="form-group">
                     <div class="row">
@@ -113,7 +110,6 @@
                     </div>
                 </div>
             <?php } ?>
-
             <div class="form-group">
                 <div class="row">
                     <label for="hidden_topbar_menus" class=" col-md-2"><?php echo app_lang('hide_menus_from_topbar'); ?></label>
@@ -130,7 +126,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row">
                     <label for="disable_keyboard_shortcuts" class=" col-md-2"><?php echo app_lang('disable_keyboard_shortcuts'); ?></label>
@@ -180,6 +175,72 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="telegram_chat_id">Телеграм chat id</label>
+                <input type="text" 
+                    class="form-control"
+                    style="background-color: #f6f8f9 !important"
+                    id="telegram_chat_id" 
+                    name="telegram_chat_id" 
+                    value="<?= esc($telegram_chat_id); ?>" 
+                    placeholder="Введите ваш chat_id">
+                    <a href="https://t.me/Getmyid_bot" target="_blank">Не знаете свой ID, напишите боту</a>
+            </div>
+
+            <?php if (!empty($my_projects)) : ?>
+                <div class="card mt20">
+                    <div class="card-header">
+                        <h4>Настройка уведомлений по проектам</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="overflow: auto !important">
+                            <table class="table table-bordered table-striped text-center align-middle mb-0 w-100" style="min-width:900px;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="min-width:220px;"></th>
+                                        <?php foreach ($my_projects as $project) : ?>
+                                            <th style="min-width:180px;">
+                                                <a href="<?= get_uri("projects/view/" . $project->id); ?>" target="_blank">
+                                                    <?= esc($project->title); ?>
+                                                </a>
+                                            </th>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $roles = [
+                                        "Создатель задачи",
+                                        "Исполнитель",
+                                        "Участник"
+                                    ];
+                                    ?>
+                                    <?php foreach ($roles as $role) : ?>
+                                        <tr>
+                                            <th class="text-start bg-light">
+                                                <?= $role; ?>
+                                            </th>
+                                            <?php foreach ($my_projects as $project) : ?>
+                                                <td>
+                                                    <input type="checkbox"
+                                                        name="notifications[<?= $project->id; ?>][<?= md5($role); ?>]"
+                                                        value="1"
+                                                        <?= !empty($settings_map[$project->id][$role]) ? "checked" : ""; ?>>
+                                                </td>
+                                            <?php endforeach; ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="alert alert-info mt20">
+                    Вы не участвуете ни в одном проекте
+                </div>
+            <?php endif; ?>
 
             <?php app_hooks()->do_action('app_hook_team_members_my_preferences_extension'); ?>
 
