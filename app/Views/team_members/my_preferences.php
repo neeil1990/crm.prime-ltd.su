@@ -369,6 +369,10 @@
         var table =  $('#projects-notifications-table').DataTable({
             order: [[0, 'asc']],
             pageLength: 25,
+            lengthMenu: [
+                [25, 50, 100, -1],
+                [25, 50, 100, "Все"]
+            ],
             language: {
                 search: "Поиск по проекту:",
                 lengthMenu: "Показать _MENU_",
@@ -384,15 +388,6 @@
             columnDefs: [
                 { orderable: false, targets: [1,2,3] }
             ]
-        });
-
-        $('.check-all').on('change', function () {
-            var colIndex = $(this).data('col');
-            var isChecked = $(this).is(':checked');
-
-            table.column(colIndex).nodes().to$()
-                .find('input[type="checkbox"]')
-                .prop('checked', isChecked);
         });
     });
 </script>
