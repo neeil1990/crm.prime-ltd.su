@@ -532,10 +532,6 @@ if (!function_exists('send_telegram_notification')) {
                         ->getRow();
 
                     $taskDescription = $notification_description;
-                    // if(!empty($notification_info->task_description)) {
-                    //     $taskDescription .= "<b>Описание задачи</b>: " . strip_tags($notification_info->task_description);
-                    // }
-
                     if ($setting && !empty($user->telegram_chat_id)) {
                         telegram_write_log("Запись найдена");
 
