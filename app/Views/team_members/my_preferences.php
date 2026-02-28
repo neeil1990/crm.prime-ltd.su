@@ -365,29 +365,21 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        var table =  $('#projects-notifications-table').DataTable({
+    $(document).ready(function () { 
+        var table = $('#projects-notifications-table').DataTable({
             order: [[0, 'asc']],
-            pageLength: 25,
-            lengthMenu: [
-                [25, 50, 100, -1],
-                [25, 50, 100, "Все"]
-            ],
-            language: {
-                search: "Поиск по проекту:",
-                lengthMenu: "Показать _MENU_",
-                info: "Показано _START_–_END_ из _TOTAL_",
-                paginate: {
-                    first: "Первая",
-                    last: "Последняя",
-                    next: "→",
-                    previous: "←"
-                },
-                zeroRecords: "Ничего не найдено"
-            },
-            columnDefs: [
-                { orderable: false, targets: [1,2,3] }
-            ]
+            pageLength: -1,
+            lengthMenu: [[-1], ["Все"]],
+            columnDefs: [{ orderable: false, targets: [1,2,3] }]
+        });
+
+        $('.check-all').on('change', function () {
+            var colIndex = $(this).data('col');
+            var isChecked = $(this).is(':checked');
+
+            table.rows().nodes().to$()
+                .find('td:nth-child(' + (colIndex + 1) + ') input[type="checkbox"]')
+                .prop('checked', isChecked);
         });
     });
 </script>
