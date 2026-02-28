@@ -458,6 +458,7 @@ $lang["view"] = "Просмотр";
 $lang["project_comment"] = "Комментарий по проекту";
 $lang["task_comment"] = "Комментарий по задаче";
 $lang["file_comment"] = "Комментарий к файлу";
+$lang["decription"] = "Описание";
 
 /* time format */
 $lang["today"] = "Сегодня";

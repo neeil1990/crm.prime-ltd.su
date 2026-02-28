@@ -23,10 +23,7 @@ class Notification_processor extends App_Controller {
     }
 
     function create_notification($data = array()) {
-
         ini_set('max_execution_time', 300); //300 seconds
-        //error_log(date('[Y-m-d H:i:s e] ') . " Process Notification: " . serialize($_POST) . PHP_EOL, 3, "error.log");
-        //validate notification request
 
         if (!get_setting("log_direct_notifications")) {
             $data = $_POST;
@@ -79,24 +76,17 @@ class Notification_processor extends App_Controller {
             "proposal_comment_id" => get_array_value($data, "proposal_comment_id")
         );
 
-        //get data from plugin by persing 'plugin_'
+        //get data from plugin by parsing 'plugin_'
         foreach ($data as $key => $value) {
             if (strpos($key, 'plugin_') !== false) {
                 $options[$key] = $value;
             }
         }
 
-        //clasified the task modification parts
+        //classified the task modification parts
         if ($event == "project_task_updated" || $event == "general_task_updated") {
-            //overwrite event and options
             $notify_to_array = $this->_clasified_task_modification($event, $options, $activity_log_id);
 
-            /*
-             * for custom field changes, we've to check if the field has any restrictions
-             * like 'visible to admins only' or 'hide from clients'
-             * but there might be changed other things along with the secret custom fields
-             * so, we've to show only that fields. then, we need to create notification for all users
-             */
             if (is_array($notify_to_array)) {
                 if (!get_array_value($notify_to_array, array_search("all", $notify_to_array))) {
                     $options["notify_to_admins_only"] = true;
@@ -110,7 +100,6 @@ class Notification_processor extends App_Controller {
             if ($reminder_tasks) {
                 $options["notification_multiple_tasks"] = $reminder_tasks;
             } else {
-                //if no tasks to remind, exit for reminder tasks notifications
                 return;
             }
         }
@@ -118,10 +107,23 @@ class Notification_processor extends App_Controller {
         //save reminder date
         $this->_save_reminder_date($event, $options);
 
-        //error_log("announcement_id: " . $options["announcement_id"] . PHP_EOL, 3, "notification.txt");
-        //error_log("announcement_share_with: " . $options["announcement_share_with"] . PHP_EOL, 3, "notification.txt");
-
+        //finally create the notification
         $this->Notifications_model->create_notification($event, $user_id, $options);
+    }
+
+    public function testLog($data)
+    {
+        $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
+
+        $date = date('Y-m-d H:i:s');
+
+        if (is_array($data) || is_object($data)) {
+            $data = print_r($data, true);
+        }
+
+        $message = "[$date] " . $data . PHP_EOL;
+
+        file_put_contents($log_file, $message, FILE_APPEND);
     }
 
     private function get_reminder_tasks($event) {

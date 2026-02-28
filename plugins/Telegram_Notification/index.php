@@ -51,11 +51,32 @@ register_uninstallation_hook("Telegram_Notification", function () {
     $db->query($sql_query);
 });
 
-
 app_hooks()->add_action('app_hook_post_notification', function ($notification_id) {
-    $Telegram_Notifications_model = new \Telegram_Notification\Models\Telegram_Notifications_model();
+    if (!$notification_id) {
+        telegram_write_log("No notification_id received.");
+        return;
+    }
 
-    if (get_telegram_notification_setting("enable_telegram") && get_telegram_notification_setting("bot_token") && get_telegram_notification_setting("chat_id")) {
+    // получаем данные уведомления напрямую
+    $Notifications_model = model("App\Models\Notifications_model");
+    $notification = $Notifications_model->get_one($notification_id);
+
+    if (!$notification) {
+        telegram_write_log("Notification not found in DB.");
+        return;
+    }
+
+    $enabled = get_telegram_notification_setting("enable_telegram");
+    $bot_token = get_telegram_notification_setting("bot_token");
+    $chat_id = get_telegram_notification_setting("chat_id");
+
+    if ($enabled && $bot_token && $chat_id) {
+        $Telegram_Notifications_model = new \Telegram_Notification\Models\Telegram_Notifications_model();
         $Telegram_Notifications_model->create_notification($notification_id);
+
+    } else {
+        telegram_write_log("Conditions NOT met. Telegram not sent.");
     }
 });
+
+helper('telegram_log');

@@ -3,6 +3,21 @@
     $user_id = $login_user->id;
     echo form_open(get_uri("team_members/save_my_preferences/"), array("id" => "my-preferences-form", "class" => "general-form dashed-row white", "role" => "form"));
     ?>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <style>
+        #projects-notifications-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #f8f9fa;
+        }
+
+        #projects-notifications-table thead tr:first-child th {
+            z-index: 6;
+        }
+    </style>
     <div class="card">
         <div class=" card-header">
             <h4> <?php echo app_lang('my_preferences'); ?></h4>
@@ -63,7 +78,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group <?php echo get_setting("enable_push_notification") && $user_info->enable_web_notification ? '' : 'hide'; ?>" id="disable-push-notification-area">
                 <div class="row">
                     <label for="disable_push_notification" class="col-md-2"><?php echo app_lang('disable_push_notification'); ?></label>
@@ -82,7 +96,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row">
                     <label for="enable_email_notification" class=" col-md-2"><?php echo app_lang('enable_email_notification'); ?></label>
@@ -98,7 +111,6 @@
                     </div>
                 </div>
             </div>
-
             <?php if (count($language_dropdown) && !get_setting("disable_language_selector_for_team_members")) { ?>
                 <div class="form-group">
                     <div class="row">
@@ -113,7 +125,6 @@
                     </div>
                 </div>
             <?php } ?>
-
             <div class="form-group">
                 <div class="row">
                     <label for="hidden_topbar_menus" class=" col-md-2"><?php echo app_lang('hide_menus_from_topbar'); ?></label>
@@ -130,7 +141,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row">
                     <label for="disable_keyboard_shortcuts" class=" col-md-2"><?php echo app_lang('disable_keyboard_shortcuts'); ?></label>
@@ -181,6 +191,140 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="telegram_chat_id">Телеграм chat id</label>
+                <input type="text" 
+                    class="form-control"
+                    style="background-color: #f6f8f9 !important"
+                    id="telegram_chat_id" 
+                    name="telegram_chat_id" 
+                    value="<?= esc($telegram_chat_id); ?>" 
+                    placeholder="Введите ваш chat_id">
+                    <a href="https://t.me/Getmyid_bot" target="_blank">Не знаете свой ID, напишите боту</a>
+            </div>
+            
+            <div class="form-group">
+                <b>Типы получаемых уведомлений</b>
+
+                <div class="card mt-2">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped text-center align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="220">Изменение даты</th>
+                                        <th width="220">Изменение состава людей</th>
+                                        <th width="220">Изменение статуса</th>
+                                        <th width="220">Комментарий</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox"
+                                                name="notify_task_date_changed"
+                                                value="1"
+                                                <?= !empty($user_notification_settings->notify_task_date_changed) ? "checked" : ""; ?>>
+                                        </td>
+
+                                        <td>
+                                            <input type="checkbox"
+                                                name="notify_task_assignees_changed"
+                                                value="1"
+                                                <?= !empty($user_notification_settings->notify_task_assignees_changed) ? "checked" : ""; ?>>
+                                        </td>
+
+                                        <td>
+                                            <input type="checkbox"
+                                                name="notify_task_status_changed"
+                                                value="1"
+                                                <?= !empty($user_notification_settings->notify_task_status_changed) ? "checked" : ""; ?>>
+                                        </td>
+
+                                        <td>
+                                            <input type="checkbox"
+                                                name="notify_task_comment_added"
+                                                value="1"
+                                                <?= !empty($user_notification_settings->notify_task_comment_added) ? "checked" : ""; ?>>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php if (!empty($my_projects)) : ?>
+                <div class="form-group">
+                    <b>Настройка уведомлений по проектам</b>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="overflow:auto; max-height:500px;">                            
+                            <table id="projects-notifications-table"
+                                class="table table-bordered table-striped text-center align-middle mb-0 w-100"
+                                style="min-width:900px;">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="min-width:220px;">Проект</th>
+                                        <th>Ответственный</th>
+                                        <th>Исполнитель</th>
+                                        <th>Участник</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+
+                                        <th class="text-center align-middle">
+                                            <input type="checkbox" class="check-all" data-col="1">
+                                        </th>
+
+                                        <th class="text-center align-middle">
+                                            <input type="checkbox" class="check-all" data-col="2">
+                                        </th>
+
+                                        <th class="text-center align-middle">
+                                            <input type="checkbox" class="check-all" data-col="3">
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php 
+                                        $roles = [
+                                            "Создатель задачи",
+                                            "Исполнитель",
+                                            "Участник"
+                                        ];
+                                    ?>
+                                    <?php foreach ($my_projects as $project) : ?>
+                                        <tr>
+                                            <th class="text-start bg-light">
+                                                <a href="<?= get_uri("projects/view/" . $project->id); ?>" target="_blank">
+                                                    <?= esc($project->title); ?>
+                                                </a>
+                                            </th>
+
+                                            <?php foreach ($roles as $role) : ?>
+                                                <td class="text-center">
+                                                    <input type="checkbox"
+                                                        name="notifications[<?= $project->id; ?>][<?= md5($role); ?>]"
+                                                        value="1"
+                                                        <?= !empty($settings_map[$project->id][$role]) ? "checked" : ""; ?>>
+                                                </td>
+                                            <?php endforeach; ?>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php else : ?>
+                <div class="alert alert-info mt20">
+                    Вы не участвуете ни в одном проекте
+                </div>
+            <?php endif; ?>
+
             <?php app_hooks()->do_action('app_hook_team_members_my_preferences_extension'); ?>
 
         </div>
@@ -216,6 +360,39 @@
             } else {
                 $("#disable-push-notification-area").addClass("hide");
             }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var table =  $('#projects-notifications-table').DataTable({
+            order: [[0, 'asc']],
+            pageLength: 25,
+            language: {
+                search: "Поиск по проекту:",
+                lengthMenu: "Показать _MENU_",
+                info: "Показано _START_–_END_ из _TOTAL_",
+                paginate: {
+                    first: "Первая",
+                    last: "Последняя",
+                    next: "→",
+                    previous: "←"
+                },
+                zeroRecords: "Ничего не найдено"
+            },
+            columnDefs: [
+                { orderable: false, targets: [1,2,3] }
+            ]
+        });
+
+        $('.check-all').on('change', function () {
+            var colIndex = $(this).data('col');
+            var isChecked = $(this).is(':checked');
+
+            table.column(colIndex).nodes().to$()
+                .find('input[type="checkbox"]')
+                .prop('checked', isChecked);
         });
     });
 </script>

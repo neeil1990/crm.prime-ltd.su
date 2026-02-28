@@ -1,0 +1,3170 @@
+[2026-02-28 04:10:51] === log_notification START ===
+[2026-02-28 04:10:51] Event before encode_id: project_task_created
+[2026-02-28 04:10:51] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9488
+)
+
+[2026-02-28 04:10:51] Вызов события уведомления
+[2026-02-28 04:10:51] CURRENT TYPE
+[2026-02-28 04:10:51] stdClass Object
+(
+    [id] => 94269
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:10:51
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_created
+    [project_id] => 13
+    [task_id] => 9488
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => help me
+    [task_description] => <p>my description task</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:10:51] notify_task_assignees_changed
+[2026-02-28 04:10:51] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 09:49:11
+)
+
+[2026-02-28 04:10:51] notify_task_assignees_changed
+[2026-02-28 04:10:51] uid: 210
+[2026-02-28 04:10:51] tid: 13
+[2026-02-28 04:10:51] role: Создатель задачи
+[2026-02-28 04:10:51] Мои роли
+[2026-02-28 04:10:51] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:10:51] Запись найдена
+[2026-02-28 04:10:51] === log_notification END ===
+[2026-02-28 04:11:48] === log_notification START ===
+[2026-02-28 04:11:48] Event before encode_id: project_task_created
+[2026-02-28 04:11:48] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9489
+)
+
+[2026-02-28 04:11:48] Вызов события уведомления
+[2026-02-28 04:11:48] CURRENT TYPE
+[2026-02-28 04:11:48] stdClass Object
+(
+    [id] => 94270
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:11:48
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_created
+    [project_id] => 13
+    [task_id] => 9489
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => aaaaaaaaaa
+    [task_description] => <p>bbbbbbbbbbbb</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:11:48] notify_task_assignees_changed
+[2026-02-28 04:11:48] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 09:49:11
+)
+
+[2026-02-28 04:11:48] notify_task_assignees_changed
+[2026-02-28 04:11:48] uid: 210
+[2026-02-28 04:11:48] tid: 13
+[2026-02-28 04:11:48] role: Создатель задачи
+[2026-02-28 04:11:48] Мои роли
+[2026-02-28 04:11:48] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:11:48] Запись найдена
+[2026-02-28 04:11:49] === log_notification END ===
+[2026-02-28 04:12:51] === log_notification START ===
+[2026-02-28 04:12:51] Event before encode_id: project_task_created
+[2026-02-28 04:12:51] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9490
+)
+
+[2026-02-28 04:12:51] Вызов события уведомления
+[2026-02-28 04:12:51] CURRENT TYPE
+[2026-02-28 04:12:51] stdClass Object
+(
+    [id] => 94271
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:12:51
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_created
+    [project_id] => 13
+    [task_id] => 9490
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => aaaaa
+    [task_description] => bbbbb
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:12:51] notify_task_assignees_changed
+[2026-02-28 04:12:51] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 09:49:11
+)
+
+[2026-02-28 04:12:51] notify_task_assignees_changed
+[2026-02-28 04:12:51] uid: 210
+[2026-02-28 04:12:51] tid: 13
+[2026-02-28 04:12:51] role: Создатель задачи
+[2026-02-28 04:12:51] Мои роли
+[2026-02-28 04:12:51] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:12:51] Запись найдена
+[2026-02-28 04:12:51] === log_notification END ===
+[2026-02-28 04:13:58] === log_notification START ===
+[2026-02-28 04:13:58] Event before encode_id: project_task_created
+[2026-02-28 04:13:58] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+)
+
+[2026-02-28 04:13:58] Вызов события уведомления
+[2026-02-28 04:13:58] CURRENT TYPE
+[2026-02-28 04:13:58] stdClass Object
+(
+    [id] => 94272
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:13:58
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_created
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:13:58] notify_task_assignees_changed
+[2026-02-28 04:13:58] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 09:49:11
+)
+
+[2026-02-28 04:13:58] notify_task_assignees_changed
+[2026-02-28 04:13:58] uid: 210
+[2026-02-28 04:13:58] tid: 13
+[2026-02-28 04:13:58] role: Создатель задачи
+[2026-02-28 04:13:58] Мои роли
+[2026-02-28 04:13:58] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:13:58] Запись найдена
+[2026-02-28 04:13:58] === log_notification END ===
+[2026-02-28 04:23:16] === log_notification START ===
+[2026-02-28 04:23:16] Event before encode_id: project_task_commented
+[2026-02-28 04:23:16] Options: Array
+(
+    [task_id] => 9467
+    [project_comment_id] => 36071
+    [project_id] => 84
+)
+
+[2026-02-28 04:23:16] second dir: /tmp
+[2026-02-28 04:23:16] Вызов события уведомления
+[2026-02-28 04:23:16] CURRENT TYPE
+[2026-02-28 04:23:16] stdClass Object
+(
+    [id] => 94273
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:16
+    [notify_to] => 56,58
+    [read_by] => 
+    [event] => project_task_commented
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 36071
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => <p>ку</p>
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:16] notify_task_comment_added
+[2026-02-28 04:23:16] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:16] notify_task_comment_added
+[2026-02-28 04:23:16] uid: 1
+[2026-02-28 04:23:16] tid: 84
+[2026-02-28 04:23:16] role: Создатель задачи
+[2026-02-28 04:23:16] Мои роли
+[2026-02-28 04:23:16] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:16] Запись найдена
+[2026-02-28 04:23:17] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:17] notify_task_comment_added
+[2026-02-28 04:23:17] Конфиг notify_task_comment_added не активен
+[2026-02-28 04:23:17] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:17] notify_task_comment_added
+[2026-02-28 04:23:17] Конфиг notify_task_comment_added не активен
+[2026-02-28 04:23:17] === log_notification END ===
+[2026-02-28 04:23:25] === log_notification START ===
+[2026-02-28 04:23:25] Event before encode_id: project_task_updated
+[2026-02-28 04:23:25] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92557
+)
+
+[2026-02-28 04:23:26] Вызов события уведомления
+[2026-02-28 04:23:26] CURRENT TYPE
+[2026-02-28 04:23:26] stdClass Object
+(
+    [id] => 94274
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:26
+    [notify_to] => 56,58
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92557
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"executors";a:2:{s:4:"from";s:4:"1,56";s:2:"to";s:1:"1";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:26] notify_task_assignees_changed
+[2026-02-28 04:23:26] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:26] notify_task_assignees_changed
+[2026-02-28 04:23:26] uid: 1
+[2026-02-28 04:23:26] tid: 84
+[2026-02-28 04:23:26] role: Создатель задачи
+[2026-02-28 04:23:26] Мои роли
+[2026-02-28 04:23:26] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:26] Запись найдена
+[2026-02-28 04:23:26] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:26] notify_task_assignees_changed
+[2026-02-28 04:23:26] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:23:26] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:26] notify_task_assignees_changed
+[2026-02-28 04:23:26] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:23:26] === log_notification END ===
+[2026-02-28 04:23:36] === log_notification START ===
+[2026-02-28 04:23:36] Event before encode_id: project_task_updated
+[2026-02-28 04:23:36] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92558
+)
+
+[2026-02-28 04:23:36] Вызов события уведомления
+[2026-02-28 04:23:36] CURRENT TYPE
+[2026-02-28 04:23:36] stdClass Object
+(
+    [id] => 94275
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:36
+    [notify_to] => 56,58
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92558
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"executors";a:2:{s:4:"from";s:1:"1";s:2:"to";s:4:"1,56";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:36] notify_task_assignees_changed
+[2026-02-28 04:23:36] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:36] notify_task_assignees_changed
+[2026-02-28 04:23:36] uid: 1
+[2026-02-28 04:23:36] tid: 84
+[2026-02-28 04:23:36] role: Создатель задачи
+[2026-02-28 04:23:36] Мои роли
+[2026-02-28 04:23:36] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:36] Запись найдена
+[2026-02-28 04:23:36] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:36] notify_task_assignees_changed
+[2026-02-28 04:23:36] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:23:36] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:36] notify_task_assignees_changed
+[2026-02-28 04:23:36] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:23:36] === log_notification END ===
+[2026-02-28 04:23:42] === log_notification START ===
+[2026-02-28 04:23:42] Event before encode_id: project_task_updated
+[2026-02-28 04:23:42] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92559
+)
+
+[2026-02-28 04:23:43] Вызов события уведомления
+[2026-02-28 04:23:43] CURRENT TYPE
+[2026-02-28 04:23:43] stdClass Object
+(
+    [id] => 94276
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:43
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92559
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:13:"collaborators";a:2:{s:4:"from";s:7:"1,56,58";s:2:"to";s:4:"1,56";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:43] notify_task_assignees_changed
+[2026-02-28 04:23:43] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:43] notify_task_assignees_changed
+[2026-02-28 04:23:43] uid: 1
+[2026-02-28 04:23:43] tid: 84
+[2026-02-28 04:23:43] role: Создатель задачи
+[2026-02-28 04:23:43] Мои роли
+[2026-02-28 04:23:43] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:43] Запись найдена
+[2026-02-28 04:23:43] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:43] notify_task_assignees_changed
+[2026-02-28 04:23:43] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:23:43] === log_notification END ===
+[2026-02-28 04:23:49] === log_notification START ===
+[2026-02-28 04:23:49] Event before encode_id: project_task_updated
+[2026-02-28 04:23:49] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92560
+)
+
+[2026-02-28 04:23:50] Вызов события уведомления
+[2026-02-28 04:23:50] CURRENT TYPE
+[2026-02-28 04:23:50] stdClass Object
+(
+    [id] => 94277
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:50
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:50] notify_task_status_changed
+[2026-02-28 04:23:50] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:50] notify_task_status_changed
+[2026-02-28 04:23:50] uid: 1
+[2026-02-28 04:23:50] tid: 84
+[2026-02-28 04:23:50] role: Создатель задачи
+[2026-02-28 04:23:50] Мои роли
+[2026-02-28 04:23:50] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:50] Запись найдена
+[2026-02-28 04:23:50] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:50] notify_task_status_changed
+[2026-02-28 04:23:50] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:23:50] === log_notification END ===
+[2026-02-28 04:23:54] === log_notification START ===
+[2026-02-28 04:23:54] Event before encode_id: project_task_updated
+[2026-02-28 04:23:54] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92561
+)
+
+[2026-02-28 04:23:54] Вызов события уведомления
+[2026-02-28 04:23:54] CURRENT TYPE
+[2026-02-28 04:23:54] stdClass Object
+(
+    [id] => 94278
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:54
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:54] notify_task_status_changed
+[2026-02-28 04:23:54] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:54] notify_task_status_changed
+[2026-02-28 04:23:54] uid: 1
+[2026-02-28 04:23:54] tid: 84
+[2026-02-28 04:23:54] role: Создатель задачи
+[2026-02-28 04:23:54] Мои роли
+[2026-02-28 04:23:54] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:54] Запись найдена
+[2026-02-28 04:23:55] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:55] notify_task_status_changed
+[2026-02-28 04:23:55] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:23:55] === log_notification END ===
+[2026-02-28 04:23:59] === log_notification START ===
+[2026-02-28 04:23:59] Event before encode_id: project_task_updated
+[2026-02-28 04:23:59] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92562
+)
+
+[2026-02-28 04:23:59] Вызов события уведомления
+[2026-02-28 04:23:59] CURRENT TYPE
+[2026-02-28 04:23:59] stdClass Object
+(
+    [id] => 94279
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:23:59
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92562
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"status_id";a:2:{s:4:"from";s:1:"1";s:2:"to";s:1:"4";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:23:59] notify_task_status_changed
+[2026-02-28 04:23:59] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:23:59] notify_task_status_changed
+[2026-02-28 04:23:59] uid: 1
+[2026-02-28 04:23:59] tid: 84
+[2026-02-28 04:23:59] role: Создатель задачи
+[2026-02-28 04:23:59] Мои роли
+[2026-02-28 04:23:59] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:23:59] Запись найдена
+[2026-02-28 04:23:59] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:23:59] notify_task_status_changed
+[2026-02-28 04:23:59] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:23:59] === log_notification END ===
+[2026-02-28 04:24:03] === log_notification START ===
+[2026-02-28 04:24:03] Event before encode_id: project_task_updated
+[2026-02-28 04:24:03] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92563
+)
+
+[2026-02-28 04:24:03] Вызов события уведомления
+[2026-02-28 04:24:03] CURRENT TYPE
+[2026-02-28 04:24:03] stdClass Object
+(
+    [id] => 94280
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:24:03
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92563
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"status_id";a:2:{s:4:"from";s:1:"4";s:2:"to";s:1:"5";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:24:04] notify_task_status_changed
+[2026-02-28 04:24:04] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:24:04] notify_task_status_changed
+[2026-02-28 04:24:04] uid: 1
+[2026-02-28 04:24:04] tid: 84
+[2026-02-28 04:24:04] role: Создатель задачи
+[2026-02-28 04:24:04] Мои роли
+[2026-02-28 04:24:04] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:24:04] Запись найдена
+[2026-02-28 04:24:04] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:24:04] notify_task_status_changed
+[2026-02-28 04:24:04] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:24:04] === log_notification END ===
+[2026-02-28 04:24:08] === log_notification START ===
+[2026-02-28 04:24:08] Event before encode_id: project_task_updated
+[2026-02-28 04:24:08] Options: Array
+(
+    [project_id] => 84
+    [task_id] => 9467
+    [activity_log_id] => 92564
+)
+
+[2026-02-28 04:24:08] Вызов события уведомления
+[2026-02-28 04:24:08] CURRENT TYPE
+[2026-02-28 04:24:08] stdClass Object
+(
+    [id] => 94281
+    [user_id] => 1
+    [description] => 
+    [created_at] => 2026-02-28 10:24:08
+    [notify_to] => 56
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 84
+    [task_id] => 9467
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92564
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Станислав Виленский
+    [project_title] => crm.prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => тест-2
+    [task_description] => 
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"status_id";a:2:{s:4:"from";s:1:"5";s:2:"to";s:1:"6";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:24:08] notify_task_status_changed
+[2026-02-28 04:24:08] stdClass Object
+(
+    [id] => 10
+    [user_id] => 1
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-27 18:59:01
+    [updated_at] => 2026-02-27 18:59:20
+)
+
+[2026-02-28 04:24:08] notify_task_status_changed
+[2026-02-28 04:24:08] uid: 1
+[2026-02-28 04:24:08] tid: 84
+[2026-02-28 04:24:08] role: Создатель задачи
+[2026-02-28 04:24:08] Мои роли
+[2026-02-28 04:24:08] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 107
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 106
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 108
+            [user_id] => 1
+            [project_id] => 84
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:24:08] Запись найдена
+[2026-02-28 04:24:08] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:24:08] notify_task_status_changed
+[2026-02-28 04:24:08] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:24:08] === log_notification END ===
+[2026-02-28 04:29:31] === log_notification START ===
+[2026-02-28 04:29:31] Event before encode_id: project_task_updated
+[2026-02-28 04:29:31] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92565
+)
+
+[2026-02-28 04:29:31] Вызов события уведомления
+[2026-02-28 04:29:31] CURRENT TYPE
+[2026-02-28 04:29:31] stdClass Object
+(
+    [id] => 94282
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:29:31
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:29:31] notify_task_status_changed
+[2026-02-28 04:29:31] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 0
+    [notify_task_status_changed] => 0
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:29:17
+)
+
+[2026-02-28 04:29:31] notify_task_status_changed
+[2026-02-28 04:29:31] Конфиг notify_task_status_changed не активен
+[2026-02-28 04:29:31] === log_notification END ===
+[2026-02-28 04:29:37] === log_notification START ===
+[2026-02-28 04:29:37] Event before encode_id: project_task_updated
+[2026-02-28 04:29:37] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92566
+)
+
+[2026-02-28 04:29:38] Вызов события уведомления
+[2026-02-28 04:29:38] CURRENT TYPE
+[2026-02-28 04:29:38] stdClass Object
+(
+    [id] => 94283
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:29:38
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92566
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:9:"status_id";a:2:{s:4:"from";s:1:"2";s:2:"to";s:1:"6";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:29:38] notify_task_status_changed
+[2026-02-28 04:29:38] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 0
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:29:34
+)
+
+[2026-02-28 04:29:38] notify_task_status_changed
+[2026-02-28 04:29:38] uid: 210
+[2026-02-28 04:29:38] tid: 13
+[2026-02-28 04:29:38] role: Создатель задачи
+[2026-02-28 04:29:38] Мои роли
+[2026-02-28 04:29:38] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:29:38] Запись найдена
+[2026-02-28 04:29:38] === log_notification END ===
+[2026-02-28 04:29:43] === log_notification START ===
+[2026-02-28 04:29:43] Event before encode_id: project_task_updated
+[2026-02-28 04:29:43] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92567
+)
+
+[2026-02-28 04:29:43] Вызов события уведомления
+[2026-02-28 04:29:43] CURRENT TYPE
+[2026-02-28 04:29:43] stdClass Object
+(
+    [id] => 94284
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:29:43
+    [notify_to] => 105
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92567
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:13:"collaborators";a:2:{s:4:"from";s:3:"210";s:2:"to";s:7:"210,105";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:29:43] notify_task_assignees_changed
+[2026-02-28 04:29:43] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 0
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:29:34
+)
+
+[2026-02-28 04:29:43] notify_task_assignees_changed
+[2026-02-28 04:29:43] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:29:43] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:29:43] notify_task_assignees_changed
+[2026-02-28 04:29:43] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:29:43] === log_notification END ===
+[2026-02-28 04:29:48] === log_notification START ===
+[2026-02-28 04:29:48] Event before encode_id: project_task_updated
+[2026-02-28 04:29:48] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92568
+)
+
+[2026-02-28 04:29:48] Вызов события уведомления
+[2026-02-28 04:29:48] CURRENT TYPE
+[2026-02-28 04:29:48] stdClass Object
+(
+    [id] => 94285
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:29:48
+    [notify_to] => 
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92568
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:13:"collaborators";a:2:{s:4:"from";s:7:"210,105";s:2:"to";s:3:"210";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:29:48] notify_task_assignees_changed
+[2026-02-28 04:29:48] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 0
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:29:34
+)
+
+[2026-02-28 04:29:48] notify_task_assignees_changed
+[2026-02-28 04:29:48] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:29:48] === log_notification END ===
+[2026-02-28 04:29:59] === log_notification START ===
+[2026-02-28 04:29:59] Event before encode_id: project_task_updated
+[2026-02-28 04:29:59] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92569
+)
+
+[2026-02-28 04:29:59] Вызов события уведомления
+[2026-02-28 04:29:59] CURRENT TYPE
+[2026-02-28 04:29:59] stdClass Object
+(
+    [id] => 94286
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:29:59
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92569
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:13:"collaborators";a:2:{s:4:"from";s:3:"210";s:2:"to";s:6:"210,35";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:29:59] notify_task_assignees_changed
+[2026-02-28 04:29:59] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:29:54
+)
+
+[2026-02-28 04:29:59] notify_task_assignees_changed
+[2026-02-28 04:29:59] uid: 210
+[2026-02-28 04:29:59] tid: 13
+[2026-02-28 04:29:59] role: Создатель задачи
+[2026-02-28 04:29:59] Мои роли
+[2026-02-28 04:29:59] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:29:59] Запись найдена
+[2026-02-28 04:29:59] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:29:59] notify_task_assignees_changed
+[2026-02-28 04:29:59] Конфиг notify_task_assignees_changed не активен
+[2026-02-28 04:29:59] === log_notification END ===
+[2026-02-28 04:30:12] === log_notification START ===
+[2026-02-28 04:30:12] Event before encode_id: project_task_updated
+[2026-02-28 04:30:12] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92570
+)
+
+[2026-02-28 04:30:12] Вызов события уведомления
+[2026-02-28 04:30:12] CURRENT TYPE
+[2026-02-28 04:30:12] stdClass Object
+(
+    [id] => 94287
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:30:12
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92570
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:10:"start_date";a:2:{s:4:"from";N;s:2:"to";s:11:"2026-02-12 ";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:30:12] notify_task_date_changed
+[2026-02-28 04:30:12] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:30:09
+)
+
+[2026-02-28 04:30:12] notify_task_date_changed
+[2026-02-28 04:30:12] uid: 210
+[2026-02-28 04:30:12] tid: 13
+[2026-02-28 04:30:12] role: Создатель задачи
+[2026-02-28 04:30:12] Мои роли
+[2026-02-28 04:30:12] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:30:12] Запись найдена
+[2026-02-28 04:30:12] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:30:12] notify_task_date_changed
+[2026-02-28 04:30:12] Конфиг notify_task_date_changed не активен
+[2026-02-28 04:30:12] === log_notification END ===
+[2026-02-28 04:30:21] === log_notification START ===
+[2026-02-28 04:30:21] Event before encode_id: project_task_updated
+[2026-02-28 04:30:21] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92571
+)
+
+[2026-02-28 04:30:21] Вызов события уведомления
+[2026-02-28 04:30:21] CURRENT TYPE
+[2026-02-28 04:30:21] stdClass Object
+(
+    [id] => 94288
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:30:21
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92571
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:8:"deadline";a:2:{s:4:"from";N;s:2:"to";s:11:"2026-02-18 ";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:30:21] notify_task_date_changed
+[2026-02-28 04:30:21] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:30:17
+)
+
+[2026-02-28 04:30:21] notify_task_date_changed
+[2026-02-28 04:30:21] Конфиг notify_task_date_changed не активен
+[2026-02-28 04:30:21] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:30:21] notify_task_date_changed
+[2026-02-28 04:30:21] Конфиг notify_task_date_changed не активен
+[2026-02-28 04:30:21] === log_notification END ===
+[2026-02-28 04:30:25] === log_notification START ===
+[2026-02-28 04:30:25] Event before encode_id: project_task_commented
+[2026-02-28 04:30:25] Options: Array
+(
+    [task_id] => 9491
+    [project_comment_id] => 36072
+    [project_id] => 13
+)
+
+[2026-02-28 04:30:25] Вызов события уведомления
+[2026-02-28 04:30:25] CURRENT TYPE
+[2026-02-28 04:30:25] stdClass Object
+(
+    [id] => 94289
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:30:25
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_commented
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 36072
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => <p>ввв</p>
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:30:25] notify_task_comment_added
+[2026-02-28 04:30:25] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 0
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:30:17
+)
+
+[2026-02-28 04:30:25] notify_task_comment_added
+[2026-02-28 04:30:25] Конфиг notify_task_comment_added не активен
+[2026-02-28 04:30:25] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:30:25] notify_task_comment_added
+[2026-02-28 04:30:25] Конфиг notify_task_comment_added не активен
+[2026-02-28 04:30:25] === log_notification END ===
+[2026-02-28 04:30:36] === log_notification START ===
+[2026-02-28 04:30:36] Event before encode_id: project_task_updated
+[2026-02-28 04:30:36] Options: Array
+(
+    [project_id] => 13
+    [task_id] => 9491
+    [activity_log_id] => 92573
+)
+
+[2026-02-28 04:30:36] Вызов события уведомления
+[2026-02-28 04:30:36] CURRENT TYPE
+[2026-02-28 04:30:36] stdClass Object
+(
+    [id] => 94290
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:30:36
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_updated
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 0
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 92573
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => 
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => a:1:{s:10:"start_date";a:2:{s:4:"from";s:19:"2026-02-12 00:00:00";s:2:"to";s:19:"2026-02-18 00:00:00";}}
+    [activity_log_type] => task
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:30:36] notify_task_date_changed
+[2026-02-28 04:30:36] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 0
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:30:34
+)
+
+[2026-02-28 04:30:36] notify_task_date_changed
+[2026-02-28 04:30:36] uid: 210
+[2026-02-28 04:30:36] tid: 13
+[2026-02-28 04:30:36] role: Создатель задачи
+[2026-02-28 04:30:36] Мои роли
+[2026-02-28 04:30:36] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:30:36] Запись найдена
+[2026-02-28 04:30:36] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:30:36] notify_task_date_changed
+[2026-02-28 04:30:36] Конфиг notify_task_date_changed не активен
+[2026-02-28 04:30:36] === log_notification END ===
+[2026-02-28 04:30:45] === log_notification START ===
+[2026-02-28 04:30:45] Event before encode_id: project_task_commented
+[2026-02-28 04:30:45] Options: Array
+(
+    [task_id] => 9491
+    [project_comment_id] => 36073
+    [project_id] => 13
+)
+
+[2026-02-28 04:30:45] Вызов события уведомления
+[2026-02-28 04:30:45] CURRENT TYPE
+[2026-02-28 04:30:45] stdClass Object
+(
+    [id] => 94291
+    [user_id] => 210
+    [description] => 
+    [created_at] => 2026-02-28 10:30:45
+    [notify_to] => 35
+    [read_by] => 
+    [event] => project_task_commented
+    [project_id] => 13
+    [task_id] => 9491
+    [project_comment_id] => 36073
+    [ticket_id] => 0
+    [ticket_comment_id] => 0
+    [project_file_id] => 0
+    [leave_id] => 0
+    [post_id] => 0
+    [to_user_id] => 0
+    [activity_log_id] => 0
+    [client_id] => 0
+    [lead_id] => 0
+    [invoice_payment_id] => 0
+    [invoice_id] => 0
+    [estimate_id] => 0
+    [contract_id] => 0
+    [order_id] => 0
+    [estimate_request_id] => 0
+    [actual_message_id] => 0
+    [parent_message_id] => 0
+    [event_id] => 0
+    [announcement_id] => 0
+    [proposal_id] => 0
+    [estimate_comment_id] => 0
+    [subscription_id] => 0
+    [expense_id] => 0
+    [proposal_comment_id] => 0
+    [deleted] => 0
+    [user_name] => Николай Комягин
+    [project_title] => prime-ltd.su
+    [project_comment_title] => <p>в</p>
+    [project_file_title] => 
+    [contract_title] => 
+    [contract_public_key] => 
+    [task_title] => вввв
+    [task_description] => <p>ыыыыы</p>
+    [event_title] => 
+    [ticket_title] => 
+    [ticket_comment_description] => 
+    [posts_title] => 
+    [subscription_title] => 
+    [announcement_title] => 
+    [announcement_content] => 
+    [estimate_comment_description] => 
+    [activity_log_changes] => 
+    [activity_log_type] => 
+    [leave_start_date] => 
+    [leave_end_date] => 
+    [proposal_public_key] => 
+    [expense_title] => 
+    [company_name] => 
+    [lead_company_name] => 
+    [proposal_comment_description] => 
+    [payment_invoice_id] => 
+    [payment_amount] => 
+    [manual_payment_note] => 
+    [client_currency_symbol] => 
+    [invoice_display_id] => 
+    [payment_invoice_display_id] => 
+    [to_user_name] => 
+    [category] => project
+)
+
+[2026-02-28 04:30:45] notify_task_comment_added
+[2026-02-28 04:30:45] stdClass Object
+(
+    [id] => 1
+    [user_id] => 210
+    [notify_task_date_changed] => 1
+    [notify_task_assignees_changed] => 1
+    [notify_task_status_changed] => 1
+    [notify_task_comment_added] => 1
+    [created_at] => 2026-02-26 08:36:16
+    [updated_at] => 2026-02-28 10:30:42
+)
+
+[2026-02-28 04:30:45] notify_task_comment_added
+[2026-02-28 04:30:45] uid: 210
+[2026-02-28 04:30:45] tid: 13
+[2026-02-28 04:30:45] role: Создатель задачи
+[2026-02-28 04:30:45] Мои роли
+[2026-02-28 04:30:45] Array
+(
+    [0] => stdClass Object
+        (
+            [id] => 2
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Исполнитель
+            [enabled] => 1
+        )
+
+    [1] => stdClass Object
+        (
+            [id] => 1
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Создатель задачи
+            [enabled] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [id] => 3
+            [user_id] => 210
+            [project_id] => 13
+            [role] => Участник
+            [enabled] => 1
+        )
+
+)
+
+[2026-02-28 04:30:45] Запись найдена
+[2026-02-28 04:30:45] stdClass Object
+(
+    [id] => 
+    [user_id] => 
+    [notify_task_date_changed] => 
+    [notify_task_assignees_changed] => 
+    [notify_task_status_changed] => 
+    [notify_task_comment_added] => 
+    [created_at] => 
+    [updated_at] => 
+)
+
+[2026-02-28 04:30:45] notify_task_comment_added
+[2026-02-28 04:30:45] Конфиг notify_task_comment_added не активен
+[2026-02-28 04:30:45] === log_notification END ===

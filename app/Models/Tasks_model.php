@@ -157,6 +157,17 @@ class Tasks_model extends Crud_model {
         $users_model = model("App\Models\Users_model", false);
         $login_user_id = $users_model->login_user_id();
 
+        if (empty($login_user_id)) {
+            $tmp_file = sys_get_temp_dir() . '/current_user_id.txt';
+
+            $this->testLog('second dir: ' . sys_get_temp_dir());
+
+            if (file_exists($tmp_file)) {
+                $login_user_id = intval(file_get_contents($tmp_file));
+                unlink($tmp_file);
+            }
+        }
+
         $where = "";
 
         $id = $this->_get_clean_value($options, "id");
@@ -509,6 +520,21 @@ class Tasks_model extends Crud_model {
         } else {
             return $raw_query;
         }
+    }
+
+    public function testLog($data)
+    {
+        $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
+
+        $date = date('Y-m-d H:i:s');
+
+        if (is_array($data) || is_object($data)) {
+            $data = print_r($data, true);
+        }
+
+        $message = "[$date] " . $data . PHP_EOL;
+
+        file_put_contents($log_file, $message, FILE_APPEND);
     }
 
     private function make_context_query($context_options, $tasks_table, $clients_table, $tickets_table, $projects_table, $project_members_table) {

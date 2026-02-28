@@ -9,10 +9,16 @@ class Team_members extends Security_Controller {
     use Excel_import;
 
     private $roles_id_by_title = array();
+    public $Projects_model;
+    public $Telegram_Project_Role_Settings_model;
+    public $User_notification_settings_model;
 
     function __construct() {
         parent::__construct();
         $this->access_only_team_members();
+        $this->Projects_model = new \App\Models\Projects_model();
+        $this->Telegram_Project_Role_Settings_model = new \Telegram_Notification\Models\Telegram_Project_Role_Settings_model();
+        $this->User_notification_settings_model = new \App\Models\User_notification_settings_model();
     }
 
     private function can_view_team_members_contact_info() {
@@ -677,6 +683,8 @@ class Team_members extends Security_Controller {
     //show my preference settings of a team member
     function my_preferences() {
         $view_data["user_info"] = $this->Users_model->get_one($this->login_user->id);
+        $telegram_chat_id = $view_data["user_info"]->telegram_chat_id;
+        $view_data["telegram_chat_id"] = $telegram_chat_id;
 
         //language dropdown
         $view_data['language_dropdown'] = array();
@@ -687,11 +695,92 @@ class Team_members extends Security_Controller {
         $view_data["hidden_topbar_menus_dropdown"] = $this->get_hidden_topbar_menus_dropdown();
         $view_data["recently_meaning_dropdown"] = $this->get_recently_meaning_dropdown();
 
+        $user_id = $this->login_user->id;
+        $user_settings = $this->Telegram_Project_Role_Settings_model->get_user_settings($user_id);
+
+        $settings_map = [];
+        foreach ($user_settings as $s) {
+            $settings_map[$s->project_id][$s->role] = $s->enabled;
+        }
+
+        $view_data["settings_map"] = $settings_map;
+
+        // получаем проекты, где пользователь участвует
+        $projects = $this->Projects_model->get_details([
+            "user_id" => $user_id
+        ])->getResult();
+
+        $view_data["my_projects"] = $projects;
+
+        $user_notification_settings = $this->User_notification_settings_model
+            ->get_by_user($user_id);
+
+        if (!$user_notification_settings || !$user_notification_settings->id) {
+            $this->User_notification_settings_model->save_settings($user_id, []);
+            $user_notification_settings = $this->User_notification_settings_model
+                ->get_by_user($user_id);
+        }
+
+        $view_data["user_notification_settings"] = $user_notification_settings;
+
         return $this->template->view("team_members/my_preferences", $view_data);
     }
 
     function save_my_preferences() {
-        //setting preferences
+        $user_id = $this->login_user->id;
+
+        $this->saveMyPreferences($user_id);
+        $this->saveProjectsNotifications($user_id);
+        $this->saveTypeNotifications($user_id);
+            
+        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
+    }
+
+    public function saveTypeNotifications($user_id) {
+        $notification_data = [
+            "notify_task_date_changed" =>
+                $this->request->getPost("notify_task_date_changed") ? 1 : 0,
+            "notify_task_assignees_changed" =>
+                $this->request->getPost("notify_task_assignees_changed") ? 1 : 0,
+            "notify_task_status_changed" =>
+                $this->request->getPost("notify_task_status_changed") ? 1 : 0,
+            "notify_task_comment_added" =>
+                $this->request->getPost("notify_task_comment_added") ? 1 : 0,
+        ];
+
+        $this->User_notification_settings_model
+            ->save_settings($user_id, $notification_data);
+    }
+
+    public function saveProjectsNotifications($user_id) {
+        $data = $this->request->getPost("notifications");
+        $roles_map = [
+            "Создатель задачи",
+            "Исполнитель",
+            "Участник"
+        ];
+
+        $projects = $this->Projects_model->get_details([
+            "user_id" => $user_id
+        ])->getResult();
+
+        foreach ($projects as $project) {
+            $project_id = $project->id;
+
+            foreach ($roles_map as $role_name) {
+                $enabled = isset($data[$project_id][md5($role_name)]) ? 1 : 0;
+
+                $this->Telegram_Project_Role_Settings_model->save_setting(
+                    $user_id,
+                    $project_id,
+                    $role_name,
+                    $enabled
+                );
+            }
+        }
+    }
+
+    public function saveMyPreferences($user_id) {
         $settings = array(
             "task_deadline_datepicker_view",
             "notification_sound_volume",
@@ -709,15 +798,15 @@ class Team_members extends Security_Controller {
                 $value = "";
             }
 
-            $this->Settings_model->save_setting("user_" . $this->login_user->id . "_" . $setting, $value, "user");
+            $this->Settings_model->save_setting("user_" . $user_id . "_" . $setting, $value, "user");
         }
 
         //there was 3 settings in users table.
         //so, update the users table also
-
         $user_data = array(
             "enable_web_notification" => $this->request->getPost("enable_web_notification"),
             "enable_email_notification" => $this->request->getPost("enable_email_notification"),
+            "telegram_chat_id" => $this->request->getPost("telegram_chat_id"),
         );
 
         if (!get_setting("disable_language_selector_for_team_members")) {
@@ -726,15 +815,13 @@ class Team_members extends Security_Controller {
 
         $user_data = clean_data($user_data);
 
-        $this->Users_model->ci_save($user_data, $this->login_user->id);
+        $this->Users_model->ci_save($user_data, $user_id);
 
         try {
             app_hooks()->do_action("app_hook_team_members_my_preferences_save_data");
         } catch (\Exception $ex) {
             log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
         }
-
-        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
     }
 
     function save_personal_language($language) {

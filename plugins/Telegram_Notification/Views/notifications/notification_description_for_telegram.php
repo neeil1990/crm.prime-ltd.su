@@ -32,6 +32,10 @@ if ($notification->project_id && $notification->project_title) {
     echo "\n<b>" . app_lang("project") . ":</b> " . $notification->project_title;
 }
 
+if ($notification->project_id && $notification->task_description) {
+    echo "\n<b>" . app_lang("decription") . ":</b> " . $notification->task_description;
+}
+
 if ($notification->estimate_id) {
     echo "\n" . get_estimate_id($notification->estimate_id);
 }

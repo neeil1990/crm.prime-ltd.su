@@ -15,6 +15,21 @@ class Notifications_model extends Crud_model {
         parent::__construct($this->table);
     }
 
+    public function testLog($data)
+    {
+        $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
+
+        $date = date('Y-m-d H:i:s');
+
+        if (is_array($data) || is_object($data)) {
+            $data = print_r($data, true);
+        }
+
+        $message = "[$date] " . $data . PHP_EOL;
+
+        file_put_contents($log_file, $message, FILE_APPEND);
+    }
+
     function create_notification($event, $user_id, $options = array()) {
         $notification_settings_table = $this->db->prefixTable('notification_settings');
         $users_table = $this->db->prefixTable('users');
@@ -40,7 +55,22 @@ class Notifications_model extends Crud_model {
         $subscriptions_table = $this->db->prefixTable('subscriptions');
         $expenses_table = $this->db->prefixTable('expenses');
 
-        $notification_settings = $this->db->query("SELECT * FROM $notification_settings_table WHERE  $notification_settings_table.event='$event' AND ($notification_settings_table.enable_email OR $notification_settings_table.enable_web OR $notification_settings_table.enable_slack)")->getRow();
+
+        if($event == 'project_task_reopened' || $event == 'project_task_started' || $event == 'project_task_finished') {
+            $event = 'project_task_updated';
+        }
+
+        $sql = "SELECT * 
+                FROM $notification_settings_table 
+                WHERE $notification_settings_table.event='$event' 
+                AND (
+                    $notification_settings_table.enable_email 
+                    OR $notification_settings_table.enable_web 
+                    OR $notification_settings_table.enable_slack
+                )";
+
+        $notification_settings = $this->db->query($sql)->getRow();
+        
         if (!$notification_settings) {
             return false; //no notification settings found
         }
