@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="row">
                                         <label for="chat_id" class=" col-md-2"><?php echo app_lang('telegram_chat_id'); ?></label>
                                         <div class=" col-md-10">
@@ -65,7 +65,7 @@
                                             ?>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="card-footer">

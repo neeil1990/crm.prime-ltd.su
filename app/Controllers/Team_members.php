@@ -11,12 +11,14 @@ class Team_members extends Security_Controller {
     private $roles_id_by_title = array();
     public $Projects_model;
     public $Telegram_Project_Role_Settings_model;
+    public $User_notification_settings_model;
 
     function __construct() {
         parent::__construct();
         $this->access_only_team_members();
         $this->Projects_model = new \App\Models\Projects_model();
         $this->Telegram_Project_Role_Settings_model = new \Telegram_Notification\Models\Telegram_Project_Role_Settings_model();
+        $this->User_notification_settings_model = new \App\Models\User_notification_settings_model();
     }
 
     private function can_view_team_members_contact_info() {
@@ -710,11 +712,75 @@ class Team_members extends Security_Controller {
 
         $view_data["my_projects"] = $projects;
 
+        $user_notification_settings = $this->User_notification_settings_model
+            ->get_by_user($user_id);
+
+        if (!$user_notification_settings || !$user_notification_settings->id) {
+            $this->User_notification_settings_model->save_settings($user_id, []);
+            $user_notification_settings = $this->User_notification_settings_model
+                ->get_by_user($user_id);
+        }
+
+        $view_data["user_notification_settings"] = $user_notification_settings;
+
         return $this->template->view("team_members/my_preferences", $view_data);
     }
 
     function save_my_preferences() {
-        //setting preferences
+        $user_id = $this->login_user->id;
+
+        $this->saveMyPreferences($user_id);
+        $this->saveProjectsNotifications($user_id);
+        $this->saveTypeNotifications($user_id);
+            
+        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
+    }
+
+    public function saveTypeNotifications($user_id) {
+        $notification_data = [
+            "notify_task_date_changed" =>
+                $this->request->getPost("notify_task_date_changed") ? 1 : 0,
+            "notify_task_assignees_changed" =>
+                $this->request->getPost("notify_task_assignees_changed") ? 1 : 0,
+            "notify_task_status_changed" =>
+                $this->request->getPost("notify_task_status_changed") ? 1 : 0,
+            "notify_task_comment_added" =>
+                $this->request->getPost("notify_task_comment_added") ? 1 : 0,
+        ];
+
+        $this->User_notification_settings_model
+            ->save_settings($user_id, $notification_data);
+    }
+
+    public function saveProjectsNotifications($user_id) {
+        $data = $this->request->getPost("notifications");
+        $roles_map = [
+            "Создатель задачи",
+            "Исполнитель",
+            "Участник"
+        ];
+
+        $projects = $this->Projects_model->get_details([
+            "user_id" => $user_id
+        ])->getResult();
+
+        foreach ($projects as $project) {
+            $project_id = $project->id;
+
+            foreach ($roles_map as $role_name) {
+                $enabled = isset($data[$project_id][md5($role_name)]) ? 1 : 0;
+
+                $this->Telegram_Project_Role_Settings_model->save_setting(
+                    $user_id,
+                    $project_id,
+                    $role_name,
+                    $enabled
+                );
+            }
+        }
+    }
+
+    public function saveMyPreferences($user_id) {
         $settings = array(
             "task_deadline_datepicker_view",
             "notification_sound_volume",
@@ -732,7 +798,7 @@ class Team_members extends Security_Controller {
                 $value = "";
             }
 
-            $this->Settings_model->save_setting("user_" . $this->login_user->id . "_" . $setting, $value, "user");
+            $this->Settings_model->save_setting("user_" . $user_id . "_" . $setting, $value, "user");
         }
 
         //there was 3 settings in users table.
@@ -749,45 +815,13 @@ class Team_members extends Security_Controller {
 
         $user_data = clean_data($user_data);
 
-        $this->Users_model->ci_save($user_data, $this->login_user->id);
+        $this->Users_model->ci_save($user_data, $user_id);
 
         try {
             app_hooks()->do_action("app_hook_team_members_my_preferences_save_data");
         } catch (\Exception $ex) {
             log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
         }
-
-        $user_id = $this->login_user->id;
-        $data = $this->request->getPost("notifications"); // массив с галочками
-        $roles_map = [
-            "Создатель задачи",
-            "Исполнитель",
-            "Участник"
-        ];
-
-        // получаем все проекты пользователя
-        $projects = $this->Projects_model->get_details([
-            "user_id" => $user_id
-        ])->getResult();
-
-        // перебираем все проекты
-        foreach ($projects as $project) {
-            $project_id = $project->id;
-
-            foreach ($roles_map as $role_name) {
-                // если данных из формы нет, считаем выключенным
-                $enabled = isset($data[$project_id][md5($role_name)]) ? 1 : 0;
-
-                $this->Telegram_Project_Role_Settings_model->save_setting(
-                    $user_id,
-                    $project_id,
-                    $role_name,
-                    $enabled
-                );
-            }
-        }
-
-        echo json_encode(array("success" => true, 'message' => app_lang('settings_updated')));
     }
 
     function save_personal_language($language) {
