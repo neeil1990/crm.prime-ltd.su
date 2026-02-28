@@ -6,3 +6,4 @@ app/Config/Database.php
 files/
 writable/
 updates/
+mylog.txt

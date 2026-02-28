@@ -60,9 +60,9 @@ if ($notification->announcement_title) {
     echo "\n<b>" . app_lang("title") . ":</b> " . $notification->announcement_title;
 }
 
-if ($notification->post_id && $notification->posts_title) {
-    echo "\n<b>" . app_lang("comment") . ":</b> " . $notification->posts_title;
-}
+// if ($notification->post_id && $notification->posts_title) {
+//     echo "\n<b>" . app_lang("comment") . ":</b> " . $notification->posts_title;
+// }
 
 //show data from hook
 try {
