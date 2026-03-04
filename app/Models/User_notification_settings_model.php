@@ -12,6 +12,7 @@ class User_notification_settings_model extends Crud_model {
         "notify_task_assignees_changed",
         "notify_task_status_changed",
         "notify_task_comment_added",
+        "notify_task_my_comment_added",
         "created_at",
         "updated_at"
     ];

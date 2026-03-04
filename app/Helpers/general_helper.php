@@ -1206,21 +1206,6 @@ if (!function_exists('is_undefined_client_from_email')) {
     }
 }
 
-function ll($data)
-{
-    $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
-
-    $date = date('Y-m-d H:i:s');
-
-    if (is_array($data) || is_object($data)) {
-        $data = print_r($data, true);
-    }
-
-    $message = "[$date] " . $data . PHP_EOL;
-
-    file_put_contents($log_file, $message, FILE_APPEND);
-}
-
 /**
  * submit data for notification
  *
@@ -1230,16 +1215,9 @@ if (!function_exists('log_notification')) {
 
     function log_notification($event, $options = array(), $user_id = 0)
     {
-        ll("=== log_notification START ===");
-
         $ci = new Security_Controller(false);
 
-        ll("Event before encode_id: $event");
-        ll("Options: " . print_r($options, true));
-
         if (get_setting("log_direct_notifications")) {
-            ll("Branch: direct notifications");
-
             $data = array(
                 "event" => encode_id($event, "notification")
             );
@@ -1247,16 +1225,12 @@ if (!function_exists('log_notification')) {
             // определяем user_id
             if ($user_id) {
                 $data["user_id"] = $user_id;
-                ll("User ID set from param (non-zero): " . $user_id);
             } else if ($user_id === "0") {
                 $data["user_id"] = $user_id;
-                ll("User ID set from string '0'");
             } else if (isset($ci->login_user->id)) {
                 $data["user_id"] = $ci->login_user->id;
-                ll("User ID set from logged-in user: " . $ci->login_user->id);
             } else {
                 $data["user_id"] = 0; // системный бот
-                ll("User ID default to system bot (0)");
             }
 
             foreach ($options as $key => $value) {
@@ -1311,8 +1285,6 @@ if (!function_exists('log_notification')) {
             $response = curl_exec($ch);
             curl_close($ch);
         }
-
-        ll("=== log_notification END ===");
     }
 
 }

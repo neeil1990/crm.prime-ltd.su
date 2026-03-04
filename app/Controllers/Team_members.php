@@ -746,6 +746,8 @@ class Team_members extends Security_Controller {
                 $this->request->getPost("notify_task_status_changed") ? 1 : 0,
             "notify_task_comment_added" =>
                 $this->request->getPost("notify_task_comment_added") ? 1 : 0,
+            "notify_task_my_comment_added" =>
+                $this->request->getPost("notify_task_my_comment_added") ? 1 : 0,
         ];
 
         $this->User_notification_settings_model
