@@ -137,7 +137,7 @@ function get_task_roles_and_participants($ci, $task_id, $user_id)
 }
 
 /* --------------------------------------------------------------------------
-   CHANGES FORMATTER
+   CHANGES TEXT FUNCTIONS
 ---------------------------------------------------------------------------*/
 function build_changes_text($serialized_changes, $statuses)
 {
@@ -156,23 +156,20 @@ function build_changes_text($serialized_changes, $statuses)
         'collaborators' => "Изменения в составе задачи"
     ];
 
+    $ci = new App_Controller();
     $text = "<b>Изменения:</b>";
 
     foreach ($changes as $field => $values) {
-
-        $info = isset($field_names[$field]) ? $field_names[$field] : $field;
         $from = $values['from'] ? $values['from'] : '';
         $to   = $values['to'] ? $values['to'] : '';
 
         if ($field === 'status_id') {
-            // $from = $statuses[(int)$from] ? $statuses[(int)$from] : $from;
-            $to   = $statuses[(int)$to] ? $statuses[(int)$to] : $to;
+            $to = $statuses[(int)$to] ? $statuses[(int)$to] : $to;
 
-            return '<b>Новый статус задачи: </b>' . $to;
+            $text .= "\n• <b>Новый статус задачи: </b>" . $to;
         }
 
         if($field === 'collaborators') {
-            $ci = new App_Controller();
             $fromNames = '';
             $toNames = '';
 
@@ -182,32 +179,26 @@ function build_changes_text($serialized_changes, $statuses)
             $removed_ids = array_diff($from_ids, $to_ids);
             $added_ids   = array_diff($to_ids, $from_ids);
 
-            $text = '';
-
             if (!empty($removed_ids)) {
                 $names = [];
                 foreach ($removed_ids as $id) {
                     $user = $ci->Users_model->get_one($id);
                     $names[] = $user->first_name . ' ' . $user->last_name;
                 }
-                $text .= "Был исключён из задачи: " . implode(', ', $names);
+                $text .= "\n• <b>Участник исключён: </b>" . implode(', ', $names);
             }
 
             if (!empty($added_ids)) {
-                if ($text) $text .= "\n";
                 $names = [];
                 foreach ($added_ids as $id) {
                     $user = $ci->Users_model->get_one($id);
                     $names[] = $user->first_name . ' ' . $user->last_name;
                 }
-                $text .= "Был добавлен в задачу: " . implode(', ', $names);
+                $text .= "\n• <b>Участник добавлен: </b>" . implode(', ', $names);
             }
-
-            return $text;
         }
 
         if($field === 'executors') {
-            $ci = new App_Controller();
             $fromNames = '';
             $toNames = '';
 
@@ -217,35 +208,28 @@ function build_changes_text($serialized_changes, $statuses)
             $removed_ids = array_diff($from_ids, $to_ids);
             $added_ids   = array_diff($to_ids, $from_ids);
 
-            $text = '';
-
             if (!empty($removed_ids)) {
                 $names = [];
                 foreach ($removed_ids as $id) {
                     $user = $ci->Users_model->get_one($id);
                     $names[] = $user->first_name . ' ' . $user->last_name;
                 }
-                $text .= "Удалён исполнитель: " . implode(', ', $names);
+                $text .= "\n• <b>Исполнитель исключён: </b>" . implode(', ', $names);
             }
 
             if (!empty($added_ids)) {
-                if ($text) $text .= "\n";
                 $names = [];
                 foreach ($added_ids as $id) {
                     $user = $ci->Users_model->get_one($id);
                     $names[] = $user->first_name . ' ' . $user->last_name;
                 }
-                $text .= "Добавлен исполнитель: " . implode(', ', $names);
+                $text .= "\n• <b>Исполнитель добавлен :</b> " . implode(', ', $names);
             }
-
-            return $text;
         }
 
         if ($field == 'start_date' || $field == 'deadline') {
-
             $fromTime = $from ? strtotime($from) : null;
             $toTime   = $to ? strtotime($to) : null;
-
             if ($fromTime === $toTime) {
                 continue;
             }
@@ -257,23 +241,28 @@ function build_changes_text($serialized_changes, $statuses)
             if ($toTime) {
                 $to = date('Y-m-d H:i', $toTime);
             }
-        }
 
-        $text .= "\n• <b>{$info}</b>: {$from} → {$to}";
+            if('start_date') {
+                $info = 'Дата начала изменена';
+            } else {
+                $info = 'Дата окончания изменена';
+            }
+
+            $text .= "\n• <b>{$info}</b>: {$from} → {$to}";
+        }
     }
 
     return $text;
 }
 
-/* --------------------------------------------------------------------------
-   MESSAGE BUILDER
----------------------------------------------------------------------------*/
 function build_telegram_message($message, $url, $roles, $description, $changes)
 {
     $message = trim($message);
     $message = $url ? "<a href='{$url}'>{$message}</a>" : $message;
 
-    $text = "$message $description";
+    $text = "$message\n$description\n";
+
+    $text .= "\n";
 
     foreach($roles as $key => $role) {
         $text .= "<b>$key</b>" . ': ' . $role . "\n";
@@ -284,17 +273,34 @@ function build_telegram_message($message, $url, $roles, $description, $changes)
     if ($changes) {
         $text .= $changes;
     }      
-
-    $text = preg_replace('/<!--(.|\s)*?-->/', '', $text);
-    return strip_tags($text, '<b><strong><i><em><u><a><code><pre>');
+    
+    return formatTelegramText($text);
 }
+
+function formatTelegramText($text)
+{
+    $text = preg_replace('/<\s*br[^>]*>/i', "\n", $text);
+    $text = preg_replace('/<\s*\/p\s*>/i', "\n\n", $text);
+    $text = preg_replace('/<\s*p[^>]*>/i', "", $text);
+    $text = preg_replace('/<\s*\/?span[^>]*>/i', "", $text);
+    $text = strip_tags($text, '<b><strong><i><em><u><a><code><pre>');
+    $text = preg_replace("/\n{3,}/", "\n\n", $text);
+
+    return trim($text);
+}
+
 
 /* --------------------------------------------------------------------------
    GET LINK TO PROFILE
 ---------------------------------------------------------------------------*/
-function make_profile_link($ci, $user) {
+function make_profile_link($ci, $user, $type = 'user') {
     $name = trim($user->first_name . ' ' . $user->last_name);
-    $url = base_url("index.php/team_members/view/" . $user->id);
+    if($type == 'user') {
+        $url = base_url("index.php/team_members/view/" . $user->id);
+    } else {
+        $url = base_url("index.php/clients/contact_profile/" . $user->id);
+    }
+
     return '<a href="' . $url . '" target="_blank">' . htmlspecialchars($name) . '</a>';
 }
 
@@ -303,6 +309,11 @@ function make_profile_link($ci, $user) {
 ---------------------------------------------------------------------------*/
 function telegram_send($bot_token, $chat_id, $text)
 {
+    // Обрезаем до 1500 символов (UTF-8)
+    if (mb_strlen($text, 'UTF-8') > 1500) {
+        $text = mb_substr($text, 0, 1500, 'UTF-8') . '...';
+    }
+
     $data = [
         "chat_id" => $chat_id,
         "parse_mode" => "HTML",
@@ -325,22 +336,22 @@ function telegram_send($bot_token, $chat_id, $text)
 }
 
 /* --------------------------------------------------------------------------
-   CURRENT EVENT TRACKER
+   HELPERS
 ---------------------------------------------------------------------------*/
 $current_telegram_event = null;
 
 function detect_event_from_changes($serialized_changes)
 {
     if($serialized_changes == 'project_task_updated') {
-        return 'notify_task_status_changed';
+        return ['notify_task_status_changed'];
     }
 
     if($serialized_changes == 'project_task_assigned' || $serialized_changes == 'project_task_created') {
-        return 'notify_task_assignees_changed';
+        return ['notify_task_assignees_changed'];
     }
 
     if($serialized_changes == 'project_task_commented') {
-        return 'notify_task_comment_added';
+        return ['notify_task_comment_added'];
     }
 
     $changes = @unserialize($serialized_changes);
@@ -356,16 +367,17 @@ function detect_event_from_changes($serialized_changes)
     ];
 
     if(array_key_exists('collaborators', $changes)) {
-        return 'notify_task_assignees_changed';
+        return ['notify_task_assignees_changed'];
     }
 
+    $events = [];
     foreach ($changes as $field => $values) {
         if(isset($field_names[$field])) {
-            return $field_names[$field];
+            $events[] = $field_names[$field];
         }
     }
 
-    return 'undefined status';
+    return $events;
 }
 
 function telegram_write_log($data)
@@ -383,12 +395,41 @@ function telegram_write_log($data)
     file_put_contents($log_file, $message, FILE_APPEND);
 }
 
+function getTicketArticle($key) {
+    $array = [
+        'ticket_commented_note' => 'Новое примечание у заявки',
+        'ticket_commented' => 'Новый комментарий у заявки',
+        'ticket_created' => 'Создана новая заявка',
+        'ticket_closed' => 'Заявка закрыта',
+        'ticket_reopened' => 'Заявка снова открыта',
+        'ticket_assigned' => 'У заявки назначен новый исполнитель'
+    ];
+
+    return $array[$key] ?? 'Не опознанный тип';
+}
+
+function getEventSettingId($ci, $key) {
+    $array = [
+        'ticket_created' => 28,
+        'ticket_commented' => 29,
+        'ticket_commented_note' => 29,
+        'ticket_closed' => 30,
+        'ticket_reopened' => 31,
+        'ticket_assigned' => 59
+    ];
+
+    $id = $array[$key];
+
+    return explode(',', $ci->Notification_settings_model->get_one($id)->notify_to_team_members);
+}
+
 /* --------------------------------------------------------------------------
    MAIN FUNCTION
 ---------------------------------------------------------------------------*/
 if (!function_exists('send_telegram_notification')) {
     function send_telegram_notification($event, $task_id = 0, $notification_id = 0)
     {
+        telegram_write_log($event, $task_id, $notification_id);
         $statuses = [
             1 => 'Планирование',
             2 => 'В работе',
@@ -400,7 +441,106 @@ if (!function_exists('send_telegram_notification')) {
 
         try {
             $ci = new App_Controller();
+
+            if($notification_id != 0) {
+                $notification_info = $ci->Notifications_model->get_email_notification($notification_id);
+            } else {
+                $action = explode('|', $event, 2);
+
+                $notification_info = new stdClass();
+                $notification_info->event = $action[0];
+                $data = json_decode($action[1]);
+                $notification_info->ticket_id = $data->ticket_id;
+                $notification_info->ticket_comment_id = $data->ticket_comment_id;
+                $notification_info->ticket_comment_description = $data->ticket_comment_description;
+            }
             
+            telegram_write_log($notification_info);
+
+            // заявки (тикеты)
+            if(in_array($notification_info->event, ['ticket_commented', 'ticket_commented_note', 'ticket_commented', 'ticket_created', 'ticket_closed', 'ticket_reopened', 'ticket_assigned'])) {
+                $ticket = $ci->Tickets_model->get_one($notification_info->ticket_id);
+                $project = $ci->Projects_model->get_one($ticket->project_id);
+                $event = getTicketArticle($notification_info->event);
+                $notifyTo = getEventSettingId($ci, $notification_info->event);
+
+                $command = [];
+                foreach($notifyTo as $uid) {
+                    $user = $ci->Users_model->get_one($uid);
+                    $command[] = make_profile_link($ci, $user);
+                }
+                
+                if(!empty($ticket->assigned_to)) {
+                    $notifyTo[] = $ticket->assigned_to;
+                    $notifyTo = array_unique($notifyTo);
+                }
+
+                $mainUser = make_profile_link($ci, $ci->Users_model->get_one($ticket->assigned_to));
+
+                $ticketUrl = base_url("index.php/tickets/view/" . $notification_info->ticket_id);
+
+                $telegram_message = [
+                    "<a href='" . $ticketUrl . "'>$event</a>",
+                    '',
+                    '<b>Заявка #</b>' . $notification_info->ticket_id . ' ' . $ticket->title,
+                    '<b>Проект</b>: ' . $project->title,
+                    '<b>Ответственный</b>: ' . $mainUser,
+                    '',
+                    '<b>Команда:</b>',
+                    implode("\n", $command),
+                ];
+
+                // 'ticket_created'
+                // 'ticket_closed'
+                // 'ticket_reopened'
+                // 'ticket_commented'
+                // 'ticket_assigned'
+                if(in_array($notification_info->event, ['ticket_commented', 'ticket_commented_note'])) {
+                    $comment = $ci->Ticket_comments_model->get_one($notification_info->ticket_comment_id);
+                    $commentedUser = $ci->Users_model->get_one($comment->created_by);
+
+                    $files = @unserialize($comment->files);
+                    if (count($files) > 0) {
+                        $telegram_message[] = '';
+                        $telegram_message[] = '🖼 <b>В комментарии есть вложения</b>';
+                    }
+
+                    //обрезаем информацию, если пришёл ответ с Email
+                    if (str_contains($notification_info->ticket_comment_description, '--')) {
+                        $type = "\n<b>Комментарий от клиента</b>";
+                        $newComment = explode('--', $notification_info->ticket_comment_description)[0];
+                        $profile = make_profile_link($ci, $commentedUser, 'client');
+                    } else {
+                        $type = "\n<b>Комментарий от сотрудника</b>";
+                        $profile = make_profile_link($ci, $commentedUser, 'user');
+                    }
+
+                    $whoComented = "$type $profile:";
+                    $newComment = explode('--', $notification_info->ticket_comment_description)[0];
+                    $newComment = formatTelegramText($newComment);
+
+                    $telegram_message[] = $whoComented;
+                    $telegram_message[] = $newComment;
+                }
+
+                $telegram_message = implode("\n", $telegram_message);
+
+                foreach($notifyTo as $uid) {
+                    $user = $ci->Users_model->get_one($uid);
+
+                    if(isset($user->telegram_chat_id)) {
+                        try {
+                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
+                        } catch (\Exception $ex) {
+                            telegram_write_log($ex->getMessage());
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            //задачи
             $UserNotificationSettingsModel = new \App\Models\User_notification_settings_model();
             $message = str_replace(["%s", '.'], '', app_lang("notification_" . $event));
 
@@ -412,16 +552,21 @@ if (!function_exists('send_telegram_notification')) {
             $url = "";
             $changes_text = "";
 
-            $notification_info = $ci->Notifications_model->get_email_notification($notification_id);
             $task = $ci->Tasks_model->get_one($notification_info->task_id ?? 0);
-            $actionType = detect_event_from_changes(
+            $actionTypes = detect_event_from_changes(
                 $notification_info->activity_log_changes ?? 
                 $notification_info->event ??
                 $event
             );
-            telegram_write_log('CURRENT TYPE');
-            telegram_write_log($notification_info);
-            telegram_write_log($actionType);
+
+            $comment_id = $notification_info->project_comment_id;
+            if ($comment_id) {
+                $comment = $ci->Project_comments_model->get_one($comment_id);
+
+                if ($comment && $comment->created_by) {
+                    $comment_user_id = $comment->created_by;
+                }
+            }
 
             if(isset($notification_info->activity_log_changes)) {
                 $changes_text = build_changes_text($notification_info->activity_log_changes, $statuses);
@@ -436,8 +581,6 @@ if (!function_exists('send_telegram_notification')) {
                 "Telegram_Notification\Views\\notifications\\notification_description_for_telegram",
                 ["notification" => $notification_info]
             );
-
-            if (!$task) return false;
 
             $db = \Config\Database::connect();
 
@@ -472,7 +615,6 @@ if (!function_exists('send_telegram_notification')) {
             $all_participants = [];
 
             foreach ($recipients as $role_name => $users) {
-
                 $names = [];
 
                 foreach ($users as $u) {
@@ -499,29 +641,23 @@ if (!function_exists('send_telegram_notification')) {
 
                     $user_notification_setting = $UserNotificationSettingsModel->get_by_user($user->id);
 
-                    //конфиги юзера
-                    telegram_write_log($user_notification_setting);
-                    telegram_write_log($actionType);
-
-                    $is_enabled = !empty($user_notification_setting->{$actionType});
-
-                    if (!$is_enabled) {
-                        telegram_write_log("Конфиг $actionType не активен");
+                    if(
+                        $comment_user_id && 
+                        $comment_user_id == $user->id && 
+                        $user_notification_setting->notify_task_my_comment_added == 0
+                    ) {
                         continue;
                     }
 
-                    telegram_write_log("uid: $user->id");
-                    telegram_write_log("tid: $task->project_id");
-                    telegram_write_log("role: $role");
-                    
-                    $rolessss = $db->table('telegram_project_role_settings')
-                        ->where('user_id', $user->id)
-                        ->where('project_id', $task->project_id)
-                        ->get()
-                        ->getResult();
+                    $is_enabled = [];
+                    foreach ($actionTypes as $actionType) {
+                        $is_enabled[] = isset($user_notification_setting->{$actionType}) ? $user_notification_setting->{$actionType} : 0;
+                    }
 
-                    telegram_write_log("Мои роли");
-                    telegram_write_log($rolessss);
+                    //Ни один тип уведомления не активен
+                    if (!in_array(true, $is_enabled)) {
+                        continue;
+                    }
 
                     $setting = $db->table('telegram_project_role_settings')
                         ->where('user_id', $user->id)
@@ -531,21 +667,17 @@ if (!function_exists('send_telegram_notification')) {
                         ->get()
                         ->getRow();
 
-                    $taskDescription = $notification_description;
                     if ($setting && !empty($user->telegram_chat_id)) {
-                        telegram_write_log("Запись найдена");
-
                         $telegram_message = build_telegram_message(
                             $message,
                             $url,
                             $all_participants,
-                            $taskDescription ?? '',
+                            $notification_description ? formatTelegramText($notification_description) : '',
                             $changes_text ?? ''
                         );
 
+                        telegram_write_log($notification_description);
                         telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
-                    } else {
-                        telegram_write_log("Запись найдена");
                     }
                 }
             }

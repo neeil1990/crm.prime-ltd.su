@@ -597,6 +597,9 @@ class Tickets extends Security_Controller {
                 $date = format_to_date($ticket_info->$data_field, false);
             }
             $success_array["date"] = $date;
+
+            // helper('notifications');
+            // send_telegram_notification('ticket_deadline', $ticket_info);
         }
 
         echo json_encode($success_array);
@@ -682,6 +685,14 @@ class Tickets extends Security_Controller {
 
             if (!$is_note) {
                 log_notification("ticket_commented", array("ticket_id" => $ticket_id, "ticket_comment_id" => $comment_id));
+            } else {
+                helper('notifications');
+                $string = json_encode([
+                    "ticket_id" => $ticket_id,
+                    "ticket_comment_id" => $comment_id,
+                    'ticket_comment_description' => $description
+                ]);
+                send_telegram_notification("ticket_commented_note|$string");
             }
         } else {
             echo json_encode(array("success" => false, 'message' => app_lang('error_occurred')));

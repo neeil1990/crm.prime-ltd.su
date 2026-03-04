@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <style>
+        .search-match {
+            background-color: #fff3cd !important;
+        }
+
+        .search-match td:first-child {
+            font-weight: 600;
+        }
+
         #projects-notifications-table thead th {
             position: sticky;
             top: 0;
@@ -215,7 +223,8 @@
                                         <th width="220">Изменение даты</th>
                                         <th width="220">Изменение состава людей</th>
                                         <th width="220">Изменение статуса</th>
-                                        <th width="220">Комментарий</th>
+                                        <th width="220">Чужой комментарий</th>
+                                        <th width="220">Мой комментарий</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -246,6 +255,13 @@
                                                 name="notify_task_comment_added"
                                                 value="1"
                                                 <?= !empty($user_notification_settings->notify_task_comment_added) ? "checked" : ""; ?>>
+                                        </td>
+                                        
+                                        <td>
+                                            <input type="checkbox"
+                                                name="notify_task_my_comment_added"
+                                                value="1"
+                                                <?= !empty($user_notification_settings->notify_task_my_comment_added) ? "checked" : ""; ?>>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -370,7 +386,72 @@
             order: [[0, 'asc']],
             pageLength: -1,
             lengthMenu: [[-1], ["Все"]],
-            columnDefs: [{ orderable: false, targets: [1,2,3] }]
+            columnDefs: [{ orderable: false, targets: [1,2,3] }],
+            searching: false,
+            language: {
+                processing: "Обработка...",
+                search: "Поиск:",
+                lengthMenu: "Показать _MENU_ записей",
+                info: "Показано с _START_ по _END_ из _TOTAL_ записей",
+                infoEmpty: "Показано 0 записей",
+                infoFiltered: "(отфильтровано из _MAX_ записей)",
+                loadingRecords: "Загрузка...",
+                zeroRecords: "Записи не найдены",
+                emptyTable: "В таблице нет данных",
+                paginate: {
+                    first: "Первая",
+                    previous: "Предыдущая",
+                    next: "Следующая",
+                    last: "Последняя"
+                },
+                aria: {
+                    sortAscending: ": активировать для сортировки по возрастанию",
+                    sortDescending: ": активировать для сортировки по убыванию"
+                }
+            },
+            initComplete: function () {
+                if (!$('#project-search').length) {
+                    $('#projects-notifications-table_length').append(
+                        '<input type="text" id="project-search" class="form-control" style="float: right; background-color: #f6f8f9 !important; width: 250px;" placeholder="Поиск по названию проекта">'
+                    );
+                }
+
+                $('#projects-notifications-table_length').css({
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    width: '100%',
+                    marginBottom: '10px'
+                });
+
+                $('#projects-notifications-table_wrapper > div:nth-child(1) > div:nth-child(1)').css({
+                    width: '100%'
+                })
+            }
+        });
+
+        $(document).on('input', '#project-search', function () {
+            var value = $(this).val().toLowerCase();
+
+            var rows = table.rows().nodes().to$();
+
+            rows.each(function () {
+                var firstColumn = $(this).find('th:first').text().toLowerCase();
+
+                if (value && firstColumn.includes(value)) {
+                    $(this).addClass('search-match');
+                } else {
+                    $(this).removeClass('search-match');
+                }
+            });
+
+            if (value) {
+                rows.sort(function (a, b) {
+                    var aMatch = $(a).hasClass('search-match') ? 0 : 1;
+                    var bMatch = $(b).hasClass('search-match') ? 0 : 1;
+                    return aMatch - bMatch;
+                }).appendTo('#projects-notifications-table tbody');
+            }
         });
 
         $('.check-all').on('change', function () {

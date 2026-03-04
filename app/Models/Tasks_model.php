@@ -137,6 +137,21 @@ class Tasks_model extends Crud_model {
         );
     }
 
+    function lel($data)
+    {
+        $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
+
+        $date = date('Y-m-d H:i:s');
+
+        if (is_array($data) || is_object($data)) {
+            $data = print_r($data, true);
+        }
+
+        $message = "[$date] " . $data . PHP_EOL;
+
+        file_put_contents($log_file, $message, FILE_APPEND);
+    }
+
     function get_details($options = array()) {
         $tasks_table = $this->db->prefixTable('tasks');
         $users_table = $this->db->prefixTable('users');
@@ -153,6 +168,7 @@ class Tasks_model extends Crud_model {
         $expenses_table = $this->db->prefixTable('expenses');
         $invoices_table = $this->db->prefixTable('invoices');
         $task_personal_notes_table = $this->db->prefixTable('task_personal_notes');
+
 
         $users_model = model("App\Models\Users_model", false);
         $login_user_id = $users_model->login_user_id();
