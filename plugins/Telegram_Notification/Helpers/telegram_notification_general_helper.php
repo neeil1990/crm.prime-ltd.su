@@ -429,7 +429,6 @@ function getEventSettingId($ci, $key) {
 if (!function_exists('send_telegram_notification')) {
     function send_telegram_notification($event, $task_id = 0, $notification_id = 0)
     {
-        telegram_write_log($event, $task_id, $notification_id);
         $statuses = [
             1 => 'Планирование',
             2 => 'В работе',
@@ -455,8 +454,6 @@ if (!function_exists('send_telegram_notification')) {
                 $notification_info->ticket_comment_description = $data->ticket_comment_description;
             }
             
-            telegram_write_log($notification_info);
-
             // заявки (тикеты)
             if(in_array($notification_info->event, ['ticket_commented', 'ticket_commented_note', 'ticket_commented', 'ticket_created', 'ticket_closed', 'ticket_reopened', 'ticket_assigned'])) {
                 $ticket = $ci->Tickets_model->get_one($notification_info->ticket_id);
@@ -577,6 +574,7 @@ if (!function_exists('send_telegram_notification')) {
             $url_attributes_array = get_notification_url_attributes($notification_info);
             $url = get_array_value($url_attributes_array, "url");
 
+            telegram_write_log($notification_info->event);
             $notification_description = view(
                 "Telegram_Notification\Views\\notifications\\notification_description_for_telegram",
                 ["notification" => $notification_info]
@@ -642,7 +640,7 @@ if (!function_exists('send_telegram_notification')) {
                     $user_notification_setting = $UserNotificationSettingsModel->get_by_user($user->id);
 
                     if(
-                        $comment_user_id && 
+                        isset($comment_user_id) && 
                         $comment_user_id == $user->id && 
                         $user_notification_setting->notify_task_my_comment_added == 0
                     ) {
@@ -676,7 +674,6 @@ if (!function_exists('send_telegram_notification')) {
                             $changes_text ?? ''
                         );
 
-                        telegram_write_log($notification_description);
                         telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
                     }
                 }

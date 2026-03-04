@@ -32,7 +32,7 @@ if ($notification->project_id && $notification->project_title) {
     echo "\n<b>" . app_lang("project") . ":</b> " . $notification->project_title;
 }
 
-if ($notification->project_id && $notification->task_description) {
+if ($notification->project_id && $notification->task_description && $notification->event == 'project_task_created') {
     echo "\n<b>" . app_lang("decription") . ":</b> " . $notification->task_description;
 }
 

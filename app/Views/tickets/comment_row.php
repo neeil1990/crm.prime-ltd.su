@@ -135,11 +135,11 @@ if ($comment->pinned_comment_status) {
 
                     foreach ($ticket_mails as $mail) {
 
-                        // получаем пользователя по to_user_id
                         $user = $Users_model->get_one($mail->to_user_id);
 
-                        if ($user && $user->email) {
-                            echo '<div>' . esc($user->first_name . ' ' .$user->last_name . ' (' . $user->email . ')') . '</div>';
+                        if ($user && $user->email && $user->is_admin == '0') {
+                            
+                            echo '<div><a class="dark strong" href="/index.php/clients/contact_profile/'.$user->id.'" target="_blank">' . esc($user->first_name . ' ' .$user->last_name . ' (' . $user->email . ')') . '</a></div>';
                         }
                     }
 
