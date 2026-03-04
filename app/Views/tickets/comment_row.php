@@ -119,6 +119,33 @@ if ($comment->pinned_comment_status) {
                 }
                 ?>
             </div>
+
+            <?php 
+                $Ticket_mails_model = model('App\Models\Ticket_mails_model');
+                $Users_model = model('App\Models\Users_model');
+
+                $ticket_mails = $Ticket_mails_model
+                    ->get_all_where(["ticket_comment_id" => $comment->id])
+                    ->getResult();
+
+                if (!empty($ticket_mails)) {
+
+                    echo '<div style="margin-top: 35px">';
+                    echo '<h5 class="small">Получатели</h5>';
+
+                    foreach ($ticket_mails as $mail) {
+
+                        // получаем пользователя по to_user_id
+                        $user = $Users_model->get_one($mail->to_user_id);
+
+                        if ($user && $user->email) {
+                            echo '<div>' . esc($user->first_name . ' ' .$user->last_name . ' (' . $user->email . ')') . '</div>';
+                        }
+                    }
+
+                    echo '</div>';
+                }
+            ?>
         </div>
     </div>
 </div>

@@ -1191,6 +1191,8 @@ class Tickets extends Security_Controller {
 
         $view_data = [];
 
+        $email_smtp_host = get_setting('email_smtp_user');
+        
         foreach ($ticket_mails as $mail) {
             $from = $this->Users_model->get_one($mail->from_user_id);
             $to = $this->Users_model->get_one($mail->to_user_id);
@@ -1198,7 +1200,7 @@ class Tickets extends Security_Controller {
             $view_data["mails"][] = [
                 "user_from_link" => get_profile_link_by_type($from->user_type, $from->id, $from->first_name . " " .$from->last_name, ["class" => "dark strong"]),
                 "user_to_link" => get_profile_link_by_type($to->user_type, $to->id, $to->first_name . " " .$to->last_name, ["class" => "dark strong"]),
-                "user_from_email" => $from->email,
+                "user_from_email" => $email_smtp_host,
                 "user_to_email" => $to->email,
                 "is_primary_contact" => $to->is_primary_contact,
                 "sent_at" => format_to_relative_time($mail->created_at),
