@@ -481,6 +481,7 @@ if (!function_exists('send_app_mail')) {
 
     function send_app_mail($to, $subject, $message, $optoins = array(), $convert_message_to_html = true)
     {
+        $subject = mb_substr($subject, 0, 78);
 
         $emails_for_log = $to;
         if($to && is_array($to)){
