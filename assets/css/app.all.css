@@ -6710,6 +6710,7 @@ input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-s
 }
 .popover {
   max-width: 580px !important;
+  min-width: 400px;
 }
 .popover-arrow {
   display: none !important;

@@ -35,7 +35,7 @@ foreach ($comments as $comment) {
     }
 ?>
     <div id="comment-<?php echo $comment->id; ?>" class="comment-highlight-section">
-        <div id="prject-comment-container-<?php echo $type . "-" . $comment->id; ?>" class="comment-container text-break b-b <?php echo "comment-" . $type; ?>">
+        <div id="prject-comment-container-<?php echo $type . "-" . $comment->id; ?>" class="comment-container text-break <?php echo "comment-" . $type; ?>">
             <div class="d-flex">
                 <div class="flex-shrink-0 comment-avatar">
                     <span class="avatar <?php echo ($type === "project") ? " avatar-sm" : " avatar-xs"; ?> ">

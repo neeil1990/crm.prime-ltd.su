@@ -19,7 +19,7 @@ if (isset($model_info->context) && $model_info->context != "project") {
 ?>
 <div id="<?php echo $comment_type . "-comment-form-container"; ?>" class="mb-4">
     <?php echo form_open(get_uri($url), array("id" => $comment_type . "-comment-form", "class" => "general-form", "role" => "form")); ?>
-    <div class="d-flex b-b comment-form-container">
+    <div class="d-flex comment-form-container">
         <div class="flex-shrink-0 d-none d-sm-block">
             <div class="avatar avatar-sm pr15 d-table-cell">
                 <img src="<?php echo get_avatar($login_user->image); ?>" alt="..." />
@@ -75,9 +75,12 @@ if (isset($model_info->context) && $model_info->context != "project") {
         $("#<?php echo $comment_type; ?>-comment-form").appForm({
             isModal: false,
             onSuccess: function (result) {
-<?php if ($comment_type === "task") { ?>
+
+                window.location.reload();
+
+                <?php if ($comment_type === "task") { ?>
                     window.location.hash = ""; //prevent highlighting here
-<?php } ?>
+                <?php } ?>
 
                 $(".comment_description").val("");
 
