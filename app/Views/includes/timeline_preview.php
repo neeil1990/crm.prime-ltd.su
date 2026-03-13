@@ -1,4 +1,5 @@
 <?php
+
 if ($files && count($files)) {
 
     $group_id = make_random_string();
@@ -16,10 +17,13 @@ if ($files && count($files)) {
     if (isset($view)) {
         $view_type = $view;
     }
+    ?>
 
-    $file_count = 0;
+    <div class='timeline-images app-modal-view mb-4 <?php echo $box_class;?>'>
 
-    echo "<div class='timeline-images app-modal-view " . $box_class . "'>";
+    <ul class="files-and-folders-list" data-has_write_permission="" data-has_upload_permission="">
+
+    <?php
 
     $is_localhost = is_localhost();
 
@@ -56,78 +60,57 @@ if ($files && count($files)) {
 
             $recording_files .= "<audio src='$url' controls='' class='audio file-highlight-section' id='$actual_file_name_without_extension'></audio>";
 
-        } else {
-
-            if (is_viewable_image_file($file_name)) {
-
-                if (!$file_count) {
-
-                    if ($view_type == "project") {
-                        $preview_image = "<img src='$thumbnail' alt='$file_name'/>";
-                    } else {
-                        $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
-                    }
-
-                    $image = $preview_image;
-                }
-                $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='image'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-
-            } else if ($extension === "webm") {
-
-                if (!$file_count) {
-                    $preview_image = "<img src='" . get_file_uri("assets/images/video_preview.jpg") . "' alt='video'/>";
-                    $image = $preview_image;
-                }
-                $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='audio'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-            } else if ($extension === "txt") {
-
-                if (!$file_count) {
-                    $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
-                    $image = $preview_image;
-                }
-
-                $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='txt' data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-            } else if (is_iframe_preview_available($file_name)) {
-
-                if (!$file_count) {
-                    $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
-                    $image = $preview_image;
-                }
-
-                $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='iframe'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-            } else if ((is_viewable_video_file($file_name) && !$file_id && $service_type != "google") || (is_viewable_video_file($file_name) && $file_id && $service_type == "google" && !get_setting("disable_google_preview"))) {
-
-                if (!$file_count) {
-                    $preview_image = "<img src='" . get_file_uri("assets/images/video_preview.jpg") . "' alt='video'/>";
-                    $image = $preview_image;
-                }
-                $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='iframe'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-            } else {
-                if (!$file_count) {
-                    $preview_image = "<div class='inline-block'><div class='file-mockup'><i data-feather='" . get_file_icon($extension) . "' width='10rem' height='10rem' class='mt-12'></i></div></div>";
-                    $image = $preview_image;
-                }
-
-
-                if (!$is_localhost && is_google_preview_available($file_name) && !get_setting("disable_google_preview")) {
-                    $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='iframe'  data-content_url='https://drive.google.com/viewerng/viewer?url=$url?pid=explorer&efh=false&a=v&chrome=false&embedded=true' data-title='" . $actual_file_name . "'>$image</a>";
-                } else {
-                    $other_files .= "<a href='#' class='' data-toggle='app-modal' data-group='$group_id' data-sidebar='0' data-type='not_viewable' data-filename='$actual_file_name' data-description='" . app_lang("file_preview_is_not_available") . "'  data-content_url='$url' data-title='" . $actual_file_name . "'>$image</a>";
-                }
-            }
-
-
-            $file_count++;
         }
-    }
 
+        if (is_viewable_image_file($file_name)) {
+            $type = "image";
+        } elseif ($extension === "txt") {
+            $type = "txt";
+        } elseif (is_iframe_preview_available($file_name)) {
+            $type = "iframe";
+        } else {
+            $type = "not_viewable";
+        }
+        ?>
+
+        <li class="folder-item">
+            <div class="folder-item-content show-context-menu file-thumb-area focus">
+                <div class="d-flex">
+                    <?php echo view("includes/icon_wrapper");?>
+
+                    <div class="w-100">
+                        <div class="text-break">
+                            <!-- data-type = image, audio, txt, iframe, not_viewable -->
+                            <a href="#" title="<?=$file_name?>" class="text-default file-name item-name"
+                               data-sidebar='0'
+                               data-toggle="app-modal"
+                               data-type="<?php echo $type;?>"
+                               data-group="<?php echo $group_id;?>"
+                               data-content_url="<?php echo $url?>"
+                               data-title="<?php echo $actual_file_name?>"
+                            >
+                                <?=$actual_file_name?>
+                            </a>
+                        </div>
+                        <small class="text-off file-size"><?php echo format_file_size($file["file_size"]); ?></small>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+    <?php
+    }
+    ?>
+    </ul>
+
+    <?php
     if ($recording_files) {
         echo $recording_files;
     }
+    ?>
 
-    echo $other_files;
-
-    echo "</div>";
+    </div>
+    <?php
 }
 ?>
 

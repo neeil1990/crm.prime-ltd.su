@@ -83,7 +83,10 @@ foreach ($comments as $comment) {
                         </span>
 
                     </div>
-                    <p><?php echo convert_mentions(convert_comment_link(process_images_from_content($comment->description))); ?></p>
+
+                    <div class="mb-5">
+                        <?php echo convert_mentions(convert_comment_link(process_images_from_content($comment->description))); ?>
+                    </div>
 
                     <div class="comment-image-box clearfix">
 

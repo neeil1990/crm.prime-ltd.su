@@ -7,6 +7,22 @@ use App\Libraries\Pdf;
 use App\Libraries\Clean_data;
 use App\Libraries\Outlook_smtp;
 
+
+if (!function_exists('format_file_size')) {
+
+    function format_file_size($bytes)
+    {
+        if ($bytes >= 1073741824) {
+            return round($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            return round($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            return round($bytes / 1024, 2) . ' KB';
+        }
+        return $bytes . ' B';
+    }
+}
+
 /**
  * use this to print link location
  *
