@@ -92,7 +92,9 @@ if ($files && count($files)) {
                                 <?=$actual_file_name?>
                             </a>
                         </div>
+                        <?php if (isset($file["file_size"])): ?>
                         <small class="text-off file-size"><?php echo format_file_size($file["file_size"]); ?></small>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
