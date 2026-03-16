@@ -422,6 +422,7 @@ $lang["comma_separated"] = "Разделяется запятой";
 $lang["project_file"] = "Файл";
 $lang["download"] = "Загрузить";
 $lang["download_files"] = "Загрузить %s файла"; //Ex. Download 4 files
+$lang["download_archive"] = "Скачать %s файла архивом";
 $lang["file_preview_is_not_available"] = "Предварительный просмотр файла невозможен.";
 
 /* tasks */

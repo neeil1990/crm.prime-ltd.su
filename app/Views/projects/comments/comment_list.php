@@ -128,8 +128,11 @@ foreach ($comments as $comment) {
                             if ($total_files) {
                                 $download_caption = app_lang('download');
                                 if ($total_files > 1) {
-                                    $download_caption = sprintf(app_lang('download_files'), $total_files);
+                                    $download_caption = sprintf(app_lang('download_archive'), $total_files);
                                 }
+
+                                echo "<br>";
+
                                 if (!$can_reply && $type != "project") {
                                     echo "<i data-feather='paperclip' class='icon-16'></i>";
                                 }
