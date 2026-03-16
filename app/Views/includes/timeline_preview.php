@@ -64,9 +64,15 @@ if ($files && count($files)) {
 
         if (is_viewable_image_file($file_name)) {
             $type = "image";
+        } else if ($extension === "webm") {
+            $type = "audio";
         } elseif ($extension === "txt") {
             $type = "txt";
-        } elseif (is_iframe_preview_available($file_name)) {
+        } elseif (
+                is_iframe_preview_available($file_name) ||
+                (is_viewable_video_file($file_name) && !$file_id && $service_type != "google") ||
+                (is_viewable_video_file($file_name) && $file_id && $service_type == "google" && !get_setting("disable_google_preview"))
+        ) {
             $type = "iframe";
         } else {
             $type = "not_viewable";
