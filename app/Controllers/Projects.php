@@ -3253,7 +3253,6 @@ class Projects extends Security_Controller
         if ($comment_id) {
             $data = array(
                 "project_comment_id" => $comment_id,
-                "pinned_by" => $this->login_user->id
             );
 
             $existing = $this->Pin_comments_model->get_one_where(array_merge($data, array("deleted" => 0)));
@@ -3264,6 +3263,7 @@ class Projects extends Security_Controller
                 $save_id = $this->Pin_comments_model->delete($existing->id);
             } else {
                 //not pinned, pin now
+                $data["pinned_by"] = $this->login_user->id;
                 $data["created_at"] = get_current_utc_time();
                 $save_id = $this->Pin_comments_model->ci_save($data);
             }

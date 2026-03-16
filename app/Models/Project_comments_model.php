@@ -107,7 +107,7 @@ class Project_comments_model extends Crud_model {
         $login_user_id = $this->_get_clean_value($options, "login_user_id");
         if ($login_user_id) {
             $extra_select = ", (SELECT count($likes_table.id) FROM $likes_table WHERE $likes_table.project_comment_id=$project_comments_table.id AND $likes_table.deleted=0 AND $likes_table.created_by=$login_user_id) as like_status,
-                (SELECT count($pin_comments_table.id) FROM $pin_comments_table WHERE $pin_comments_table.project_comment_id=$project_comments_table.id AND $pin_comments_table.deleted=0 AND $pin_comments_table.pinned_by=$login_user_id) as pinned_comment_status";
+                (SELECT count($pin_comments_table.id) FROM $pin_comments_table WHERE $pin_comments_table.project_comment_id=$project_comments_table.id AND $pin_comments_table.deleted=0) as pinned_comment_status";
         }
 
 
