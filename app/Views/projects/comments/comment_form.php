@@ -71,12 +71,9 @@ if (isset($model_info->context) && $model_info->context != "project") {
             data: {project_id: <?php echo $project_id; ?>}
         });
 
-
         $("#<?php echo $comment_type; ?>-comment-form").appForm({
             isModal: false,
             onSuccess: function (result) {
-
-                window.location.reload();
 
                 <?php if ($comment_type === "task") { ?>
                     window.location.hash = ""; //prevent highlighting here
@@ -86,6 +83,8 @@ if (isset($model_info->context) && $model_info->context != "project") {
 
                 if ($("#file-preview-comment-container").length) {
                     $("#file-preview-comment-container").prepend(result.data);
+                } else if ($(".comment-list-container").length) {
+                    $(".comment-list-container").prepend(result.data);
                 } else {
                     $(result.data).insertAfter("#<?php echo $comment_type; ?>-comment-form-container");
                 }

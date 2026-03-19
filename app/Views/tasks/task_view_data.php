@@ -448,10 +448,19 @@ if ($total_sub_tasks) {
                     <!--Task comment section-->
                     <div class="clearfix">
                         <div class="b-t pt10 list-container">
+
                             <?php if ($can_comment_on_tasks) { ?>
                                 <?php echo view("projects/comments/comment_form"); ?>
                             <?php } ?>
-                            <?php echo view("projects/comments/comment_list"); ?>
+
+                            <div id="comment-pin-container" class="mb-4"></div>
+
+                            <div class="box-title"><span>Комментарии</span></div>
+
+                            <div class="comment-list-container">
+                                <?php echo view("projects/comments/comment_list"); ?>
+                            </div>
+
                         </div>
                     </div>
                 </div>

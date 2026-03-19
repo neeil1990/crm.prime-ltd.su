@@ -401,7 +401,48 @@ $task_link = anchor(get_uri("tasks/view/$model_info->id"), '<i data-feather="ext
             $("#is_checklist_group").val("0");
             $(this).addClass("active");
         });
+
+        $(document).on("pinCommentUpdated", function () {
+            updatePinCommentAbove();
+        });
+
+        $(document).trigger("pinCommentUpdated");
     });
+
+    function updatePinCommentAbove() {
+
+        let pinCommentPreview = $(".pin-comment-preview");
+
+        if (!pinCommentPreview.length) {
+            return;
+        }
+
+        let container = $("#comment-pin-container").html("");
+
+        container.append('<div class="box-title"><span>Закрепленные комментарии</span></div>');
+
+        pinCommentPreview.each(function(i, el) {
+            let self = $(el);
+            let id = self.attr('id');
+
+            if (!self.children().length) {
+                return true;
+            }
+
+            let origin = $('#comment-' + id);
+
+            origin.find(".like-button").remove();
+
+            let comment = $("<div />", { class: origin.attr('class') })
+                .html(origin.html());
+
+            comment.find(".dropdown")
+                .removeClass(['dropdown', 'comment-dropdown'])
+                .html($("<a />", { href: '#comment-' + id }).html(self.find(".pin").html() + self.find(".float-start").html()));
+
+            container.append(comment);
+        });
+    }
 
     function applySelect2OnChecklistTemplate() {
         $("#checklist-add-item").select2({

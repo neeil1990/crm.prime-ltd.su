@@ -1,8 +1,4 @@
 
-<div id="comment-pin-container" class="mb-4"></div>
-
-<div class="box-title"><span>Комментарии</span></div>
-
 <?php
 $task_id = "";
 
@@ -175,8 +171,6 @@ foreach ($comments as $comment) {
     </div>
 <?php } ?>
 
-
-
 <script>
     $(document).ready(function() {
         $(".like-button").click(function() {
@@ -210,8 +204,6 @@ foreach ($comments as $comment) {
             window.location.hash = "comment-" + commentId;
         }
 
-        updatePinCommentAbove();
-
         $(".pin-comment-button").click(function() {
             var comment_id = $(this).attr('data-pin-comment-id');
             appLoader.show();
@@ -233,7 +225,10 @@ foreach ($comments as $comment) {
                         $("#pinned-comment").removeClass("hide");
                     }
 
-                    updatePinCommentAbove();
+                    setTimeout(function () {
+                        $(document).trigger("pinCommentUpdated");
+                    }, 2000);
+
                 }
             });
         });
@@ -242,7 +237,10 @@ foreach ($comments as $comment) {
             var comment_id = $(this).attr('data-pin-comment-id');
             $("#pin-comment-button-" + comment_id).removeClass("hide");
             $("#unpin-comment-button-" + comment_id).addClass("hide");
-            setTimeout(updatePinCommentAbove, 1000);
+
+            setTimeout(function () {
+                $(document).trigger("pinCommentUpdated");
+            }, 2000);
         });
 
         $(".pinned-comment-highlight-link").click(function(e) {
@@ -252,52 +250,17 @@ foreach ($comments as $comment) {
             window.location.hash = $(this).attr('data-original-comment-id');
             e.preventDefault();
         });
-    });
 
-    $(".copy-comment-link-button").click(function() {
-        var commentId = $(this).attr('data-comment-id');
-        var taskId = $(this).attr('data-task-id');
-        var tempInput = document.createElement("input");
-        tempInput.style = "position: absolute; left: -1000px; top: -1000px";
-        tempInput.value = "<?php echo get_uri("tasks/view"); ?>/" + taskId + "/#comment-" + commentId;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-    });
-
-    function updatePinCommentAbove() {
-
-        let pinCommentPreview = $(".pin-comment-preview");
-
-        if (!pinCommentPreview.length) {
-            return;
-        }
-
-        let container = $("#comment-pin-container").html("");
-
-        container.append('<div class="box-title"><span>Закрепленные комментарии</span></div>');
-
-        pinCommentPreview.each(function(i, el) {
-            let self = $(el);
-            let id = self.attr('id');
-
-            if (!self.children().length) {
-                return true;
-            }
-
-            let origin = $('#comment-' + id);
-
-            origin.find(".like-button").remove();
-
-            let comment = $("<div />", { class: origin.attr('class') })
-                .html(origin.html());
-
-            comment.find(".dropdown")
-                .removeClass(['dropdown', 'comment-dropdown'])
-                .html($("<a />", { href: '#comment-' + id }).html(self.find(".pin").html() + self.find(".float-start").html()));
-
-            container.append(comment);
+        $(".copy-comment-link-button").click(function() {
+            var commentId = $(this).attr('data-comment-id');
+            var taskId = $(this).attr('data-task-id');
+            var tempInput = document.createElement("input");
+            tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+            tempInput.value = "<?php echo get_uri("tasks/view"); ?>/" + taskId + "/#comment-" + commentId;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
         });
-    }
+    });
 </script>
