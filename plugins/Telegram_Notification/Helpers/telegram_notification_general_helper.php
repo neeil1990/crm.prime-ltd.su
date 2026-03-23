@@ -564,12 +564,14 @@ if (!function_exists('send_telegram_notification')) {
                 $event
             );
 
+            $filesAttachment = false;
             $comment_id = $notification_info->project_comment_id;
             if ($comment_id) {
                 $comment = $ci->Project_comments_model->get_one($comment_id);
 
                 if ($comment && $comment->created_by) {
                     $comment_user_id = $comment->created_by;
+                    $filesAttachment = $comment->files != 'a:0:{}';
                 }
             }
 
@@ -582,10 +584,9 @@ if (!function_exists('send_telegram_notification')) {
             $url_attributes_array = get_notification_url_attributes($notification_info);
             $url = get_array_value($url_attributes_array, "url");
 
-            telegram_write_log($notification_info->event);
             $notification_description = view(
                 "Telegram_Notification\Views\\notifications\\notification_description_for_telegram",
-                ["notification" => $notification_info]
+                ["notification" => $notification_info, 'file' => $filesAttachment]
             );
 
             $db = \Config\Database::connect();
@@ -619,7 +620,6 @@ if (!function_exists('send_telegram_notification')) {
             // Формируем список всех участников задачи
             // ------------------------------
             $all_participants = [];
-
             foreach ($recipients as $role_name => $users) {
                 $names = [];
 
@@ -649,7 +649,7 @@ if (!function_exists('send_telegram_notification')) {
 
                     if(
                         isset($comment_user_id) && 
-                        $comment_user_id == $user->id && 
+                        // $comment_user_id == $user->id && 
                         $user_notification_setting->notify_task_my_comment_added == 0
                     ) {
                         continue;
@@ -660,7 +660,6 @@ if (!function_exists('send_telegram_notification')) {
                         $is_enabled[] = isset($user_notification_setting->{$actionType}) ? $user_notification_setting->{$actionType} : 0;
                     }
 
-                    //Ни один тип уведомления не активен
                     if (!in_array(true, $is_enabled)) {
                         continue;
                     }
@@ -674,21 +673,22 @@ if (!function_exists('send_telegram_notification')) {
                         ->getRow();
 
                     if ($setting) {
-                        if(isset($user->telegram_chat_id)) {
-                            $telegram_message = build_telegram_message(
-                                $message,
-                                $url,
-                                $all_participants,
-                                $notification_description ? formatTelegramText($notification_description) : '',
-                                $changes_text ?? ''
-                            );
+                        $message = build_telegram_message(
+                            $message,
+                            $url,
+                            $all_participants,
+                            $notification_description ? formatTelegramText($notification_description) : '',
+                            $changes_text ?? ''
+                        );
+                        telegram_write_log($message);
 
-                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
+                        if(isset($user->telegram_chat_id)) {
+                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
                         }
 
                         if(isset($user->prime_webhook_url)) {
                             try {
-                                $response = sendPrimeNotification($user->prime_webhook_url, $telegram_message);
+                                $response = sendPrimeNotification($user->prime_webhook_url, $message);
                                 telegram_write_log($response);
                             } catch (\Exception $ex) {
                                 telegram_write_log($ex->getMessage());

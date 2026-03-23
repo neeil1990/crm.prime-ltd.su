@@ -20,8 +20,18 @@ if ($notification->leave_id && $notification->leave_start_date) {
     echo "\n<b>" . app_lang("date") . ":</b> " . $leave_date;
 }
 
-if ($notification->project_comment_id && $notification->project_comment_title && !strpos($notification->project_comment_title, "</a>")) {
-    echo "\n\n<b>" . app_lang("comment") . ":</b> " . convert_mentions(convert_comment_link($notification->project_comment_title, false), false);
+if ($notification->project_comment_id) { 
+    $text = '';
+        
+    if(isset($file) && $file) {
+        $text .= "\n\n🖼 <b>Прикреплён файл</b>";
+    }
+
+    if($notification->project_comment_title && !strpos($notification->project_comment_title, "</a>")) {
+        $text .= "\n\n<b>" . app_lang("comment") . ":</b> " . convert_mentions(convert_comment_link($notification->project_comment_title, false), false);
+    } 
+
+    echo $text;
 }
 
 if ($notification->project_file_id && $notification->project_file_title) {
