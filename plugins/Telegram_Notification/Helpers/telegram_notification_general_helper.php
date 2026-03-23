@@ -166,7 +166,7 @@ function build_changes_text($serialized_changes, $statuses)
         if ($field === 'status_id') {
             $to = $statuses[(int)$to] ? $statuses[(int)$to] : $to;
 
-            $text .= "\n• <b>Новый статус задачи: </b>" . $to;
+            $text .= "\n• <b>Новый статус задачи</b>: " . $to;
         }
 
         if($field === 'collaborators') {
@@ -480,8 +480,8 @@ if (!function_exists('send_telegram_notification')) {
                     "<a href='" . $ticketUrl . "'>$event</a>",
                     '',
                     '<b>Заявка #</b>' . $notification_info->ticket_id . ' ' . $ticket->title,
-                    '<b>Проект</b>: ' . $project->title,
-                    '<b>Ответственный</b>: ' . $mainUser,
+                    '<b>Проект:</b> ' . $project->title,
+                    '<b>Ответственный:</b> ' . $mainUser,
                     '',
                     '<b>Команда:</b>',
                     implode("\n", $command),
@@ -520,14 +520,23 @@ if (!function_exists('send_telegram_notification')) {
                     $telegram_message[] = $newComment;
                 }
 
-                $telegram_message = implode("\n", $telegram_message);
+                $message = implode("\n", $telegram_message);
 
                 foreach($notifyTo as $uid) {
                     $user = $ci->Users_model->get_one($uid);
 
                     if(isset($user->telegram_chat_id)) {
                         try {
-                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
+                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
+                        } catch (\Exception $ex) {
+                            telegram_write_log($ex->getMessage());
+                        }
+                    }
+
+                    if(isset($user->prime_webhook_url)) {
+                        try {
+                            $response = sendPrimeNotification($user->prime_webhook_url, $message);
+                            telegram_write_log($response);
                         } catch (\Exception $ex) {
                             telegram_write_log($ex->getMessage());
                         }
@@ -537,7 +546,6 @@ if (!function_exists('send_telegram_notification')) {
                 return;
             }
 
-            //задачи
             $UserNotificationSettingsModel = new \App\Models\User_notification_settings_model();
             $message = str_replace(["%s", '.'], '', app_lang("notification_" . $event));
 
@@ -556,12 +564,14 @@ if (!function_exists('send_telegram_notification')) {
                 $event
             );
 
+            $filesAttachment = false;
             $comment_id = $notification_info->project_comment_id;
             if ($comment_id) {
                 $comment = $ci->Project_comments_model->get_one($comment_id);
 
                 if ($comment && $comment->created_by) {
                     $comment_user_id = $comment->created_by;
+                    $filesAttachment = $comment->files != 'a:0:{}';
                 }
             }
 
@@ -574,10 +584,9 @@ if (!function_exists('send_telegram_notification')) {
             $url_attributes_array = get_notification_url_attributes($notification_info);
             $url = get_array_value($url_attributes_array, "url");
 
-            telegram_write_log($notification_info->event);
             $notification_description = view(
                 "Telegram_Notification\Views\\notifications\\notification_description_for_telegram",
-                ["notification" => $notification_info]
+                ["notification" => $notification_info, 'file' => $filesAttachment]
             );
 
             $db = \Config\Database::connect();
@@ -611,7 +620,6 @@ if (!function_exists('send_telegram_notification')) {
             // Формируем список всех участников задачи
             // ------------------------------
             $all_participants = [];
-
             foreach ($recipients as $role_name => $users) {
                 $names = [];
 
@@ -641,7 +649,7 @@ if (!function_exists('send_telegram_notification')) {
 
                     if(
                         isset($comment_user_id) && 
-                        $comment_user_id == $user->id && 
+                        // $comment_user_id == $user->id && 
                         $user_notification_setting->notify_task_my_comment_added == 0
                     ) {
                         continue;
@@ -652,7 +660,6 @@ if (!function_exists('send_telegram_notification')) {
                         $is_enabled[] = isset($user_notification_setting->{$actionType}) ? $user_notification_setting->{$actionType} : 0;
                     }
 
-                    //Ни один тип уведомления не активен
                     if (!in_array(true, $is_enabled)) {
                         continue;
                     }
@@ -665,17 +672,30 @@ if (!function_exists('send_telegram_notification')) {
                         ->get()
                         ->getRow();
 
-                    if ($setting && !empty($user->telegram_chat_id)) {
-                        $telegram_message = build_telegram_message(
+                    if ($setting) {
+                        $message = build_telegram_message(
                             $message,
                             $url,
                             $all_participants,
                             $notification_description ? formatTelegramText($notification_description) : '',
                             $changes_text ?? ''
                         );
+                        telegram_write_log($message);
 
-                        telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $telegram_message);
+                        if(isset($user->telegram_chat_id)) {
+                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
+                        }
+
+                        if(isset($user->prime_webhook_url)) {
+                            try {
+                                $response = sendPrimeNotification($user->prime_webhook_url, $message);
+                                telegram_write_log($response);
+                            } catch (\Exception $ex) {
+                                telegram_write_log($ex->getMessage());
+                            }
+                        }
                     }
+
                 }
             }
         } catch (\Exception $ex) {
@@ -685,5 +705,54 @@ if (!function_exists('send_telegram_notification')) {
         }
 
         return true;
+    }
+
+    function sendPrimeNotification($url, $message) {
+        $message = formatMessage($message);
+        $payload = json_encode([
+            'text' => $message,
+        ], JSON_UNESCAPED_UNICODE);
+
+        $postFields = "payload=" . $payload;
+
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $postFields,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/x-www-form-urlencoded'
+            ],
+        ]);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $error = curl_error($ch);
+            curl_close($ch);
+            return "cURL error: " . $error;
+        }
+
+        curl_close($ch);
+
+        return $response;
+    }
+
+    function formatMessage($text) {
+        // <b> → *
+        $text = preg_replace('/<b>([\s\S]*?)<\/b>/i', '*$1*', $text);
+        // <a> → <url|text>
+        $text = preg_replace_callback(
+            '/<a\s+href=[\'"]([^\'"]+)[\'"][^>]*>(.*?)<\/a>/si',
+            function ($matches) {
+                return "<{$matches[1]}|".trim($matches[2]).">";
+            },
+            $text
+        );
+
+        $text = str_replace('*:', '* :', $text);
+
+        return $text;
     }
 }

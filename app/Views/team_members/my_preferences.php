@@ -200,6 +200,16 @@
             </div>
 
             <div class="form-group">
+                <label for="prime_webhook_url">Synology вебхук</label>
+                <input type="text" 
+                    class="form-control"
+                    style="background-color: #f6f8f9 !important"
+                    id="prime_webhook_url" 
+                    name="prime_webhook_url" 
+                    value="<?= esc($prime_webhook_url); ?>" >
+            </div>
+
+            <div class="form-group">
                 <label for="telegram_chat_id">Телеграм chat id</label>
                 <input type="text" 
                     class="form-control"
