@@ -14,7 +14,6 @@ class Telegram_Notifications_model extends \App\Models\Crud_model {
     }
 
     function create_notification($notification_id) {
-        $this->testLog('Вызов события уведомления');
         $notification_info = $this->Notifications_model->get_one_where(array("id" => $notification_id));
         $telegram_notification_settings_table = $this->db->prefixTable('telegram_notification_settings');
         $query = "SELECT * FROM $telegram_notification_settings_table 

@@ -684,7 +684,9 @@ class Team_members extends Security_Controller {
     function my_preferences() {
         $view_data["user_info"] = $this->Users_model->get_one($this->login_user->id);
         $telegram_chat_id = $view_data["user_info"]->telegram_chat_id;
+        $prime_webhook_url = $view_data["user_info"]->prime_webhook_url;
         $view_data["telegram_chat_id"] = $telegram_chat_id;
+        $view_data["prime_webhook_url"] = $prime_webhook_url;
 
         //language dropdown
         $view_data['language_dropdown'] = array();
@@ -803,12 +805,11 @@ class Team_members extends Security_Controller {
             $this->Settings_model->save_setting("user_" . $user_id . "_" . $setting, $value, "user");
         }
 
-        //there was 3 settings in users table.
-        //so, update the users table also
         $user_data = array(
             "enable_web_notification" => $this->request->getPost("enable_web_notification"),
             "enable_email_notification" => $this->request->getPost("enable_email_notification"),
             "telegram_chat_id" => $this->request->getPost("telegram_chat_id"),
+            "prime_webhook_url" => $this->request->getPost("prime_webhook_url"),
         );
 
         if (!get_setting("disable_language_selector_for_team_members")) {
