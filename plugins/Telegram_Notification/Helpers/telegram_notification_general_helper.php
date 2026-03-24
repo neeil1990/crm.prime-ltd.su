@@ -259,9 +259,7 @@ function build_telegram_message($message, $url, $roles, $description, $changes)
 {
     $message = trim($message);
     $message = $url ? "<a href='{$url}'>{$message}</a>" : $message;
-
     $text = "$message\n$description\n";
-
     $text .= "\n";
 
     foreach($roles as $key => $role) {
@@ -382,7 +380,7 @@ function detect_event_from_changes($serialized_changes)
 
 function write_log($data)
 {
-    $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
+    $log_file = '/var/www/crm_prime_lt_usr/data/www/crm.prime-ltd.su/mylog.txt';
 
     $date = date('Y-m-d H:i:s');
 
@@ -631,6 +629,14 @@ if (!function_exists('send_telegram_notification')) {
                 }
             }
 
+            $notificationText = build_telegram_message(
+                $message,
+                $url,
+                $all_participants,
+                $notification_description ? formatTelegramText($notification_description) : '',
+                $changes_text ?? ''
+            );
+
             $sended = [];
             foreach ($recipients as $role => $users) {
                 if($role == 'Ответственный') {
@@ -673,21 +679,14 @@ if (!function_exists('send_telegram_notification')) {
                         ->getRow();
 
                     if ($setting) {
-                        $message = build_telegram_message(
-                            $message,
-                            $url,
-                            $all_participants,
-                            $notification_description ? formatTelegramText($notification_description) : '',
-                            $changes_text ?? ''
-                        );
-
+        
                         if(isset($user->telegram_chat_id)) {
-                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
+                            telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $notificationText);
                         }
 
                         if(isset($user->prime_webhook_url)) {
                             try {
-                                $response = sendPrimeNotification($user->prime_webhook_url, $message);
+                                $response = sendPrimeNotification($user->prime_webhook_url, $notificationText);
                             } catch (\Exception $ex) {
                                 write_log($ex->getMessage());
                             }
