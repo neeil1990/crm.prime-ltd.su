@@ -380,7 +380,7 @@ function detect_event_from_changes($serialized_changes)
     return $events;
 }
 
-function telegram_write_log($data)
+function write_log($data)
 {
     $log_file = '/var/www/crm_prime_lt_usr/data/www/crm2.prime-ltd.su/mylog.txt';
 
@@ -529,16 +529,15 @@ if (!function_exists('send_telegram_notification')) {
                         try {
                             telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
                         } catch (\Exception $ex) {
-                            telegram_write_log($ex->getMessage());
+                            write_log($ex->getMessage());
                         }
                     }
 
                     if(isset($user->prime_webhook_url)) {
                         try {
                             $response = sendPrimeNotification($user->prime_webhook_url, $message);
-                            telegram_write_log($response);
                         } catch (\Exception $ex) {
-                            telegram_write_log($ex->getMessage());
+                            write_log($ex->getMessage());
                         }
                     }
                 }
@@ -578,7 +577,7 @@ if (!function_exists('send_telegram_notification')) {
             if(isset($notification_info->activity_log_changes)) {
                 $changes_text = build_changes_text($notification_info->activity_log_changes, $statuses);
             } else if($message == 'Задача обновлена') {
-                $changes_text = '<b>Новый статус задачи: </b>' . $statuses[$task->status_id];
+                $changes_text = '<b>Новый статус задачи</b>: ' . $statuses[$task->status_id];
             }
 
             $url_attributes_array = get_notification_url_attributes($notification_info);
@@ -656,6 +655,7 @@ if (!function_exists('send_telegram_notification')) {
                     }
 
                     $is_enabled = [];
+                    write_log($actionTypes);
                     foreach ($actionTypes as $actionType) {
                         $is_enabled[] = isset($user_notification_setting->{$actionType}) ? $user_notification_setting->{$actionType} : 0;
                     }
@@ -680,7 +680,6 @@ if (!function_exists('send_telegram_notification')) {
                             $notification_description ? formatTelegramText($notification_description) : '',
                             $changes_text ?? ''
                         );
-                        telegram_write_log($message);
 
                         if(isset($user->telegram_chat_id)) {
                             telegram_send(get_telegram_notification_setting("bot_token"), $user->telegram_chat_id, $message);
@@ -689,9 +688,8 @@ if (!function_exists('send_telegram_notification')) {
                         if(isset($user->prime_webhook_url)) {
                             try {
                                 $response = sendPrimeNotification($user->prime_webhook_url, $message);
-                                telegram_write_log($response);
                             } catch (\Exception $ex) {
-                                telegram_write_log($ex->getMessage());
+                                write_log($ex->getMessage());
                             }
                         }
                     }
@@ -699,9 +697,9 @@ if (!function_exists('send_telegram_notification')) {
                 }
             }
         } catch (\Exception $ex) {
-            telegram_write_log("Telegram notification error: " . $ex->getMessage());
-            telegram_write_log("Telegram notification line: " . $ex->getLine());
-            telegram_write_log("Telegram notification file: " . $ex->getFile());
+            write_log("Telegram notification error: " . $ex->getMessage());
+            write_log("Telegram notification line: " . $ex->getLine());
+            write_log("Telegram notification file: " . $ex->getFile());
         }
 
         return true;
