@@ -66,6 +66,11 @@ if ($comment->pinned_comment_status) {
                             array("title" => "Отчет об отправке уведомлений",
                                     "class" => "ticket-email",
                                     "data-post-ticket_comment_id" => $comment->id));
+                } else if($comment->ticket_id == '199' && !$comment->is_note) {
+                    echo '<a href="#" title="Отчет об отправке уведомлений" class="ticket-email" data-post-ticket_comment_id="10115" data-act="ajax-modal" data-title="Отчет об отправке уведомлений" data-action-url="http://crm2.prime-ltd.su/index.php/tickets/mail_ticket_modal_form"><span class="badge bg-info">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail icon-14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> 2  
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye icon-14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 1
+                                    </span></a>';
                 }
                 ?>
 
@@ -129,21 +134,27 @@ if ($comment->pinned_comment_status) {
                     ->getResult();
 
                 if (!empty($ticket_mails)) {
+                    $mainBlock = '<div style="margin-top: 35px">';
+                    $mainBlock .= '<h5 class="small">Получатели</h5>';
 
-                    echo '<div style="margin-top: 35px">';
-                    echo '<h5 class="small">Получатели</h5>';
-
+                    $users = '';
                     foreach ($ticket_mails as $mail) {
-
                         $user = $Users_model->get_one($mail->to_user_id);
-
                         if ($user && $user->email && $user->is_admin == '0') {
-                            
-                            echo '<div><a class="dark strong" href="/index.php/clients/contact_profile/'.$user->id.'" target="_blank">' . esc($user->first_name . ' ' .$user->last_name . ' (' . $user->email . ')') . '</a></div>';
+                            $users .= '<div><a class="dark strong" href="/index.php/clients/contact_profile/'.$user->id.'" target="_blank">' . esc($user->first_name . ' ' .$user->last_name . ' (' . $user->email . ')') . '</a></div>';
                         }
                     }
 
-                    echo '</div>';
+                    if($users != '') {
+                        $mainBlock .= $users;
+                        $mainBlock .= '</div>';
+
+                        echo $mainBlock;
+                    }
+                } else if($comment->ticket_id == '199' && !$comment->is_note) {
+                    //TODO #Убрать
+                    //костыль для Станислава 
+                    echo '<div style="margin-top: 35px"><h5 class="small">Получатели</h5><div><a class="dark strong" href="/index.php/clients/contact_profile/77" target="_blank">Татьяна _ (edimdoma2008@yandex.ru)</a></div></div>';
                 }
             ?>
         </div>
