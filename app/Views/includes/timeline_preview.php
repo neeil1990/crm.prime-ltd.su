@@ -34,6 +34,26 @@ if ($files && count($files)) {
     $other_files = "";
     $preview_image = "";
 
+    foreach ($files as $file) {
+        $url = get_source_url_of_file($file, $timeline_file_path);
+
+        if (is_viewable_image_file($file['file_name'])) {
+            ?>
+            <a href="#" title="<?=$file['file_name']?>" class="text-default file-name item-name d-block mb-2"
+               data-sidebar='0'
+               data-toggle="app-modal"
+               data-type="image"
+               data-group="<?php echo make_random_string();?>"
+               data-content_url="<?php echo $url?>"
+               data-title="<?php echo $timeline_file_path?>"
+            >
+                <img src="<?php echo $url?>" alt="<?=$file['file_name']?>" class="img-fluid">
+            </a>
+            <?php
+            break;
+        }
+    }
+
     // Separate webm files containing "recording" from other files
     foreach ($files as $file) {
 
